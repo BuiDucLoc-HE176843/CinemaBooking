@@ -111,9 +111,13 @@ using (var scope = app.Services.CreateScope())
     await UserSeeder.SeedAsync(context);
     await CitySeeder.SeedAsync(context);
     await TheaterSeeder.SeedAsync(context);
+    await GenreSeeder.SeedAsync(context);
+
+    await MovieSeeder.SeedAsync(context);
+    await MovieGenreSeeder.SeedAsync(context);
+
     await RoomSeeder.SeedAsync(context);
     await SeatSeeder.SeedAsync(context);
-    await GenreSeeder.SeedAsync(context);
 }
 
 app.UseMiddleware<ExceptionMiddleware>();

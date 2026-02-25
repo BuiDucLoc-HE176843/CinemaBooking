@@ -14,12 +14,14 @@ namespace CinemaBooking.Configuration
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITheaterRepository, TheaterRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
 
             // ===== Services =====
             //services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITheaterService, TheaterService>();
             services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IMovieService, MovieService>();
 
             return services;
         }
