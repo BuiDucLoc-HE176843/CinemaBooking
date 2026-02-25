@@ -63,5 +63,29 @@ namespace CinemaBooking.Repositories.Implementations
                 TotalPages = (int)Math.Ceiling(totalCount / (double)request.PageSize)
             };
         }
+
+        public async Task<Theater?> GetByIdAsync(int id)
+        {
+            return await _context.Theaters
+                .Include(x => x.City)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> CityExistsAsync(int cityId)
+        {
+            return await _context.Cities.AnyAsync(x => x.Id == cityId);
+        }
+
+        public async Task AddAsync(Theater theater)
+        {
+            _context.Theaters.Add(theater);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Theater theater)
+        {
+            _context.Theaters.Update(theater);
+            await _context.SaveChangesAsync();
+        }
     }
 }

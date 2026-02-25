@@ -25,5 +25,22 @@ namespace CinemaBooking.Controllers
 
             return ApiResponse<PagedResult<TheaterResponse>>.Ok(result);
         }
+
+        [HttpPost]
+        public async Task<ApiResponse<TheaterResponse>> Create([FromBody] CreateTheaterRequest request)
+        {
+            var result = await _service.CreateAsync(request);
+
+            return ApiResponse<TheaterResponse>.Ok(result, "Tạo rạp thành công");
+        }
+
+
+        [HttpPut]
+        public async Task<ApiResponse<TheaterResponse>> Update(int id, [FromBody] UpdateTheaterRequest request)
+        {
+            var result = await _service.UpdateAsync(id, request);
+
+            return ApiResponse<TheaterResponse>.Ok(result, "Cập nhật rạp thành công");
+        }
     }
 }
