@@ -4,14 +4,12 @@ namespace CinemaBooking.DTOs.Requests
 {
     public class UpdateTheaterRequest
     {
-        [Required]
         [MaxLength(100)]
-        public string Name { get; set; } = string.Empty;
+        public string? Name { get; set; } = string.Empty;
 
         [MaxLength(255)]
         public string? Address { get; set; }
 
-        [Required]
-        public int CityId { get; set; }
+        public int? CityId { get; set; }
     }
 }

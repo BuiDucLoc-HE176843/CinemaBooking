@@ -73,12 +73,12 @@ namespace CinemaBooking.Services.Implementations
             if (theater == null)
                 throw new AppException("Rạp không tồn tại");
 
-            if (!await _repository.CityExistsAsync(request.CityId))
+            if (!await _repository.CityExistsAsync(request.CityId ?? theater.CityId))
                 throw new AppException("City không tồn tại");
 
             theater.Name = request.Name;
-            theater.Address = request.Address;
-            theater.CityId = request.CityId;
+            theater.Address = request.Address ?? theater.Address;
+            theater.CityId = request.CityId ?? theater.CityId;
             theater.UpdatedAt = DateTime.UtcNow;
 
             await _repository.UpdateAsync(theater);
