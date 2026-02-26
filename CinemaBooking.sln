@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36401.2 d17.14
+VisualStudioVersion = 17.14.36401.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaBooking", "CinemaBooking\CinemaBooking.csproj", "{20568140-D773-4784-905A-C1D1447C2914}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaBooking_RazorPage", "CinemaBooking_RazorPage\CinemaBooking_RazorPage.csproj", "{55A36032-DB16-4F89-A85C-2D657D61D699}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{20568140-D773-4784-905A-C1D1447C2914}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20568140-D773-4784-905A-C1D1447C2914}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20568140-D773-4784-905A-C1D1447C2914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55A36032-DB16-4F89-A85C-2D657D61D699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55A36032-DB16-4F89-A85C-2D657D61D699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55A36032-DB16-4F89-A85C-2D657D61D699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55A36032-DB16-4F89-A85C-2D657D61D699}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
