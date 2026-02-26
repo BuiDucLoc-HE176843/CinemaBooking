@@ -69,7 +69,8 @@
                 </a>
                 <nav class="hidden items-center gap-6 lg:flex">
                     <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Danh sách rạp</a>
-                    <div class="group relative">
+                    <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Danh sách phim</a>
+                    @* <div class="group relative">
                         <button class="flex items-center gap-1 text-sm font-medium hover:text-primary transition-colors">
                             Thể loại phim
                             <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
@@ -80,7 +81,7 @@
                             <a class="block rounded-lg px-4 py-2 text-sm hover:bg-primary/20 hover:text-primary" href="#">Hài hước</a>
                             <a class="block rounded-lg px-4 py-2 text-sm hover:bg-primary/20 hover:text-primary" href="#">Tình cảm</a>
                         </div>
-                    </div>
+                    </div> *@
                 </nav>
             </div>
             <div class="flex items-center gap-3">
@@ -164,80 +165,67 @@
                     <h2 class="text-3xl font-black text-white md:text-4xl">Phim Đang Chiếu</h2>
                     <div class="mt-2 h-1.5 w-24 rounded-full bg-primary"></div>
                 </div>
-                <div class="flex gap-2">
-                    <button class="flex h-10 w-10 items-center justify-center rounded-full border border-border-dark bg-surface-dark text-white hover:bg-primary hover:text-background-dark transition-colors">
+                <div class="flex items-center gap-3">
+
+                    <a asp-page="/PublicPage/Movies"
+                       class="rounded-full border border-border-dark bg-surface-dark px-4 py-2 text-sm font-semibold text-white hover:bg-primary hover:text-background-dark transition-colors">
+                        Xem tất cả
+                    </a>
+
+                    <button id="btnLeft" class="flex h-10 w-10 items-center justify-center rounded-full border border-border-dark bg-surface-dark text-white hover:bg-primary hover:text-background-dark transition-colors">
                         <span class="material-symbols-outlined">chevron_left</span>
                     </button>
-                    <button class="flex h-10 w-10 items-center justify-center rounded-full border border-border-dark bg-surface-dark text-white hover:bg-primary hover:text-background-dark transition-colors">
+
+                    <button id="btnRight" class="flex h-10 w-10 items-center justify-center rounded-full border border-border-dark bg-surface-dark text-white hover:bg-primary hover:text-background-dark transition-colors">
                         <span class="material-symbols-outlined">chevron_right</span>
                     </button>
+
                 </div>
             </div>
-            <div class="hide-scrollbar flex gap-6 overflow-x-auto pb-4">
-                <!-- Movie Card 1 -->
-                <div class="group min-w-[280px] cursor-pointer">
-                    <div class="relative overflow-hidden rounded-2xl aspect-[2/3] transition-transform duration-500 group-hover:-translate-y-2">
-                        <img alt="Poster phim" class="h-full w-full object-cover" data-alt="Poster phim hành động giả tưởng đầy màu sắc" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNGVtdv3dkeR_CZrIPt087nVuUZ4xse0iAqLTYNUN7VFhQO61aIud3OCLSBZnLsDgODmngdPZyZwRzI4JyLj6AYNtlu_cyGniY68WPHxszqzUnyzy0nmKDVR631EhJ26NpkWg1u0tiKEB_QKXnOhmDiL7jJoHWGw2iRzM6U41pDdMgEWDlQ0CMzsgpIyeBVsNtHWQa3KQlj8uzWIpNDeoNQwp8yX6jn7IwQZ3d_XTbdRCbeJKhBGdeVbNV7Fpy0PRDM2qpKJ_RE1M" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute bottom-6 left-0 w-full px-6">
-                                <button class="w-full rounded-full bg-primary py-3 text-sm font-bold text-background-dark" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">ĐẶT VÉ</button>
+            <div id="movieSlider" class="hide-scrollbar flex gap-6 overflow-x-auto pb-4 scroll-smooth">
+
+                @foreach (var movie in Model.Movies)
+                {
+                    var poster = "http://localhost:5237" + movie.PosterUrl;
+                    var genres = string.Join(", ", movie.Genres ?? new List<string>());
+
+                    <div class="group min-w-[280px] cursor-pointer">
+                        <div class="relative overflow-hidden rounded-2xl aspect-[2/3] transition-transform duration-500 group-hover:-translate-y-2">
+
+                            <img src="@poster"
+                                 alt="@movie.Title"
+                                 class="h-full w-full object-cover" />
+
+                            <div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="absolute bottom-6 left-0 w-full px-6">
+                                    <button class="w-full rounded-full bg-primary py-3 text-sm font-bold text-background-dark"
+                                            style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">
+                                        ĐẶT VÉ
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="absolute right-3 top-3 rounded-lg bg-primary px-2 py-1 text-xs font-black text-background-dark">
+                                @movie.DurationMinutes phút
                             </div>
                         </div>
-                        <div class="absolute right-3 top-3 rounded-lg bg-primary px-2 py-1 text-xs font-black text-background-dark">8.5</div>
-                    </div>
-                    <div class="mt-4">
-                        <h3 class="font-bold text-white group-hover:text-primary transition-colors">Vũ Trụ Đa Chiều</h3>
-                        <p class="text-sm text-slate-400">Hành động, Viễn tưởng</p>
-                    </div>
-                </div>
-                <!-- Movie Card 2 -->
-                <div class="group min-w-[280px] cursor-pointer">
-                    <div class="relative overflow-hidden rounded-2xl aspect-[2/3] transition-transform duration-500 group-hover:-translate-y-2">
-                        <img alt="Poster phim" class="h-full w-full object-cover" data-alt="Poster phim hoạt hình phiêu lưu sống động" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCx9lLTOFnSgLFr4oS9Kkvk2vKhcWsHzgQMXJnNMAhKJfudLloaXyEO4OaRXslkVYXAuMfyk9-guQN3S0jtl2e-oGv0Zpl5_8JNrpTd_8Ii-GD1zg_nkO8eH0OGviJ3G7XA-bb8KUELlJ5us9SBsPAlqF7Ln3TFH3mRiESkvVgP_kHQS2-9PgKhVEh2wiuwZUUPvucggwWWvw_mw_AQgHmo7WCVA76ToHdscooemOiYvefWpkOVhG-oy0VgGeXd9QU_oOyHp3aavU8" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute bottom-6 left-0 w-full px-6">
-                                <button class="w-full rounded-full bg-primary py-3 text-sm font-bold text-background-dark" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">ĐẶT VÉ</button>
-                            </div>
+
+                        <div class="mt-4">
+                            <h3 class="font-bold text-white group-hover:text-primary transition-colors">
+                                @movie.Title
+                            </h3>
+
+                            <p class="text-sm text-slate-400">
+                                @genres
+                            </p>
+
+                            <p class="text-xs text-slate-500 mt-1">
+                                Khởi chiếu: @movie.ReleaseDate.ToString("dd/MM/yyyy")
+                            </p>
                         </div>
-                        <div class="absolute right-3 top-3 rounded-lg bg-primary px-2 py-1 text-xs font-black text-background-dark">9.2</div>
                     </div>
-                    <div class="mt-4">
-                        <h3 class="font-bold text-white group-hover:text-primary transition-colors">Cuộc Chiến Cuối Cùng</h3>
-                        <p class="text-sm text-slate-400">Phiêu lưu, Kịch tính</p>
-                    </div>
-                </div>
-                <!-- Movie Card 3 -->
-                <div class="group min-w-[280px] cursor-pointer">
-                    <div class="relative overflow-hidden rounded-2xl aspect-[2/3] transition-transform duration-500 group-hover:-translate-y-2">
-                        <img alt="Poster phim" class="h-full w-full object-cover" data-alt="Poster phim kinh dị bí ẩn trong rừng tối" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLflsUIn0I4Tkn4iKFZeWMRfwvPh7gQ1zapt7mnwpdMVlAAOF-cUihuWu1odxNSmKTNJXb8nGy6qaTokaK4Xvg_WHkjkogPG6mmGZ3bpS1u3Cgv8eWUb49cM5BaNzlpEZ0CdeH5qx2KYsiMrepdvnO2SFX-JIcnIE-94E6cvakiQgxW7dzuuWbJK41JFRLE7j3-kUxRz5sAqlHoLlfCUtfPsjcaaX2fVG7Rz-CKnAl7RIO6EeDRHKKgdUB6GlTpcb-5TRMkBp_6H0" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute bottom-6 left-0 w-full px-6">
-                                <button class="w-full rounded-full bg-primary py-3 text-sm font-bold text-background-dark" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">ĐẶT VÉ</button>
-                            </div>
-                        </div>
-                        <div class="absolute right-3 top-3 rounded-lg bg-primary px-2 py-1 text-xs font-black text-background-dark">7.8</div>
-                    </div>
-                    <div class="mt-4">
-                        <h3 class="font-bold text-white group-hover:text-primary transition-colors">Tiếng Gọi Bóng Đêm</h3>
-                        <p class="text-sm text-slate-400">Kinh dị, Bí ẩn</p>
-                    </div>
-                </div>
-                <!-- Movie Card 4 -->
-                <div class="group min-w-[280px] cursor-pointer">
-                    <div class="relative overflow-hidden rounded-2xl aspect-[2/3] transition-transform duration-500 group-hover:-translate-y-2">
-                        <img alt="Poster phim" class="h-full w-full object-cover" data-alt="Poster phim tình cảm lãng mạn dưới mưa" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAijkoIlm9BGjqklI_XwL6vwTobIN7JJy0tJcCNtyXuBD9IB_vYQO0w7v9BjF56HBp42JwDmAa7TRSgcHQSh4HFlgz32oDeqwgcwqCqlCXDRdGREYGACW3DqwNdG1PU4LJ9Uoq7eR-lod12V2o_eNJcMS6SsqjA86AO0RjY_AKqRfV8cUdH1OEAVMOFTDl9jLelhI_wpT9wLngWuCcjE6orpAwfR8YmZRGy3WLv32RznwymgCV0GRmDdVwVPqywcL8mBptS0Fk-Oms" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute bottom-6 left-0 w-full px-6">
-                                <button class="w-full rounded-full bg-primary py-3 text-sm font-bold text-background-dark" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">ĐẶT VÉ</button>
-                            </div>
-                        </div>
-                        <div class="absolute right-3 top-3 rounded-lg bg-primary px-2 py-1 text-xs font-black text-background-dark">8.1</div>
-                    </div>
-                    <div class="mt-4">
-                        <h3 class="font-bold text-white group-hover:text-primary transition-colors">Lời Hẹn Mùa Thu</h3>
-                        <p class="text-sm text-slate-400">Tình cảm, Lãng mạn</p>
-                    </div>
-                </div>
+                }
+
             </div>
         </div>
     </section>
@@ -249,58 +237,48 @@
                     <h2 class="text-3xl font-black text-white md:text-4xl uppercase italic tracking-tighter">Phim Sắp Chiếu</h2>
                     <div class="mt-2 h-1.5 w-24 rounded-full bg-primary"></div>
                 </div>
-                <div class="flex gap-2">
-                    <button class="flex h-10 w-10 items-center justify-center rounded-full border border-border-dark bg-background-dark text-white hover:bg-primary hover:text-background-dark transition-colors">
+                <div class="flex items-center gap-3">
+                    <a asp-page="/PublicPage/UpcomingMovies"
+                       class="rounded-full border border-border-dark bg-background-dark px-4 py-2 text-sm font-semibold text-white hover:bg-primary hover:text-background-dark transition-colors">
+                        Xem tất cả
+                    </a>
+                    <button id="btnUpcomingLeft" class="flex h-10 w-10 items-center justify-center rounded-full border border-border-dark bg-background-dark text-white hover:bg-primary hover:text-background-dark transition-colors">
                         <span class="material-symbols-outlined">west</span>
                     </button>
-                    <button class="flex h-10 w-10 items-center justify-center rounded-full border border-border-dark bg-background-dark text-white hover:bg-primary hover:text-background-dark transition-colors">
+                    <button id="btnUpcomingRight" class="flex h-10 w-10 items-center justify-center rounded-full border border-border-dark bg-background-dark text-white hover:bg-primary hover:text-background-dark transition-colors">
                         <span class="material-symbols-outlined">east</span>
                     </button>
                 </div>
             </div>
-            <div class="hide-scrollbar flex gap-6 overflow-x-auto pb-4">
-                <!-- Upcoming Card 1 -->
-                <div class="group min-w-[320px]">
-                    <div class="relative overflow-hidden rounded-2xl aspect-video">
-                        <img alt="Upcoming film" class="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Cảnh phim hành động nghẹt thở sắp ra mắt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQZT3rXfjOx9rlTq_MAIRipvlyWBfJMmWTenIqkqf4jkbWwpOkcG-cnXpUzUu33EbSTHN6OaKBz0TMb3YcxRfYxu4OA6hlxiB2hFw0ed2lxX2tNwBjK-Mkn8No4MKBUxc13HpfKVy4hy7wwN7HXgNZDSoHQCnlO8BCmnfhvoeMdtQ4QSOTfxH4H10rgO8A3a6GC9cIpwLnPlpHvcEGIgWpYs_87ra7G-iRwZzngLzqLqsIyqGKP3-n64qzGX-LGoJdOBmnAXvEMFM" />
-                        <div class="absolute bottom-4 left-4 rounded-lg bg-primary/90 px-3 py-1 text-xs font-bold text-background-dark" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">Dự kiến: 20/12/2023</div>
-                    </div>
-                    <div class="mt-4">
-                        <h3 class="text-lg font-bold text-white">Thành Phố Tương Lai</h3>
-                        <div class="flex items-center gap-2 text-sm text-primary font-medium" style="color: var(--cvn-primary) !important;">
-                            <span class="material-symbols-outlined text-sm">notifications</span>
-                            Nhận thông báo khi mở bán
+            <div id="upcomingSlider" class="hide-scrollbar flex gap-6 overflow-x-auto pb-4 scroll-smooth">
+                @foreach (var movie in Model.UpcomingMovies)
+                {
+                    var poster = "http://localhost:5237" + movie.PosterUrl;
+
+                    <div class="group min-w-[320px]">
+                        <div class="relative overflow-hidden rounded-2xl aspect-[2/3]">
+                            <img src="@poster"
+                                 alt="@movie.Title"
+                                 class="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+
+                            <div class="absolute bottom-4 left-4 rounded-lg bg-primary/90 px-3 py-1 text-xs font-bold text-background-dark" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">
+                                Dự kiến: @movie.ReleaseDate.ToString("dd/MM/yyyy")
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h3 class="text-lg font-bold text-white">
+                                @movie.Title
+                            </h3>
+
+                            <div class="flex items-center gap-2 text-sm text-primary font-medium" style="color: var(--cvn-primary) !important;">
+                                <span class="material-symbols-outlined text-sm">notifications</span>
+                                Nhận thông báo khi mở bán
+                            </div>
+
                         </div>
                     </div>
-                </div>
-                <!-- Upcoming Card 2 -->
-                <div class="group min-w-[320px]">
-                    <div class="relative overflow-hidden rounded-2xl aspect-video">
-                        <img alt="Upcoming film" class="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Phong cảnh huyền bí trong phim sắp chiếu" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVp2dNoyeqkiRswPI5hHQqmGOwRhJkr3PzM3VWhCere0JpOp2GLaWW6op5fAj3T8QupeqtWwS56qxgeGm6K84kirz7V3a022973z1tJlMorLbUK-mWWjvKRbys9c_nRd6c-tGjq2eD8x0TQxcTW6srTOEEUpyNeszcVnZhii_e1M_GY2xS6XohSYbTC4WSkoV8b7WsVM1DBDzk_GSK7j4W5FOxzCMZKU9GfecDLhQzk7oKlCj0MamJnYkt8rqox6LNu3yAYYxo4e4" />
-                        <div class="absolute bottom-4 left-4 rounded-lg bg-primary/90 px-3 py-1 text-xs font-bold text-background-dark" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">Dự kiến: 01/01/2024</div>
-                    </div>
-                    <div class="mt-4">
-                        <h3 class="text-lg font-bold text-white">Bí Mật Của Rừng Xanh</h3>
-                        <div class="flex items-center gap-2 text-sm text-primary font-medium" style="color: var(--cvn-primary) !important;">
-                            <span class="material-symbols-outlined text-sm">notifications</span>
-                            Nhận thông báo khi mở bán
-                        </div>
-                    </div>
-                </div>
-                <!-- Upcoming Card 3 -->
-                <div class="group min-w-[320px]">
-                    <div class="relative overflow-hidden rounded-2xl aspect-video">
-                        <img alt="Upcoming film" class="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Tàu vũ trụ hiện đại trong phim khoa học viễn tưởng" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkpF4b62nzTH1mfPkxj11MJIliN__XOh1qQmgdTSAUFdA6jxat2ZlLi17B0ysXvJjxXjYbXLmRp8ENE9jX8ZPzqW6wgek8piE2iC10E0rTs3TcsBnZd3eWAehxsCsIPUPUP8QGnQmj8mFxnugC-RLM1aBo9ZYcknKry9JZz5If3e4Xu_3ja6h6d3H3xKwkS2SZWiUTgPzsLfrnr-GaLVKLsilvECj_L7u8MId8I3S29Bg02OcculteaA7VJlvBdFTEMZBzExBOvfA" />
-                        <div class="absolute bottom-4 left-4 rounded-lg bg-primary/90 px-3 py-1 text-xs font-bold text-background-dark" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">Dự kiến: 15/01/2024</div>
-                    </div>
-                    <div class="mt-4">
-                        <h3 class="text-lg font-bold text-white">Chuyến Tàu Liên Hành Tinh</h3>
-                        <div class="flex items-center gap-2 text-sm text-primary font-medium" style="color: var(--cvn-primary) !important;">
-                            <span class="material-symbols-outlined text-sm">notifications</span>
-                            Nhận thông báo khi mở bán
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </section>
@@ -351,3 +329,33 @@
     </footer>
 </body>
 </html>
+<script>
+    const slider = document.getElementById("movieSlider");
+    const btnLeft = document.getElementById("btnLeft");
+    const btnRight = document.getElementById("btnRight");
+
+    const scrollAmount = 320; // độ rộng mỗi card
+
+    btnRight.addEventListener("click", () => {
+        slider.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    });
+
+    btnLeft.addEventListener("click", () => {
+        slider.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    });
+</script>
+<script>
+    const upcomingSlider = document.getElementById("upcomingSlider");
+    const btnUpcomingLeft = document.getElementById("btnUpcomingLeft");
+    const btnUpcomingRight = document.getElementById("btnUpcomingRight");
+
+    const upcomingScrollAmount = 340;
+
+    btnUpcomingRight.addEventListener("click", () => {
+        upcomingSlider.scrollBy({ left: upcomingScrollAmount, behavior: "smooth" });
+    });
+
+    btnUpcomingLeft.addEventListener("click", () => {
+        upcomingSlider.scrollBy({ left: -upcomingScrollAmount, behavior: "smooth" });
+    });
+</script>

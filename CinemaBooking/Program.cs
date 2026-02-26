@@ -119,6 +119,7 @@ using (var scope = app.Services.CreateScope())
     await RoomSeeder.SeedAsync(context);
     await SeatSeeder.SeedAsync(context);
 }
+app.UseStaticFiles();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
