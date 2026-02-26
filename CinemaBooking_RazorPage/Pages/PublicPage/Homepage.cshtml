@@ -309,7 +309,7 @@
                     <ul class="flex flex-col gap-4 text-sm text-slate-400">
                         <li class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-primary text-sm" style="color: var(--cvn-primary) !important;">mail</span>
-                            hotro@cinemavn.com
+                            DepTraiNhatThanhHoa.com
                         </li>
                         <li class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-primary text-sm" style="color: var(--cvn-primary) !important;">call</span>
@@ -334,28 +334,118 @@
     const btnLeft = document.getElementById("btnLeft");
     const btnRight = document.getElementById("btnRight");
 
-    const scrollAmount = 320; // độ rộng mỗi card
+    const scrollAmount = 320;
+    const speed = 0.5;
 
+    let direction = 1;
+    let isPaused = false;
+
+    // ===== NÚT BẤM =====
     btnRight.addEventListener("click", () => {
-        slider.scrollBy({ left: scrollAmount, behavior: "smooth" });
+
+        direction = 1; // ✅ đổi chiều ngay
+
+        slider.scrollBy({
+            left: scrollAmount,
+            behavior: "smooth"
+        });
     });
 
     btnLeft.addEventListener("click", () => {
-        slider.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+
+        direction = -1; // ✅ đổi chiều ngay
+
+        slider.scrollBy({
+            left: -scrollAmount,
+            behavior: "smooth"
+        });
     });
+
+    // ===== AUTO SCROLL =====
+    function autoScroll() {
+
+        if (!isPaused) {
+
+            const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+
+            if (slider.scrollLeft >= maxScrollLeft) {
+                direction = -1;
+            }
+
+            if (slider.scrollLeft <= 0) {
+                direction = 1;
+            }
+
+            slider.scrollLeft += speed * direction;
+        }
+
+        requestAnimationFrame(autoScroll);
+    }
+
+    requestAnimationFrame(autoScroll);
+
+    // ===== HOVER DỪNG =====
+    slider.addEventListener("mouseenter", () => isPaused = true);
+    slider.addEventListener("mouseleave", () => isPaused = false);
+
 </script>
 <script>
     const upcomingSlider = document.getElementById("upcomingSlider");
     const btnUpcomingLeft = document.getElementById("btnUpcomingLeft");
     const btnUpcomingRight = document.getElementById("btnUpcomingRight");
 
-    const upcomingScrollAmount = 340;
+    const upcomingScrollAmount = 340; // GIỮ NGUYÊN
+    const upcomingSpeed = 0.5; // tốc độ auto
 
+    let upcomingDirection = 1;
+    let upcomingPaused = false;
+
+    // ===== NÚT BẤM =====
     btnUpcomingRight.addEventListener("click", () => {
-        upcomingSlider.scrollBy({ left: upcomingScrollAmount, behavior: "smooth" });
+
+        upcomingDirection = 1; // đổi chiều ngay
+
+        upcomingSlider.scrollBy({
+            left: upcomingScrollAmount,
+            behavior: "smooth"
+        });
     });
 
     btnUpcomingLeft.addEventListener("click", () => {
-        upcomingSlider.scrollBy({ left: -upcomingScrollAmount, behavior: "smooth" });
+
+        upcomingDirection = -1; // đổi chiều ngay
+
+        upcomingSlider.scrollBy({
+            left: -upcomingScrollAmount,
+            behavior: "smooth"
+        });
     });
+
+    // ===== AUTO SCROLL MƯỢT =====
+    function autoUpcomingScroll() {
+
+        if (!upcomingPaused) {
+
+            const maxScrollLeft = upcomingSlider.scrollWidth - upcomingSlider.clientWidth;
+
+            if (upcomingSlider.scrollLeft >= maxScrollLeft) {
+                upcomingDirection = -1;
+            }
+
+            if (upcomingSlider.scrollLeft <= 0) {
+                upcomingDirection = 1;
+            }
+
+            upcomingSlider.scrollLeft += upcomingSpeed * upcomingDirection;
+        }
+
+        requestAnimationFrame(autoUpcomingScroll);
+    }
+
+    requestAnimationFrame(autoUpcomingScroll);
+
+    // ===== HOVER DỪNG =====
+    upcomingSlider.addEventListener("mouseenter", () => upcomingPaused = true);
+    upcomingSlider.addEventListener("mouseleave", () => upcomingPaused = false);
+
 </script>
