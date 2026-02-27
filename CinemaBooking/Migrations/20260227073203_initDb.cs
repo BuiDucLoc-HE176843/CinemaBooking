@@ -51,7 +51,8 @@ namespace CinemaBooking.Migrations
                     PosterUrl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsMainFeature = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

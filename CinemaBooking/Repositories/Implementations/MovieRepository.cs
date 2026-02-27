@@ -26,6 +26,7 @@ namespace CinemaBooking.Repositories.Implementations
             DateTime? releaseDate,
             MovieStatus? status,
             int? genreId,
+            bool? IsMainFeature,
             int pageNumber,
             int pageSize)
         {
@@ -42,6 +43,18 @@ namespace CinemaBooking.Repositories.Implementations
 
             if (status.HasValue)
                 query = query.Where(x => x.Status == status);
+
+            if (IsMainFeature.HasValue)
+            {
+                if (IsMainFeature == true)
+                {
+                    query = query.Where(x => x.IsMainFeature == true);
+                }
+                else
+                {
+                    query = query.Where(x => x.IsMainFeature == false);
+                }
+            }
 
             if (genreId.HasValue)
                 query = query.Where(x => x.MovieGenres!

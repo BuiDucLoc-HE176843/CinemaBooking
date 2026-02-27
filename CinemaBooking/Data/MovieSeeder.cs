@@ -26,6 +26,7 @@ namespace CinemaBooking.Data
                     Status = (i % 2 == 0)
                                 ? MovieStatus.Upcoming
                                 : MovieStatus.Ongoing,
+                    IsMainFeature = (i == 1),
                     CreatedAt = DateTime.UtcNow
                 });
             }

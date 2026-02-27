@@ -43,6 +43,7 @@ namespace CinemaBooking.Services.Implementations
                 request.ReleaseDate,
                 statusEnum,
                 request.GenreId,
+                request.IsMainFeature,
                 request.PageNumber,
                 request.PageSize);
 

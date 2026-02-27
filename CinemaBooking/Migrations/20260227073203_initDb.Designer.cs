@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBooking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260224174250_initDb")]
+    [Migration("20260227073203_initDb")]
     partial class initDb
     {
         /// <inheritdoc />
@@ -137,6 +137,9 @@ namespace CinemaBooking.Migrations
 
                     b.Property<int>("DurationMinutes")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsMainFeature")
+                        .HasColumnType("bit");
 
                     b.Property<string>("PosterUrl")
                         .HasMaxLength(255)

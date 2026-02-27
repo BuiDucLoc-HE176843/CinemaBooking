@@ -11,5 +11,6 @@ namespace CinemaBooking.DTOs.Requests
         public string? Status { get; set; }   // truyền string để validate
 
         public int? GenreId { get; set; }
+        public bool? IsMainFeature { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace CinemaBooking.Repositories.Interfaces
         DateTime? releaseDate,
         MovieStatus? status,
         int? genreId,
+        bool? IsMainFeature,
         int pageNumber,
         int pageSize);
 

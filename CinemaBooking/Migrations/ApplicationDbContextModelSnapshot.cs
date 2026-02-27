@@ -135,6 +135,9 @@ namespace CinemaBooking.Migrations
                     b.Property<int>("DurationMinutes")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsMainFeature")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PosterUrl")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
