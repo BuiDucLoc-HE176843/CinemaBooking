@@ -1,0 +1,148 @@
+﻿@page
+@model CinemaBooking_RazorPage.Pages.PublicPage.LoginModel
+@{
+}
+
+<!DOCTYPE html>
+
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Đăng Nhập - CinemaVN</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff8c00",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#121212",
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        :root {
+            --primary-orange: #ff8c00 !important;
+            --bg-dark: #121212;
+            --text-light: #ffffff;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+
+        .glass-morphism {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 140, 0, 0.2) !important;
+        }
+
+        .movie-bg-overlay {
+            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.95)), url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        /* Force primary color on common states */
+        .text-primary {
+            color: #ff8c00 !important;
+        }
+
+        .bg-primary {
+            background-color: #ff8c00 !important;
+        }
+
+        .border-primary {
+            border-color: #ff8c00 !important;
+        }
+
+        input:focus {
+            --tw-ring-color: #ff8c00 !important;
+            border-color: #ff8c00 !important;
+        }
+
+        .btn-primary-custom {
+            background-color: #ff8c00 !important;
+            color: #121212 !important;
+        }
+
+        .link-primary-custom {
+            color: #ff8c00 !important;
+        }
+    </style>
+</head>
+<body class="bg-background-dark font-display text-slate-100 min-h-screen flex flex-col">
+    <div class="fixed inset-0 movie-bg-overlay -z-10" data-alt="Blurred cinema background with movie posters"></div>
+    <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-6 md:px-20 py-4 bg-background-dark/50">
+            <div class="flex items-center gap-4 text-primary link-primary-custom"><div class="flex items-center gap-2"><div class="bg-[#ff8c00] rounded-lg p-1"><svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></div><h1 class="text-2xl font-black tracking-tighter text-[#ff8c00]">CINEMAVN</h1></div></div>
+            <div class="hidden md:flex flex-1 justify-end gap-8">
+                <div class="flex items-center gap-8">
+                    <a class="text-slate-100 hover:text-primary transition-colors text-sm font-medium" href="#">Phim Đang Chiếu</a>
+                    <a class="text-slate-100 hover:text-primary transition-colors text-sm font-medium" href="#">Phim Sắp Chiếu</a>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 flex items-center justify-center p-6">
+            <div class="w-full max-w-[450px] glass-morphism rounded-xl p-8 shadow-2xl" style="border-color: rgba(255, 140, 0, 0.3) !important;">
+                <div class="flex flex-col items-center mb-8">
+                    <div class="size-12 text-primary mb-4 link-primary-custom"><div class="bg-[#ff8c00] rounded-xl p-2"><svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></div></div>
+                    <h1 class="text-3xl font-bold text-white mb-2">Đăng Nhập</h1>
+                    <p class="text-slate-400 text-sm">Chào mừng bạn quay trở lại với CinemaVN</p>
+                </div>
+                <form action="#" class="space-y-6" method="POST">
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-300">Email hoặc Tên đăng nhập</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">person</span>
+                            <input class="w-full bg-slate-800/50 border border-slate-700 rounded-lg py-4 pl-12 pr-4 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="example@gmail.com" type="text" />
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-300">Mật khẩu</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">lock</span>
+                            <input class="w-full bg-slate-800/50 border border-slate-700 rounded-lg py-4 pl-12 pr-12 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="••••••••" type="password" />
+                            <button class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors" type="button">
+                                <span class="material-symbols-outlined">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center gap-2 cursor-pointer group">
+                            <input class="rounded border-slate-700 bg-slate-800 text-primary focus:ring-primary focus:ring-offset-background-dark link-primary-custom" style="color: #ff8c00 !important; --tw-ring-color: #ff8c00 !important;" type="checkbox" />
+                            <span class="text-sm text-slate-400 group-hover:text-slate-200 transition-colors">Ghi nhớ đăng nhập</span>
+                        </label>
+                        <a class="text-sm font-medium text-primary hover:underline underline-offset-4 link-primary-custom" href="#">Quên mật khẩu?</a>
+                    </div>
+                    <button class="w-full bg-primary hover:bg-[#e67e00] text-background-dark font-bold py-4 rounded-lg transition-all transform hover:scale-[1.02] shadow-lg shadow-primary/20" style="background-color: #ff8c00 !important; color: #121212 !important;" type="submit">
+                        ĐĂNG NHẬP
+                    </button>
+                </form>
+            </div>
+        </main>
+        <footer class="py-6 px-6 text-center text-slate-500 text-xs border-t border-white/5 bg-background-dark/80">
+            Thiết kế bởi LocCute.
+            <div class="mt-2 flex justify-center gap-4">
+                <a class="hover:text-slate-300" href="#">Điều khoản</a>
+                <a class="hover:text-slate-300" href="#">Chính sách bảo mật</a>
+                <a class="hover:text-slate-300" href="#">Liên hệ</a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

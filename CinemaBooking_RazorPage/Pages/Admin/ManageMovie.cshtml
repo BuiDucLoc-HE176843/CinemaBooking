@@ -1,0 +1,341 @@
+﻿@page
+@model CinemaBooking_RazorPage.Pages.Admin.ManageMovieModel
+@{
+}
+
+<!DOCTYPE html>
+
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff8c00",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#121212",
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        :root {
+            --primary-color: #ff8c00;
+        }
+
+        .bg-primary-important {
+            background-color: var(--primary-color) !important;
+        }
+
+        .text-primary-important {
+            color: var(--primary-color) !important;
+        }
+
+        .border-primary-important {
+            border-color: var(--primary-color) !important;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e1e1e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: var(--primary-color);
+            }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="fixed left-0 top-0 h-screen w-72 bg-slate-900/50 dark:bg-black/40 backdrop-blur-xl border-r border-slate-200 dark:border-slate-800 z-50">
+            <div class="flex flex-col h-full p-6">
+                <!-- Logo -->
+                <div class="flex items-center gap-3 mb-10 px-2">
+                    <div class="w-10 h-10 rounded-full bg-primary-important flex items-center justify-center shadow-lg shadow-orange-500/20">
+                        <span class="material-symbols-outlined text-black font-bold">movie</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-black tracking-tight text-white">Cinema<span class="text-primary-important">VN</span></h1>
+                        <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Admin Panel</p>
+                    </div>
+                </div>
+                <!-- Navigation -->
+                <nav class="flex-1 space-y-2">
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full bg-primary-important text-black font-bold transition-all" href="#">
+                        <span class="material-symbols-outlined">movie_filter</span>
+                        <span>Quản lý phim</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="#">
+                        <span class="material-symbols-outlined">domain</span>
+                        <span>Quản lý rạp phim</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="#">
+                        <span class="material-symbols-outlined">meeting_room</span>
+                        <span>Quản lý phòng chiếu</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="#">
+                        <span class="material-symbols-outlined">event_seat</span>
+                        <span>Quản lý ghế ngồi</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="#">
+                        <span class="material-symbols-outlined">schedule</span>
+                        <span>Quản lý suất chiếu</span>
+                    </a>
+                </nav>
+                <!-- Bottom Actions -->
+                <div class="mt-auto space-y-2 pt-6 border-t border-slate-800">
+
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-red-400 hover:bg-red-500/10 transition-all" href="#">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span>Đăng xuất</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 ml-72 p-8">
+            <div class="max-w-7xl mx-auto">
+                <!-- Header -->
+                <header class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+                    <div>
+                        <h2 class="text-3xl font-black text-white mb-2">Quản lý Phim</h2>
+                        <p class="text-slate-400">Điều chỉnh danh sách phim, trạng thái và thông tin chi tiết</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+
+                        <button class="bg-primary-important text-black font-bold px-6 py-3 rounded-full flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-orange-500/20 whitespace-nowrap">
+                            <span class="material-symbols-outlined">add</span>
+                            Thêm Phim Mới
+                        </button>
+                    </div>
+                </header>
+                <!-- Movie Table Card -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-slate-900/40 p-6 rounded-3xl border border-slate-800 backdrop-blur-sm">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Tên phim</label>
+                        <input class="w-full bg-slate-800/50 border-slate-700 focus:border-primary-important text-white text-sm rounded-full px-4 py-2.5 transition-all outline-none border-primary-important" placeholder="Nhập tên phim..." type="text" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Trạng thái</label>
+                        <select class="w-full bg-slate-800/50 border-slate-700 focus:border-primary-important text-white text-sm rounded-full px-4 py-2.5 transition-all outline-none border-primary-important appearance-none">
+                            <option value="all">Tất cả</option>
+                            <option value="playing">Đang chiếu</option>
+                            <option value="upcoming">Sắp chiếu</option>
+                            <option value="closed">Đã đóng</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Ngày phát hành</label>
+                        <input class="w-full bg-slate-800/50 border-slate-700 focus:border-primary-important text-white text-sm rounded-full px-4 py-2.5 transition-all outline-none border-primary-important" type="date" />
+                    </div>
+                    <div class="flex items-end">
+                        <button class="w-full bg-primary-important text-black font-bold py-2.5 rounded-full flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-orange-500/20">
+                            <span class="material-symbols-outlined">search</span>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div><div class="bg-slate-900/40 rounded-3xl border border-slate-800 overflow-hidden backdrop-blur-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-800/30 border-b border-slate-800">
+                                    <th class="px-6 py-5 text-sm font-bold text-slate-400 uppercase tracking-wider">Poster</th>
+                                    <th class="px-6 py-5 text-sm font-bold text-slate-400 uppercase tracking-wider">Tên Phim</th>
+                                    <th class="px-6 py-5 text-sm font-bold text-slate-400 uppercase tracking-wider">Thể Loại</th>
+                                    <th class="px-6 py-5 text-sm font-bold text-slate-400 uppercase tracking-wider">Trạng Thái</th>
+                                    <th class="px-6 py-5 text-sm font-bold text-slate-400 uppercase tracking-wider text-right">Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800">
+                                <!-- Row 1 -->
+                                <tr class="hover:bg-white/5 transition-colors group">
+                                    <td class="px-6 py-4">
+                                        <div class="w-14 h-20 rounded-xl overflow-hidden shadow-md bg-slate-800">
+                                            <div class="w-full h-full bg-center bg-cover" data-alt="Action movie cinematic poster with dark tones" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDacBOL0nNiRBmdsbljyit0Mhv76UcZWsZoMt3Yrt2K98UMTVaswvdM3REc7jIP5rwGSpJNh4X_6gjsQUUMUHVnPpyH3AaWvsL65aVxzy18hVhRA4qvxp03Ve6Kl7V17ezgfZJzd1UTv-N8Rnttkcl72ufaOvmwue4GeDXolcb6aB26SXZVcC-AO6QIZW5ItVu-LM1qTlN9IUvymdQT6ah6RFE-vvnQ6Y12eiRO49r7LbeONa2lOHLdiWFLkiu99FlUclARH8JUc7Y')"></div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="font-bold text-white">Avengers: Endgame</div>
+                                        <div class="text-xs text-slate-500">181 phút</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-wrap gap-1">
+                                            <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">Hành động</span>
+                                            <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">Viễn tưởng</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-500/10 text-green-500">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2 animate-pulse"></span>
+                                            Đang chiếu
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-primary-important hover:text-black transition-all">
+                                                <span class="material-symbols-outlined text-xl">edit_note</span>
+                                            </button>
+                                            <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-red-500/20 hover:text-red-500 transition-all">
+                                                <span class="material-symbols-outlined text-xl">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 2 -->
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="w-14 h-20 rounded-xl overflow-hidden shadow-md bg-slate-800">
+                                            <div class="w-full h-full bg-center bg-cover" data-alt="Dramatic movie poster with moody lighting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuChTReuSYBDASXUIv0fEHl0QgMjvUL9ByhgWA_ymE8pn7GbwH8eh3Hw2kZpYnGzmlfalxJoYMzqUOADQ_l92V28pt1sUrOzsqP9R4z_4pFihmGrXcq7qS0VNNmYMaT8H4wZaLg4upZ1QQmz5LSsVsgCo-vXA89w6O2wZ2ahItv-qqciwBfj78PqQ3lTftA9oVJsTq-_XVNOSuhA5Dyf5272L6ZFqvNRPP4UaC4YD21cU-k0zKxMWYz88vXFOVoFt8V2rOQ_VS3KoLw')"></div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="font-bold text-white">Joker: Folie à Deux</div>
+                                        <div class="text-xs text-slate-500">138 phút</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-wrap gap-1">
+                                            <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">Tâm lý</span>
+                                            <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">Tội phạm</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-primary-important/10 text-primary-important">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-primary-important mr-2"></span>
+                                            Sắp chiếu
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-primary-important hover:text-black transition-all">
+                                                <span class="material-symbols-outlined text-xl">edit_note</span>
+                                            </button>
+                                            <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-red-500/20 hover:text-red-500 transition-all">
+                                                <span class="material-symbols-outlined text-xl">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 3 -->
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="w-14 h-20 rounded-xl overflow-hidden shadow-md bg-slate-800">
+                                            <div class="w-full h-full bg-center bg-cover" data-alt="Noir style batman inspired movie poster" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCEmmgexHu3jdP-mpMI7NFn_8zvIFSb9i5_gFPv6GforiuTrLAW0ZIScAN_X9f4OtjRyliXEuIQNd7o9Z-udbd1FYvHyvc-bvDTKeIkOgTaHn-oyZI5IAnS0ST4VQVDrfawNlbfSN8vKL088U5ECTNfS1tGwWI46UNfjyXwO_jnWmhupJ9e_YGkDh85PqKH_807ZotGU7mKgDATgbirJCRgtU-V8zvSmpqS9L4b7JNKfVoNTPqamDtOyPzf9RwJ4AzVcWJ3sx6E2Jo')"></div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="font-bold text-white">The Batman</div>
+                                        <div class="text-xs text-slate-500">176 phút</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-wrap gap-1">
+                                            <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">Hành động</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-slate-500/10 text-slate-500">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-slate-500 mr-2"></span>
+                                            Đã đóng
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-primary-important hover:text-black transition-all">
+                                                <span class="material-symbols-outlined text-xl">edit_note</span>
+                                            </button>
+                                            <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-red-500/20 hover:text-red-500 transition-all">
+                                                <span class="material-symbols-outlined text-xl">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 4 -->
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="w-14 h-20 rounded-xl overflow-hidden shadow-md bg-slate-800">
+                                            <div class="w-full h-full bg-center bg-cover" data-alt="Superhero movie poster with bright colors" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAACOSwRTOoOh7QD4jpPlYYpbyH7MkG51S0e4LNqw9AWAj4tw4gdZKsYnKJdf9_wSN6pO8rgyNexxDT4bpDZiCjA60PF-ArdjYn3d-PnTzn-CA5I2GPxNSAT9MoOGGB8NYZijiHkZYOCj2eLvI6eee67_44AlrtQoRP_hf2wwgwHSeb4Icmk0iggJVrNMcBTDkEj_wIXKXQoaheH_8UBJWHlh6OL-DuYXVkA0MHEJFN_wtsFEkACeo7cWXBFhZ_q-dSB1-N4y7SXgY')"></div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="font-bold text-white">Spider-Man: No Way Home</div>
+                                        <div class="text-xs text-slate-500">148 phút</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-wrap gap-1">
+                                            <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">Hành động</span>
+                                            <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">Viễn tưởng</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-500/10 text-green-500">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2 animate-pulse"></span>
+                                            Đang chiếu
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-primary-important hover:text-black transition-all">
+                                                <span class="material-symbols-outlined text-xl">edit_note</span>
+                                            </button>
+                                            <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-red-500/20 hover:text-red-500 transition-all">
+                                                <span class="material-symbols-outlined text-xl">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="px-6 py-4 border-t border-slate-800 flex items-center justify-between">
+                        <div class="text-sm text-slate-500">
+                            Hiển thị 4 trên 128 phim
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-all">
+                                <span class="material-symbols-outlined text-lg">chevron_left</span>
+                            </button>
+                            <button class="w-8 h-8 rounded-full flex items-center justify-center bg-primary-important text-black font-bold text-xs">1</button>
+                            <button class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-all text-xs">2</button>
+                            <button class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-all text-xs">3</button>
+                            <button class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-all">
+                                <span class="material-symbols-outlined text-lg">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer area to show how layout pushes content -->
+                <footer class="mt-12 py-8 border-t border-slate-800 text-center">
+                    <p class="text-slate-500 text-sm">Thiết kế bởi LocCute.</p>
+                </footer>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
