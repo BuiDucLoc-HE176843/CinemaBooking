@@ -8,6 +8,7 @@ namespace CinemaBooking_RazorPage.Pages.PublicPage
     {
         private readonly IHttpClientFactory _factory;
 
+        public Movie? MainFeatureMovie { get; set; }
         public List<Movie> Movies { get; set; } = new();
         public List<Movie> UpcomingMovies { get; set; } = new();
 
@@ -19,6 +20,14 @@ namespace CinemaBooking_RazorPage.Pages.PublicPage
         public async Task OnGetAsync()
         {
             var client = _factory.CreateClient();
+
+            var mainFeatureResponse = await client.GetFromJsonAsync<ApiResponse<PagedData<Movie>>>(
+                "http://localhost:5237/api/Movies?IsMainFeature=true");
+
+            if (mainFeatureResponse?.Data?.Items != null && mainFeatureResponse.Data.Items.Any())
+            {
+                MainFeatureMovie = mainFeatureResponse.Data.Items.First();
+            }
 
             var response = await client.GetFromJsonAsync<ApiResponse<PagedData<Movie>>>(
                 "http://localhost:5237/api/Movies?Status=1");

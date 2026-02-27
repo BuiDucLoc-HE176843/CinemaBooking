@@ -96,8 +96,16 @@
         <div class="relative mx-auto flex h-full max-w-7xl flex-col items-center justify-center px-4 py-16 lg:flex-row lg:gap-12 lg:px-8">
             <div class="z-10 flex flex-1 flex-col gap-6 text-center lg:text-left">
                 <span class="inline-block self-center rounded-full bg-primary/20 px-4 py-1 text-xs font-bold tracking-widest text-primary lg:self-start uppercase" style="color: var(--cvn-primary) !important;">Đang gây sốt</span>
-                <h1 class="text-5xl font-black leading-none text-white md:text-7xl">ĐẤT RỪNG PHƯƠNG NAM</h1>
-                <p class="max-w-xl text-lg text-slate-300">Hành trình tìm cha đầy cảm xúc của bé An giữa bối cảnh miền Tây sông nước hào hùng. Một tuyệt tác điện ảnh Việt không thể bỏ lỡ.</p>
+                <h1 class="text-5xl font-black leading-none text-white md:text-7xl">@Model.MainFeatureMovie?.Title</h1>
+                @if (Model.MainFeatureMovie != null && !string.IsNullOrEmpty(Model.MainFeatureMovie.PosterUrl))
+                {
+                    var posterUrl = "http://localhost:5237" + Model.MainFeatureMovie.PosterUrl;
+
+                    <img src="@posterUrl"
+                         alt="@Model.MainFeatureMovie.Title"
+                         class="mx-auto lg:mx-0 w-40 md:w-52 rounded-xl shadow-2xl object-cover aspect-[2/3]" />
+                }
+                <p class="max-w-xl text-lg text-slate-300">@Model.MainFeatureMovie?.Description</p>
                 <div class="flex flex-wrap justify-center gap-4 lg:justify-start">
                     <button class="flex items-center gap-2 rounded-full bg-primary px-8 py-4 font-bold text-background-dark shadow-lg shadow-primary/20 transition-all hover:bg-primary/90" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">
                         <span class="material-symbols-outlined">local_activity</span>
@@ -111,12 +119,16 @@
             </div>
             <div class="relative mt-12 w-full max-w-2xl flex-1 lg:mt-0">
                 <div class="aspect-video w-full overflow-hidden rounded-2xl border-4 border-white/10 shadow-2xl">
-                    <img alt="Trailer preview" class="h-full w-full object-cover" data-alt="Hình ảnh thu nhỏ của đoạn giới thiệu phim" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFvlj4_6maX1dgfUsSoubk0eisQHO1QxNddDeNdqfCf8bwk6yTy1En6IW_8ieTdqwwYbZqErrlfqwGl1LHlxHpj79mIvA7YjvsWxFW8s7DOKmLz7nwI2aqtfbWORX5cWsyv5wk5AHIdkYhrZaxTKMd2c7S1U1Xp5ZQ7aU7KRclShCJ486nH_CK_dUMmmOpDpf90MR-6YrWtdxS5yxtShRgeFNtRo2d7dNt9hNjGkaoV1OflPIUfHQv_zk2Fk8tBYMM3gA2mU3Ltn4" />
-                    <div class="absolute inset-0 flex items-center justify-center bg-black/40">
-                        <div class="flex h-20 w-20 items-center justify-center rounded-full bg-primary text-background-dark shadow-xl animate-pulse cursor-pointer">
-                            <span class="material-symbols-outlined text-4xl">play_arrow</span>
-                        </div>
-                    </div>
+                    @if (Model.MainFeatureMovie != null && !string.IsNullOrEmpty(Model.MainFeatureMovie.TrailerUrl))
+                    {
+                        <video class="h-full w-full object-cover"
+                               autoplay
+                               loop
+                               playsinline>
+                            <source src="http://localhost:5237/Trailer/Trailer1.mp4" type="video/mp4" />
+                            Trình duyệt của bạn không hỗ trợ video.
+                        </video>
+                    }
                 </div>
             </div>
         </div>
