@@ -48,7 +48,8 @@ namespace CinemaBooking.Services.Implementations
                 Id = user.Id,
                 Username = user.Username,
                 Email = user.Email,
-                Token = token
+                Token = token,
+                Role = user.Role.ToString()
             };
         }
 

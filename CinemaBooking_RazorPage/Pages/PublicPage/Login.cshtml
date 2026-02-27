@@ -104,19 +104,30 @@
                     <h1 class="text-3xl font-bold text-white mb-2">Đăng Nhập</h1>
                     <p class="text-slate-400 text-sm">Chào mừng bạn quay trở lại với CinemaVN</p>
                 </div>
-                <form action="#" class="space-y-6" method="POST">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="text-red-500 text-sm mb-4">
+                        @Model.ErrorMessage
+                    </div>
+                }
+                <form class="space-y-6" method="POST">
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-slate-300">Email hoặc Tên đăng nhập</label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">person</span>
-                            <input class="w-full bg-slate-800/50 border border-slate-700 rounded-lg py-4 pl-12 pr-4 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="example@gmail.com" type="text" />
+                            <input asp-for="Email"
+                                   class="w-full bg-slate-800/50 border border-slate-700 rounded-lg py-4 pl-12 pr-4 text-slate-100"
+                                   placeholder="example@gmail.com" />
                         </div>
                     </div>
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-slate-300">Mật khẩu</label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">lock</span>
-                            <input class="w-full bg-slate-800/50 border border-slate-700 rounded-lg py-4 pl-12 pr-12 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="••••••••" type="password" />
+                            <input asp-for="Password"
+                                   type="password"
+                                   class="w-full bg-slate-800/50 border border-slate-700 rounded-lg py-4 pl-12 pr-12 text-slate-100"
+                                   placeholder="••••••••" />
                             <button class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors" type="button">
                                 <span class="material-symbols-outlined">visibility</span>
                             </button>

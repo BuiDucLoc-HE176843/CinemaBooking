@@ -85,11 +85,26 @@
                 </nav>
             </div>
             <div class="flex items-center gap-3">
-                <a asp-page="/PublicPage/Login"
-                   class="hidden rounded-full px-5 py-2 text-sm font-bold text-slate-100 transition-colors hover:text-primary md:block">
-                    Đăng nhập
-                </a>
-                <button class="rounded-full bg-primary px-6 py-2.5 text-sm font-bold text-background-dark transition-transform hover:scale-105 active:scale-95" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">Đăng ký</button>
+
+                @if (!Model.IsLoggedIn)
+                {
+                    <a asp-page="/PublicPage/Login"
+                       class="hidden rounded-full px-5 py-2 text-sm font-bold text-slate-100 transition-colors hover:text-primary md:block">
+                        Đăng nhập
+                    </a>
+
+                    <button class="rounded-full bg-primary px-6 py-2.5 text-sm font-bold text-background-dark transition-transform hover:scale-105 active:scale-95" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">Đăng ký</button>
+                }
+                else
+                {
+                    <form method="post" asp-page-handler="Logout">
+                        <button type="submit"
+                                class="rounded-full bg-red-500 px-6 py-2.5 text-sm font-bold text-white transition-transform hover:scale-105 active:scale-95">
+                            Đăng xuất
+                        </button>
+                    </form>
+                }
+
             </div>
         </div>
     </header>
@@ -125,7 +140,9 @@
                     @if (Model.MainFeatureMovie != null && !string.IsNullOrEmpty(Model.MainFeatureMovie.TrailerUrl))
                     {
                         <video class="h-full w-full object-cover"
+                               id="video"
                                autoplay
+                               muted
                                loop
                                playsinline>
                             <source src="http://localhost:5237/Trailer/Trailer1.mp4" type="video/mp4" />
@@ -463,4 +480,22 @@
     upcomingSlider.addEventListener("mouseenter", () => upcomingPaused = true);
     upcomingSlider.addEventListener("mouseleave", () => upcomingPaused = false);
 
+</script>
+
+<script>
+    const video = document.getElementById("video");
+
+    function enableSoundOnce() {
+        video.muted = false;
+
+        video.play().then(() => {
+            console.log("Đã bật âm thanh");
+        }).catch(err => {
+            console.log("Bị chặn:", err);
+        });
+
+        document.removeEventListener("click", enableSoundOnce);
+    }
+
+    document.addEventListener("click", enableSoundOnce);
 </script>

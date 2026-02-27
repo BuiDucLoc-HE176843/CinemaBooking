@@ -12,6 +12,8 @@ namespace CinemaBooking_RazorPage.Pages.PublicPage
         public List<Movie> Movies { get; set; } = new();
         public List<Movie> UpcomingMovies { get; set; } = new();
 
+        public bool IsLoggedIn { get; set; }
+
         public HomepageModel(IHttpClientFactory factory)
         {
             _factory = factory;
@@ -19,6 +21,8 @@ namespace CinemaBooking_RazorPage.Pages.PublicPage
 
         public async Task OnGetAsync()
         {
+            IsLoggedIn = !string.IsNullOrEmpty(HttpContext.Session.GetString("JWToken"));
+
             var client = _factory.CreateClient();
 
             var mainFeatureResponse = await client.GetFromJsonAsync<ApiResponse<PagedData<Movie>>>(
@@ -44,6 +48,12 @@ namespace CinemaBooking_RazorPage.Pages.PublicPage
             {
                 UpcomingMovies = upcomingResponse.Data.Items;
             }
+        }
+
+        public IActionResult OnPostLogout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToPage("/PublicPage/Homepage");
         }
     }
 }
