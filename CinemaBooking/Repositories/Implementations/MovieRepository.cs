@@ -39,7 +39,7 @@ namespace CinemaBooking.Repositories.Implementations
                 query = query.Where(x => x.Title.Contains(title));
 
             if (releaseDate.HasValue)
-                query = query.Where(x => x.ReleaseDate == releaseDate);
+                query = query.Where(x => x.ReleaseDate >= releaseDate);
 
             if (status.HasValue)
                 query = query.Where(x => x.Status == status);

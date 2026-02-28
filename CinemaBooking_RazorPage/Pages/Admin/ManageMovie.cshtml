@@ -138,31 +138,36 @@
                     </div>
                 </header>
                 <!-- Movie Table Card -->
+                <form method="get">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-slate-900/40 p-6 rounded-3xl border border-slate-800 backdrop-blur-sm">
                     <div>
                         <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Tên phim</label>
-                        <input class="w-full bg-slate-800/50 border-slate-700 focus:border-primary-important text-white text-sm rounded-full px-4 py-2.5 transition-all outline-none border-primary-important" placeholder="Nhập tên phim..." type="text" />
+                        <input name="Title" value="@Model.Title" class="w-full bg-slate-800/50 border-slate-700 focus:border-primary-important text-white text-sm rounded-full px-4 py-2.5 transition-all outline-none border-primary-important" placeholder="Nhập tên phim..." type="text" />
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Trạng thái</label>
-                        <select class="w-full bg-slate-800/50 border-slate-700 focus:border-primary-important text-white text-sm rounded-full px-4 py-2.5 transition-all outline-none border-primary-important appearance-none">
-                            <option value="all">Tất cả</option>
-                            <option value="playing">Đang chiếu</option>
-                            <option value="upcoming">Sắp chiếu</option>
-                            <option value="closed">Đã đóng</option>
-                        </select>
+                            <select name="Status"
+                                    class="w-full bg-slate-800/50 border-slate-700 focus:border-primary-important text-white text-sm rounded-full px-4 py-2.5 transition-all outline-none border-primary-important appearance-none">
+
+                                <option value="">Tất cả</option>
+                                <option value="0" selected="@(Model.Status == 0)">Đang chiếu</option>
+                                <option value="1" selected="@(Model.Status == 1)">Sắp chiếu</option>
+                                <option value="2" selected="@(Model.Status == 2)">Đã đóng</option>
+                            </select>
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Ngày phát hành</label>
-                        <input class="w-full bg-slate-800/50 border-slate-700 focus:border-primary-important text-white text-sm rounded-full px-4 py-2.5 transition-all outline-none border-primary-important" type="date" />
+                        <input name="ReleaseDate" value="@(Model.ReleaseDate?.ToString("yyyy-MM-dd"))" class="w-full bg-slate-800/50 border-slate-700 focus:border-primary-important text-white text-sm rounded-full px-4 py-2.5 transition-all outline-none border-primary-important" type="date" />
                     </div>
                     <div class="flex items-end">
-                        <button class="w-full bg-primary-important text-black font-bold py-2.5 rounded-full flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-orange-500/20">
+                        <button type="submit" class="w-full bg-primary-important text-black font-bold py-2.5 rounded-full flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-orange-500/20">
                             <span class="material-symbols-outlined">search</span>
                             Tìm kiếm
                         </button>
                     </div>
-                </div><div class="bg-slate-900/40 rounded-3xl border border-slate-800 overflow-hidden backdrop-blur-sm">
+                </div>
+                </form>
+                <div class="bg-slate-900/40 rounded-3xl border border-slate-800 overflow-hidden backdrop-blur-sm">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
@@ -175,58 +180,112 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-800">
-                                <!-- Row 1 -->
-                                <tr class="hover:bg-white/5 transition-colors group">
-                                    <td class="px-6 py-4">
-                                        <div class="w-14 h-20 rounded-xl overflow-hidden shadow-md bg-slate-800">
-                                            <div class="w-full h-full bg-center bg-cover" data-alt="Action movie cinematic poster with dark tones" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDacBOL0nNiRBmdsbljyit0Mhv76UcZWsZoMt3Yrt2K98UMTVaswvdM3REc7jIP5rwGSpJNh4X_6gjsQUUMUHVnPpyH3AaWvsL65aVxzy18hVhRA4qvxp03Ve6Kl7V17ezgfZJzd1UTv-N8Rnttkcl72ufaOvmwue4GeDXolcb6aB26SXZVcC-AO6QIZW5ItVu-LM1qTlN9IUvymdQT6ah6RFE-vvnQ6Y12eiRO49r7LbeONa2lOHLdiWFLkiu99FlUclARH8JUc7Y')"></div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="font-bold text-white">Avengers: Endgame</div>
-                                        <div class="text-xs text-slate-500">181 phút</div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex flex-wrap gap-1">
-                                            <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">Hành động</span>
-                                            <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">Viễn tưởng</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-500/10 text-green-500">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2 animate-pulse"></span>
-                                            Đang chiếu
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-primary-important hover:text-black transition-all">
-                                                <span class="material-symbols-outlined text-xl">edit_note</span>
-                                            </button>
-                                            <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-red-500/20 hover:text-red-500 transition-all">
-                                                <span class="material-symbols-outlined text-xl">delete</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @foreach (var movie in Model.Movies)
+                                {
+                                    <tr class="hover:bg-white/5 transition-colors group">
+                                        <td class="px-6 py-4">
+                                            <div class="w-14 h-20 rounded-xl overflow-hidden shadow-md bg-slate-800">
+                                                <div class="w-full h-full bg-center bg-cover"
+                                                     style="background-image: url('@("http://localhost:5237" + movie.PosterUrl)')">
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td class="px-6 py-4">
+                                            <div class="font-bold text-white">@movie.Title</div>
+                                            <div class="text-xs text-slate-500">@movie.DurationMinutes phút</div>
+                                        </td>
+
+                                        <td class="px-6 py-4">
+                                            <div class="flex flex-wrap gap-1">
+                                                @foreach (var genre in movie.Genres)
+                                                {
+                                                    <span class="text-xs px-2 py-1 bg-slate-800 rounded-full text-slate-300">
+                                                        @genre
+                                                    </span>
+                                                }
+                                            </div>
+                                        </td>
+
+                                        <td class="px-6 py-4">
+                                            @{
+                                                string statusText = "";
+                                                string statusClass = "";
+
+                                                if (movie.Status == 0)
+                                                {
+                                                    statusText = "Đang chiếu";
+                                                    statusClass = "bg-green-500/10 text-green-500";
+                                                }
+                                                else if (movie.Status == 1)
+                                                {
+                                                    statusText = "Sắp chiếu";
+                                                    statusClass = "bg-yellow-500/10 text-yellow-500";
+                                                }
+                                                else
+                                                {
+                                                    statusText = "Đã đóng";
+                                                    statusClass = "bg-red-500/10 text-red-500";
+                                                }
+                                            }
+
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold @statusClass">
+                                                @statusText
+                                            </span>
+                                        </td>
+
+                                        <td class="px-6 py-4 text-right">
+                                            <div class="flex items-center justify-end gap-2">
+                                                <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-primary-important hover:text-black transition-all">
+                                                    <span class="material-symbols-outlined text-xl">edit_note</span>
+                                                </button>
+                                                <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-red-500/20 hover:text-red-500 transition-all">
+                                                    <span class="material-symbols-outlined text-xl">delete</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
                     <!-- Pagination -->
                     <div class="px-6 py-4 border-t border-slate-800 flex items-center justify-between">
                         <div class="text-sm text-slate-500">
-                            Hiển thị 4 trên 128 phim
+                            Hiển thị @Model.Movies.Count trên @Model.TotalCount phim
                         </div>
                         <div class="flex items-center gap-2">
-                            <button class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-all">
+
+                            <!-- Prev -->
+                            <a asp-page="./ManageMovie"
+                               asp-route-pageNumber="@(Model.CurrentPage - 1)"
+                               class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-all @(Model.CurrentPage == 1 ? "pointer-events-none opacity-50" : "")">
                                 <span class="material-symbols-outlined text-lg">chevron_left</span>
-                            </button>
-                            <button class="w-8 h-8 rounded-full flex items-center justify-center bg-primary-important text-black font-bold text-xs">1</button>
-                            <button class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-all text-xs">2</button>
-                            <button class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-all text-xs">3</button>
-                            <button class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-all">
+                            </a>
+
+                            <!-- Page Numbers -->
+                            @for (int i = 1; i <= Model.TotalPages; i++)
+                            {
+                                <a asp-page="./ManageMovie"
+                                   asp-route-pageNumber="@i"
+                                   asp-route-Title="@Model.Title"
+                                   asp-route-Status="@Model.Status"
+                                   asp-route-ReleaseDate="@Model.ReleaseDate?.ToString("yyyy-MM-dd")"
+                                   class="w-8 h-8 rounded-full flex items-center justify-center text-xs
+                            @(i == Model.CurrentPage
+                                                       ? "bg-primary-important text-black font-bold"
+                                                       : "bg-slate-800 text-slate-400 hover:text-white transition-all")">
+                                @i
+                            </a>
+                                                        }
+
+                            <!-- Next -->
+                            <a asp-page="./ManageMovie"
+                               asp-route-pageNumber="@(Model.CurrentPage + 1)"
+                               class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-all @(Model.CurrentPage == Model.TotalPages ? "pointer-events-none opacity-50" : "")">
                                 <span class="material-symbols-outlined text-lg">chevron_right</span>
-                            </button>
+                            </a>
+
                         </div>
                     </div>
                 </div>
