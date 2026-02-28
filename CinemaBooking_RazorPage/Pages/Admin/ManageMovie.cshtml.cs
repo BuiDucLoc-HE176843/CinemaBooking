@@ -8,5 +8,10 @@ namespace CinemaBooking_RazorPage.Pages.Admin
         public void OnGet()
         {
         }
+        public IActionResult OnPostLogout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToPage("/PublicPage/Homepage");
+        }
     }
 }

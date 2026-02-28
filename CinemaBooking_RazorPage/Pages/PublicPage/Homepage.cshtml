@@ -70,18 +70,10 @@
                 <nav class="hidden items-center gap-6 lg:flex">
                     <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Danh sách rạp</a>
                     <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Danh sách phim</a>
-                    @* <div class="group relative">
-                        <button class="flex items-center gap-1 text-sm font-medium hover:text-primary transition-colors">
-                            Thể loại phim
-                            <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
-                        </button>
-                        <div class="absolute left-0 top-full hidden w-48 rounded-xl border border-border-dark bg-surface-dark p-2 shadow-xl group-hover:block">
-                            <a class="block rounded-lg px-4 py-2 text-sm hover:bg-primary/20 hover:text-primary" href="#">Hành động</a>
-                            <a class="block rounded-lg px-4 py-2 text-sm hover:bg-primary/20 hover:text-primary" href="#">Kinh dị</a>
-                            <a class="block rounded-lg px-4 py-2 text-sm hover:bg-primary/20 hover:text-primary" href="#">Hài hước</a>
-                            <a class="block rounded-lg px-4 py-2 text-sm hover:bg-primary/20 hover:text-primary" href="#">Tình cảm</a>
-                        </div>
-                    </div> *@
+                    @if (Model.IsLoggedIn)
+                    {
+                        <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Quản lý tài khoản</a>
+                    }
                 </nav>
             </div>
             <div class="flex items-center gap-3">
