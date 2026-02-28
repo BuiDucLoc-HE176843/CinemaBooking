@@ -22,7 +22,7 @@ namespace CinemaBooking.Data
                     ReleaseDate = DateTime.UtcNow.AddDays(-i * 10),
                     DurationMinutes = 90 + (i % 4) * 15,
                     PosterUrl = $"/Poster/poster{i}.jpg",
-                    TrailerUrl = $"/Trailer/Trailer{(i % 2 == 0 ? 2 : 1)}.mp4",
+                    TrailerUrl = $"/Trailer/Trailer{i}.mp4",
                     Status = (i % 2 == 0)
                                 ? MovieStatus.Upcoming
                                 : MovieStatus.Ongoing,

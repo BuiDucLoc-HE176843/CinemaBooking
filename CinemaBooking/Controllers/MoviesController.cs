@@ -2,6 +2,7 @@
 using CinemaBooking.DTOs.Requests;
 using CinemaBooking.DTOs.Responses;
 using CinemaBooking.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,14 @@ namespace CinemaBooking.Controllers
 
             return ApiResponse<PagedResult<MovieResponse>>
                 .Ok(result, "Lấy danh sách phim thành công");
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ApiResponse<object>> UpdateMovie(int id, [FromForm] UpdateMovieRequest request)
+        {
+            await _movieService.UpdateMovieAsync(id, request);
+
+            return ApiResponse<object>.Ok("Cập nhật phim thành công");
         }
     }
 }

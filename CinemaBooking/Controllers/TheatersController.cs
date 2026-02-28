@@ -35,7 +35,7 @@ namespace CinemaBooking.Controllers
         }
 
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ApiResponse<TheaterResponse>> Update(int id, [FromBody] UpdateTheaterRequest request)
         {
             var result = await _service.UpdateAsync(id, request);

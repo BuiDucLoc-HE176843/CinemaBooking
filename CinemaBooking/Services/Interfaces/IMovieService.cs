@@ -7,5 +7,6 @@ namespace CinemaBooking.Services.Interfaces
     public interface IMovieService
     {
         Task<PagedResult<MovieResponse>> GetMoviesAsync(MovieFilterRequest request);
+        Task UpdateMovieAsync(int id, UpdateMovieRequest request);
     }
 }

@@ -4,6 +4,7 @@ namespace CinemaBooking.DTOs.Requests
 {
     public class MovieFilterRequest : PaginationRequest
     {
+        public int? Id { get; set; }
         public string? Title { get; set; }
 
         public DateTime? ReleaseDate { get; set; }

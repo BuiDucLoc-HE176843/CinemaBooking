@@ -21,7 +21,13 @@ namespace CinemaBooking.Repositories.Implementations
             return await _context.Genres.AnyAsync(x => x.Id == genreId);
         }
 
+        public async Task<bool> IdExistsAsync(int Id)
+        {
+            return await _context.Movies.AnyAsync(x => x.Id == Id);
+        }
+
         public async Task<PagedResult<Movie>> GetPagedAsync(
+            int? id,
             string? title,
             DateTime? releaseDate,
             MovieStatus? status,
@@ -34,6 +40,9 @@ namespace CinemaBooking.Repositories.Implementations
                 .Include(x => x.MovieGenres)!
                     .ThenInclude(mg => mg.Genre)
                 .AsQueryable();
+
+            if (id.HasValue)
+                query = query.Where(x => x.Id == id);
 
             if (!string.IsNullOrWhiteSpace(title))
                 query = query.Where(x => x.Title.Contains(title));
@@ -76,6 +85,27 @@ namespace CinemaBooking.Repositories.Implementations
                 TotalCount = totalCount,
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
             };
+        }
+
+        public async Task<Movie?> GetByIdWithGenresAsync(int id)
+        {
+            return await _context.Movies
+                .Include(x => x.MovieGenres)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> GenresExistAsync(List<int> genreIds)
+        {
+            var count = await _context.Genres
+                .CountAsync(x => genreIds.Contains(x.Id));
+
+            return count == genreIds.Count;
+        }
+
+        public async Task UpdateAsync(Movie movie)
+        {
+            _context.Movies.Update(movie);
+            await _context.SaveChangesAsync();
         }
     }
 }
