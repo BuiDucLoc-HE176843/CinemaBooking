@@ -137,7 +137,8 @@
                                muted
                                loop
                                playsinline>
-                            <source src="http://localhost:5237/Trailer/Trailer1.mp4" type="video/mp4" />
+                            <source src="@($"http://localhost:5237{Model.MainFeatureMovie.TrailerUrl}")"
+                                    type="video/mp4" />
                             Trình duyệt của bạn không hỗ trợ video.
                         </video>
                     }

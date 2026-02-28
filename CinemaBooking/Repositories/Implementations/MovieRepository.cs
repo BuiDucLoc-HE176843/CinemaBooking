@@ -90,11 +90,12 @@ namespace CinemaBooking.Repositories.Implementations
         public async Task<Movie?> GetByIdWithGenresAsync(int id)
         {
             return await _context.Movies
-                .Include(x => x.MovieGenres)
+                .Include(x => x.MovieGenres)!
+                    .ThenInclude(mg => mg.Genre)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<bool> GenresExistAsync(List<int> genreIds)
+        public async Task<bool> AllGenresExistAsync(List<int> genreIds)
         {
             var count = await _context.Genres
                 .CountAsync(x => genreIds.Contains(x.Id));

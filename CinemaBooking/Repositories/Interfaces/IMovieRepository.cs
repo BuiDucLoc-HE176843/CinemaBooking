@@ -20,7 +20,7 @@ namespace CinemaBooking.Repositories.Interfaces
         Task<bool> IdExistsAsync(int genreId);
 
         Task<Movie?> GetByIdWithGenresAsync(int id);
-        Task<bool> GenresExistAsync(List<int> genreIds);
         Task UpdateAsync(Movie movie);
+        Task<bool> AllGenresExistAsync(List<int> genreIds);
     }
 }

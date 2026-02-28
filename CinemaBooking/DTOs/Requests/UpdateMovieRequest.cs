@@ -2,10 +2,10 @@
 {
     public class UpdateMovieRequest
     {
-        public string Title { get; set; } = string.Empty;
+        public string? Title { get; set; }
         public string? Description { get; set; }
         public DateTime? ReleaseDate { get; set; }
-        public int DurationMinutes { get; set; }
+        public int? DurationMinutes { get; set; }
         public string? Status { get; set; }
 
         public IFormFile? PosterFile { get; set; }

@@ -88,9 +88,22 @@ namespace CinemaBooking.Services.Implementations
             var movie = await _movieRepository.GetByIdWithGenresAsync(id);
 
             if (movie == null)
-                throw new AppException("Phim không tồn tại");
+                throw new AppException("Movie không tồn tại");
 
-            // Validate Status
+            // ===== Update basic fields (nếu có truyền) =====
+
+            if (!string.IsNullOrWhiteSpace(request.Title))
+                movie.Title = request.Title;
+
+            if (request.Description != null)
+                movie.Description = request.Description;
+
+            if (request.ReleaseDate.HasValue)
+                movie.ReleaseDate = request.ReleaseDate;
+
+            if (request.DurationMinutes.HasValue && request.DurationMinutes > 0)
+                movie.DurationMinutes = request.DurationMinutes ?? movie.DurationMinutes;
+
             if (!string.IsNullOrWhiteSpace(request.Status))
             {
                 if (!Enum.TryParse<MovieStatus>(request.Status, true, out var parsedStatus))
@@ -99,92 +112,83 @@ namespace CinemaBooking.Services.Implementations
                 movie.Status = parsedStatus;
             }
 
-            // Validate GenreIds
+            // ===== Upload Poster =====
+            if (request.PosterFile != null)
+            {
+                var posterFolder = Path.Combine(_environment.WebRootPath, "Poster");
+
+                if (!Directory.Exists(posterFolder))
+                    Directory.CreateDirectory(posterFolder);
+
+                // Xóa file cũ
+                if (!string.IsNullOrEmpty(movie.PosterUrl))
+                {
+                    var oldPosterPath = Path.Combine(_environment.WebRootPath, movie.PosterUrl.TrimStart('/'));
+                    if (File.Exists(oldPosterPath))
+                        File.Delete(oldPosterPath);
+                }
+
+                var fileName = $"{Guid.NewGuid()}_{request.PosterFile.FileName}";
+                var filePath = Path.Combine(posterFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.PosterFile.CopyToAsync(stream);
+                }
+
+                movie.PosterUrl = $"/Poster/{fileName}";
+            }
+
+            // ===== Upload Trailer =====
+            if (request.TrailerFile != null)
+            {
+                var trailerFolder = Path.Combine(_environment.WebRootPath, "Trailer");
+
+                if (!Directory.Exists(trailerFolder))
+                    Directory.CreateDirectory(trailerFolder);
+
+                // Xóa file cũ
+                if (!string.IsNullOrEmpty(movie.TrailerUrl))
+                {
+                    var oldTrailerPath = Path.Combine(_environment.WebRootPath, movie.TrailerUrl.TrimStart('/'));
+                    if (File.Exists(oldTrailerPath))
+                        File.Delete(oldTrailerPath);
+                }
+
+                var fileName = $"{Guid.NewGuid()}_{request.TrailerFile.FileName}";
+                var filePath = Path.Combine(trailerFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.TrailerFile.CopyToAsync(stream);
+                }
+
+                movie.TrailerUrl = $"/Trailer/{fileName}";
+            }
+
+            // ===== Update Genres =====
             if (request.GenreIds != null && request.GenreIds.Any())
             {
-                var valid = await _movieRepository.GenresExistAsync(request.GenreIds);
+                var valid = await _movieRepository.AllGenresExistAsync(request.GenreIds);
 
                 if (!valid)
-                    throw new AppException("Một hoặc nhiều GenreId không tồn tại");
+                    throw new AppException("Có GenreId không tồn tại");
 
-                // Clear genre cũ
+                // Xóa cũ
                 movie.MovieGenres!.Clear();
 
-                // Add lại
+                // Thêm mới
                 movie.MovieGenres = request.GenreIds
                     .Select(gid => new MovieGenre
                     {
                         MovieId = movie.Id,
                         GenreId = gid
-                    })
-                    .ToList();
+                    }).ToList();
             }
 
-            // Update field cơ bản
-            movie.Title = request.Title;
-            movie.Description = request.Description;
-            movie.ReleaseDate = request.ReleaseDate;
-            movie.DurationMinutes = request.DurationMinutes;
-            // Update Poster
-            if (request.PosterFile != null)
-            {
-                // Xóa file cũ
-                DeleteFile(movie.PosterUrl);
-
-                // Lưu file mới
-                var posterPath = await SaveFileAsync(
-                    request.PosterFile,
-                    "Posters");
-
-                movie.PosterUrl = posterPath;
-            }
-
-            // Update Trailer
-            if (request.TrailerFile != null)
-            {
-                DeleteFile(movie.TrailerUrl);
-
-                var trailerPath = await SaveFileAsync(
-                    request.TrailerFile,
-                    "Trailers");
-
-                movie.TrailerUrl = trailerPath;
-            }
             movie.UpdatedAt = DateTime.UtcNow;
 
             await _movieRepository.UpdateAsync(movie);
-        }
-
-        private async Task<string> SaveFileAsync(IFormFile file, string folderName)
-        {
-            var uploadsFolder = Path.Combine(
-                _environment.WebRootPath,
-                folderName);
-
-            if (!Directory.Exists(uploadsFolder))
-                Directory.CreateDirectory(uploadsFolder);
-
-            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-
-            var filePath = Path.Combine(uploadsFolder, fileName);
-
-            using var stream = new FileStream(filePath, FileMode.Create);
-            await file.CopyToAsync(stream);
-
-            return $"/{folderName}/{fileName}";
-        }
-
-        private void DeleteFile(string? relativePath)
-        {
-            if (string.IsNullOrEmpty(relativePath))
-                return;
-
-            var fullPath = Path.Combine(
-                _environment.WebRootPath,
-                relativePath.TrimStart('/'));
-
-            if (File.Exists(fullPath))
-                File.Delete(fullPath);
         }
     }
 }
