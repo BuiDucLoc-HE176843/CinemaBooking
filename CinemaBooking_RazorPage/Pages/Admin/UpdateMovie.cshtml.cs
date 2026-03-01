@@ -1,4 +1,5 @@
-﻿using CinemaBooking_RazorPage.Model;
+﻿using CinemaBooking_RazorPage.DTOs.Requests;
+using CinemaBooking_RazorPage.DTOs.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
@@ -8,27 +9,17 @@ namespace CinemaBooking_RazorPage.Pages.Admin
 {
     public class UpdateMovieModel : PageModel
     {
-        public Movie Movie { get; set; }
+        public MovieResponse Movie { get; set; } = new();
 
-        public List<Genre> AllGenres { get; set; } = new();
+        [BindProperty]
+        public UpdateMovieRequest Input { get; set; } = new();
+
+        public List<GenreResponse> AllGenres { get; set; } = new();
         public List<int> MovieGenreIds { get; set; } = new();
 
 
-        [BindProperty]
-        public Movie Movie2 { get; set; }
-
-        [BindProperty]
-        public IFormFile? PosterFile { get; set; }
-
-        [BindProperty]
-        public IFormFile? TrailerFile { get; set; }
-
-        [BindProperty]
-        public List<int> SelectedGenres { get; set; } = new();
-
         [TempData]
         public string? SuccessMessage { get; set; }
-
         [TempData]
         public string? ErrorMessage { get; set; }
 
@@ -53,10 +44,21 @@ namespace CinemaBooking_RazorPage.Pages.Admin
                     PropertyNameCaseInsensitive = true
                 };
 
-                var result = JsonSerializer.Deserialize<ApiResponse<PagedData<Movie>>>(json, options);
+                var result = JsonSerializer.Deserialize<ApiResponse<PagedData<MovieResponse>>>(json, options);
 
                 Movie = result?.Data?.Items?.FirstOrDefault();
-                Movie2 = Movie;
+                if (Movie != null)
+                {
+                    Input = new UpdateMovieRequest
+                    {
+                        Title = Movie.Title,
+                        Description = Movie.Description,
+                        ReleaseDate = Movie.ReleaseDate,
+                        DurationMinutes = Movie.DurationMinutes,
+                        Status = Movie.Status.ToString(),
+                        IsMainFeature = Movie.IsMainFeature
+                    };
+                }
             }
 
             // Lấy toàn bộ thể loại
@@ -67,8 +69,8 @@ namespace CinemaBooking_RazorPage.Pages.Admin
                 var json = await genreResponse.Content.ReadAsStringAsync();
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-                var result = JsonSerializer.Deserialize<ApiResponse<List<Genre>>>(json, options);
-                AllGenres = result?.Data ?? new List<Genre>();
+                var result = JsonSerializer.Deserialize<ApiResponse<List<GenreResponse>>>(json, options);
+                AllGenres = result?.Data ?? new List<GenreResponse>();
             }
 
             // Lấy thể loại theo phim
@@ -79,7 +81,7 @@ namespace CinemaBooking_RazorPage.Pages.Admin
                 var json = await movieGenreResponse.Content.ReadAsStringAsync();
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-                var result = JsonSerializer.Deserialize<ApiResponse<List<Genre>>>(json, options);
+                var result = JsonSerializer.Deserialize<ApiResponse<List<GenreResponse>>>(json, options);
 
                 MovieGenreIds = result?.Data?.Select(g => g.Id).ToList() ?? new List<int>();
             }
@@ -89,48 +91,91 @@ namespace CinemaBooking_RazorPage.Pages.Admin
         {
             using var content = new MultipartFormDataContent();
 
-            content.Add(new StringContent(Movie2.Title ?? ""), "Title");
-            content.Add(new StringContent(Movie2.Description ?? ""), "Description");
-            content.Add(new StringContent(Movie2.ReleaseDate.ToString("o")), "ReleaseDate");
-            content.Add(new StringContent(Movie2.DurationMinutes.ToString()), "DurationMinutes");
-            content.Add(new StringContent(Movie2.Status.ToString()), "Status");
-            content.Add(new StringContent(Movie2.IsMainFeature.ToString()), "IsMainFeature");
+            // ===== Basic Fields =====
+            content.Add(new StringContent(Input.Title ?? string.Empty), nameof(Input.Title));
+            content.Add(new StringContent(Input.Description ?? string.Empty), nameof(Input.Description));
 
-            foreach (var genreId in SelectedGenres)
+            if (Input.ReleaseDate.HasValue)
             {
-                content.Add(new StringContent(genreId.ToString()), "GenreIds");
+                content.Add(
+                    new StringContent(Input.ReleaseDate.Value.ToString("o")),
+                    nameof(Input.ReleaseDate));
             }
 
-            if (PosterFile != null)
+            if (Input.DurationMinutes.HasValue)
             {
-                var stream = PosterFile.OpenReadStream();
-                content.Add(new StreamContent(stream), "PosterFile", PosterFile.FileName);
+                content.Add(
+                    new StringContent(Input.DurationMinutes.Value.ToString()),
+                    nameof(Input.DurationMinutes));
             }
 
-            if (TrailerFile != null)
+            content.Add(
+                new StringContent(Input.Status ?? string.Empty),
+                nameof(Input.Status));
+
+            content.Add(
+                new StringContent(Input.IsMainFeature.ToString()),
+                nameof(Input.IsMainFeature));
+
+            // ===== Genres =====
+            if (Input.GenreIds != null && Input.GenreIds.Any())
             {
-                var stream = TrailerFile.OpenReadStream();
-                content.Add(new StreamContent(stream), "TrailerFile", TrailerFile.FileName);
+                foreach (var genreId in Input.GenreIds)
+                {
+                    content.Add(
+                        new StringContent(genreId.ToString()),
+                        "GenreIds"); // phải đúng tên API nhận
+                }
             }
 
-            var response = await _httpClient.PutAsync($"http://localhost:5237/api/Movies/{id}", content);
+            // ===== Poster File =====
+            if (Input.PosterFile != null)
+            {
+                var streamContent = new StreamContent(Input.PosterFile.OpenReadStream());
+                streamContent.Headers.ContentType =
+                    new System.Net.Http.Headers.MediaTypeHeaderValue(Input.PosterFile.ContentType);
+
+                content.Add(
+                    streamContent,
+                    nameof(Input.PosterFile),
+                    Input.PosterFile.FileName);
+            }
+
+            // ===== Trailer File =====
+            if (Input.TrailerFile != null)
+            {
+                var streamContent = new StreamContent(Input.TrailerFile.OpenReadStream());
+                streamContent.Headers.ContentType =
+                    new System.Net.Http.Headers.MediaTypeHeaderValue(Input.TrailerFile.ContentType);
+
+                content.Add(
+                    streamContent,
+                    nameof(Input.TrailerFile),
+                    Input.TrailerFile.FileName);
+            }
+
+            // ===== Call API =====
+            var response = await _httpClient.PutAsync(
+                $"http://localhost:5237/api/Movies/{id}",
+                content);
 
             var json = await response.Content.ReadAsStringAsync();
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
 
             var result = JsonSerializer.Deserialize<ApiResponse<object>>(json, options);
 
             if (result != null && result.Success)
             {
                 SuccessMessage = result.Message;
-                return RedirectToPage(new { id = id });
+                return RedirectToPage(new { id });
             }
-            else
-            {
-                ErrorMessage = result?.Message ?? "Có lỗi xảy ra";
-                await OnGet(id);
-                return Page();
-            }
+
+            ErrorMessage = result?.Message ?? "Có lỗi xảy ra";
+            await OnGet(id);
+            return Page();
         }
 
         public IActionResult OnPostLogout()

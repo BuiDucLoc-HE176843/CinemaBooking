@@ -1,4 +1,4 @@
-using CinemaBooking_RazorPage.Model;
+using CinemaBooking_RazorPage.DTOs.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
@@ -7,8 +7,7 @@ namespace CinemaBooking_RazorPage.Pages.Admin
 {
     public class ManageMovieModel : PageModel
     {
-        public List<MovieViewModel> Movies { get; set; } = new();
-
+        public List<MovieResponse> Movies { get; set; } = new();
 
         public int CurrentPage { get; set; } = 1;
         public int TotalPages { get; set; }
@@ -65,7 +64,7 @@ namespace CinemaBooking_RazorPage.Pages.Admin
                         PropertyNameCaseInsensitive = true
                     };
 
-                    var result = JsonSerializer.Deserialize<ApiResponse<PagedData<MovieViewModel>>>(jsonString, options);
+                    var result = JsonSerializer.Deserialize<ApiResponse<PagedData<MovieResponse>>>(jsonString, options);
 
                     if (result != null && result.Success)
                     {

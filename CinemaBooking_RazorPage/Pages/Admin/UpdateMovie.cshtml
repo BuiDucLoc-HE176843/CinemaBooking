@@ -149,7 +149,7 @@
                                         <p class="text-xs text-slate-300 font-medium">Click hoặc kéo thả để thay đổi ảnh poster</p>
                                         <p id="posterFileName" class="text-green-400 text-xs mt-1 hidden"></p>
                                     </div>
-                                    <input asp-for="PosterFile"
+                                    <input asp-for="Input.PosterFile"
                                            id="posterInput"
                                            accept="image/*"
                                            class="absolute inset-0 opacity-0 cursor-pointer"
@@ -168,7 +168,7 @@
                                            class="mt-2 text-xs font-bold text-primary px-4 py-1.5 border border-primary rounded-full hover:bg-primary-important hover:text-background-dark transition-all cursor-pointer">
                                         Thay đổi Video
                                     </label>
-                                    <input asp-for="TrailerFile"
+                                    <input asp-for="Input.TrailerFile"
                                            id="trailerInput"
                                            accept="video/*"
                                            class="hidden"
@@ -183,13 +183,13 @@
                                 <!-- Title -->
                                 <div class="flex flex-col gap-2">
                                     <label class="text-slate-300 text-sm font-bold">Tiêu đề phim</label>
-                                    <input asp-for="Movie2.Title"
+                                    <input asp-for="Input.Title"
                                            class="w-full bg-input-dark border-primary-important text-slate-100 rounded-xl px-4 py-3" />
                                 </div>
                                 <!-- Description -->
                                 <div class="flex flex-col gap-2">
                                     <label class="text-slate-300 text-sm font-bold">Mô tả bộ phim</label>
-                                    <textarea asp-for="Movie2.Description"
+                                    <textarea asp-for="Input.Description"
                                               class="w-full bg-input-dark border-primary-important text-slate-100 rounded-xl px-4 py-3 resize-none"
                                               rows="5"></textarea>
                                 </div>
@@ -198,7 +198,7 @@
                                     <div class="flex flex-col gap-2">
                                         <label class="text-slate-300 text-sm font-bold">Ngày phát hành</label>
                                         <div class="relative">
-                                            <input asp-for="Movie2.ReleaseDate"
+                                            <input asp-for="Input.ReleaseDate"
                                                    type="date"
                                                    class="w-full bg-input-dark border-primary-important text-slate-100 rounded-xl px-4 py-3" />
                                         </div>
@@ -206,7 +206,7 @@
                                     <!-- Duration -->
                                     <div class="flex flex-col gap-2">
                                         <label class="text-slate-300 text-sm font-bold">Thời lượng (Phút)</label>
-                                        <input asp-for="Movie2.DurationMinutes"
+                                        <input asp-for="Input.DurationMinutes"
                                                type="number"
                                                class="w-full bg-input-dark border-primary-important text-slate-100 rounded-xl px-4 py-3" />
                                     </div>
@@ -214,7 +214,7 @@
                                 <!-- Status -->
                                 <div class="flex flex-col gap-2">
                                     <label class="text-slate-300 text-sm font-bold">Trạng thái chiếu</label>
-                                    <select asp-for="Movie2.Status"
+                                    <select asp-for="Input.Status"
                                             class="w-full bg-input-dark border-primary-important text-slate-100 rounded-xl px-4 py-3">
 
                                         <option value="0">Sắp chiếu</option>
@@ -238,7 +238,7 @@
                                     </div>
                                     <!-- Toggle -->
                                     <div class="relative">
-                                        <input asp-for="Movie2.IsMainFeature"
+                                        <input asp-for="Input.IsMainFeature"
                                                type="checkbox"
                                                class="sr-only peer" />
                                         <div class="w-12 h-6 bg-slate-600 rounded-full peer peer-checked:bg-primary transition-all duration-300"></div>
@@ -253,7 +253,7 @@
                                 {
                                     <label class="flex items-center gap-3 cursor-pointer group">
                                         <input type="checkbox"
-                                               name="SelectedGenres"
+                                               name="Input.GenreIds"
                                                value="@genre.Id"
                                                class="w-5 h-5 rounded border-primary bg-input-dark text-primary"
                                                @(Model.MovieGenreIds.Contains(genre.Id) ? "checked" : "") />

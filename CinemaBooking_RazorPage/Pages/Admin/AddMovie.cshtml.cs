@@ -1,4 +1,5 @@
-﻿using CinemaBooking_RazorPage.Model;
+﻿using CinemaBooking_RazorPage.DTOs.Responses;
+using CinemaBooking_RazorPage.DTOs.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
@@ -8,7 +9,7 @@ namespace CinemaBooking_RazorPage.Pages.Admin
     public class AddMovieModel : PageModel
     {
         [BindProperty]
-        public Movie Movie { get; set; }
+        public CreateMovieRequest Movie { get; set; }
 
         [BindProperty]
         public IFormFile? PosterFile { get; set; }
@@ -25,7 +26,7 @@ namespace CinemaBooking_RazorPage.Pages.Admin
         [TempData]
         public string? ErrorMessage { get; set; }
 
-        public List<Genre> AllGenres { get; set; } = new();
+        public List<GenreResponse> AllGenres { get; set; } = new();
 
 
         private readonly HttpClient _httpClient;
@@ -44,8 +45,8 @@ namespace CinemaBooking_RazorPage.Pages.Admin
                 var json = await genreResponse.Content.ReadAsStringAsync();
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-                var result = JsonSerializer.Deserialize<ApiResponse<List<Genre>>>(json, options);
-                AllGenres = result?.Data ?? new List<Genre>();
+                var result = JsonSerializer.Deserialize<ApiResponse<List<GenreResponse>>>(json, options);
+                AllGenres = result?.Data ?? new List<GenreResponse>();
             }
         }
 
@@ -56,7 +57,7 @@ namespace CinemaBooking_RazorPage.Pages.Admin
             // ===== TEXT DATA =====
             content.Add(new StringContent(Movie.Title ?? ""), "Title");
             content.Add(new StringContent(Movie.Description ?? ""), "Description");
-            content.Add(new StringContent(Movie.ReleaseDate.ToString("o")), "ReleaseDate");
+            //content.Add(new StringContent(Movie.ReleaseDate.ToString("o")), "ReleaseDate");
             content.Add(new StringContent(Movie.DurationMinutes.ToString()), "DurationMinutes");
             content.Add(new StringContent(Movie.Status.ToString()), "Status");
             content.Add(new StringContent(Movie.IsMainFeature.ToString()), "IsMainFeature");

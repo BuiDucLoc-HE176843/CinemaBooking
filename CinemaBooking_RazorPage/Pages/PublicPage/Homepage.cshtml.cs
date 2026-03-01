@@ -1,4 +1,4 @@
-using CinemaBooking_RazorPage.Model;
+using CinemaBooking_RazorPage.DTOs.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -8,9 +8,9 @@ namespace CinemaBooking_RazorPage.Pages.PublicPage
     {
         private readonly IHttpClientFactory _factory;
 
-        public Movie? MainFeatureMovie { get; set; }
-        public List<Movie> Movies { get; set; } = new();
-        public List<Movie> UpcomingMovies { get; set; } = new();
+        public MovieResponse? MainFeatureMovie { get; set; }
+        public List<MovieResponse> Movies { get; set; } = new();
+        public List<MovieResponse> UpcomingMovies { get; set; } = new();
 
         public bool IsLoggedIn { get; set; }
 
@@ -25,7 +25,7 @@ namespace CinemaBooking_RazorPage.Pages.PublicPage
 
             var client = _factory.CreateClient();
 
-            var mainFeatureResponse = await client.GetFromJsonAsync<ApiResponse<PagedData<Movie>>>(
+            var mainFeatureResponse = await client.GetFromJsonAsync<ApiResponse<PagedData<MovieResponse>>>(
                 "http://localhost:5237/api/Movies?IsMainFeature=true");
 
             if (mainFeatureResponse?.Data?.Items != null && mainFeatureResponse.Data.Items.Any())
@@ -33,7 +33,7 @@ namespace CinemaBooking_RazorPage.Pages.PublicPage
                 MainFeatureMovie = mainFeatureResponse.Data.Items.First();
             }
 
-            var response = await client.GetFromJsonAsync<ApiResponse<PagedData<Movie>>>(
+            var response = await client.GetFromJsonAsync<ApiResponse<PagedData<MovieResponse>>>(
                 "http://localhost:5237/api/Movies?Status=1");
 
             if (response?.Data?.Items != null)
@@ -41,7 +41,7 @@ namespace CinemaBooking_RazorPage.Pages.PublicPage
                 Movies = response.Data.Items;
             }
 
-            var upcomingResponse = await client.GetFromJsonAsync<ApiResponse<PagedData<Movie>>>(
+            var upcomingResponse = await client.GetFromJsonAsync<ApiResponse<PagedData<MovieResponse>>>(
                 "http://localhost:5237/api/Movies?Status=0");
 
             if (upcomingResponse?.Data?.Items != null)
