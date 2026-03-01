@@ -70,6 +70,7 @@ namespace CinemaBooking.Services.Implementations
                     ReleaseDate = x.ReleaseDate,
                     DurationMinutes = x.DurationMinutes,
                     Status = x.Status,
+                    IsMainFeature = x.IsMainFeature,
                     PosterUrl = x.PosterUrl,
                     TrailerUrl = x.TrailerUrl,
                     Genres = x.MovieGenres!
@@ -188,7 +189,115 @@ namespace CinemaBooking.Services.Implementations
 
             movie.UpdatedAt = DateTime.UtcNow;
 
+            // ===== Handle IsMainFeature =====
+            if (request.IsMainFeature == true && movie.IsMainFeature == false)
+            {
+                var currentMainMovies = await _movieRepository.GetMainFeatureMoviesAsync();
+
+                foreach (var m in currentMainMovies)
+                {
+                    m.IsMainFeature = false;
+                }
+
+                movie.IsMainFeature = true;
+            }
+
             await _movieRepository.UpdateAsync(movie);
+        }
+
+        public async Task AddMovieAsync(CreateMovieRequest request)
+        {
+            // ===== Validate Status =====
+            MovieStatus statusEnum = MovieStatus.Upcoming;
+
+            if (!string.IsNullOrWhiteSpace(request.Status))
+            {
+                if (!Enum.TryParse<MovieStatus>(request.Status, true, out var parsedStatus))
+                    throw new AppException("Status không hợp lệ");
+
+                statusEnum = parsedStatus;
+            }
+
+            // ===== Validate Genre =====
+            if (request.GenreIds != null && request.GenreIds.Any())
+            {
+                var valid = await _movieRepository.AllGenresExistAsync(request.GenreIds);
+
+                if (!valid)
+                    throw new AppException("Có GenreId không tồn tại");
+            }
+
+            var movie = new Movie
+            {
+                Title = request.Title,
+                Description = request.Description,
+                ReleaseDate = request.ReleaseDate,
+                DurationMinutes = request.DurationMinutes,
+                Status = statusEnum,
+                IsMainFeature = request.IsMainFeature,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            // ===== Upload Poster =====
+            if (request.PosterFile != null)
+            {
+                var posterFolder = Path.Combine(_environment.WebRootPath, "Poster");
+
+                if (!Directory.Exists(posterFolder))
+                    Directory.CreateDirectory(posterFolder);
+
+                var fileName = $"{Guid.NewGuid()}_{request.PosterFile.FileName}";
+                var filePath = Path.Combine(posterFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.PosterFile.CopyToAsync(stream);
+                }
+
+                movie.PosterUrl = $"/Poster/{fileName}";
+            }
+
+            // ===== Upload Trailer =====
+            if (request.TrailerFile != null)
+            {
+                var trailerFolder = Path.Combine(_environment.WebRootPath, "Trailer");
+
+                if (!Directory.Exists(trailerFolder))
+                    Directory.CreateDirectory(trailerFolder);
+
+                var fileName = $"{Guid.NewGuid()}_{request.TrailerFile.FileName}";
+                var filePath = Path.Combine(trailerFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.TrailerFile.CopyToAsync(stream);
+                }
+
+                movie.TrailerUrl = $"/Trailer/{fileName}";
+            }
+
+            // ===== Add Genres =====
+            if (request.GenreIds != null && request.GenreIds.Any())
+            {
+                movie.MovieGenres = request.GenreIds
+                    .Select(gid => new MovieGenre
+                    {
+                        GenreId = gid
+                    }).ToList();
+            }
+
+            // ===== Handle IsMainFeature =====
+            if (request.IsMainFeature)
+            {
+                var currentMainMovies = await _movieRepository.GetMainFeatureMoviesAsync();
+
+                foreach (var m in currentMainMovies)
+                {
+                    m.IsMainFeature = false;
+                }
+            }
+
+            await _movieRepository.AddAsync(movie);
         }
     }
 }

@@ -36,5 +36,13 @@ namespace CinemaBooking.Controllers
 
             return ApiResponse<object>.Ok("Cập nhật phim thành công");
         }
+
+        [HttpPost]
+        public async Task<ApiResponse<object>> AddMovie([FromForm] CreateMovieRequest request)
+        {
+            await _movieService.AddMovieAsync(request);
+
+            return ApiResponse<object>.Ok("Thêm phim thành công");
+        }
     }
 }

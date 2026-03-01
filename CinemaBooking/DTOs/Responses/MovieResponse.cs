@@ -15,6 +15,7 @@ namespace CinemaBooking.DTOs.Responses
         public int DurationMinutes { get; set; }
 
         public MovieStatus Status { get; set; }
+        public bool IsMainFeature { get; set; }
 
         public string? PosterUrl { get; set; }
 

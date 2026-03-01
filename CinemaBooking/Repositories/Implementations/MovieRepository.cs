@@ -108,5 +108,18 @@ namespace CinemaBooking.Repositories.Implementations
             _context.Movies.Update(movie);
             await _context.SaveChangesAsync();
         }
+
+        public async Task AddAsync(Movie movie)
+        {
+            await _context.Movies.AddAsync(movie);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Movie>> GetMainFeatureMoviesAsync()
+        {
+            return await _context.Movies
+                .Where(x => x.IsMainFeature)
+                .ToListAsync();
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace CinemaBooking.Services.Interfaces
     {
         Task<PagedResult<MovieResponse>> GetMoviesAsync(MovieFilterRequest request);
         Task UpdateMovieAsync(int id, UpdateMovieRequest request);
+        Task AddMovieAsync(CreateMovieRequest request);
     }
 }

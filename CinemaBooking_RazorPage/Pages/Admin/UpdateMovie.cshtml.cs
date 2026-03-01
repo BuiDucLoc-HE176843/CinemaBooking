@@ -94,6 +94,7 @@ namespace CinemaBooking_RazorPage.Pages.Admin
             content.Add(new StringContent(Movie2.ReleaseDate.ToString("o")), "ReleaseDate");
             content.Add(new StringContent(Movie2.DurationMinutes.ToString()), "DurationMinutes");
             content.Add(new StringContent(Movie2.Status.ToString()), "Status");
+            content.Add(new StringContent(Movie2.IsMainFeature.ToString()), "IsMainFeature");
 
             foreach (var genreId in SelectedGenres)
             {
