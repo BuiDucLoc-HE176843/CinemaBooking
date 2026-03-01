@@ -214,12 +214,12 @@
 
                                                 if (movie.Status == 0)
                                                 {
-                                                    statusText = "Đang chiếu";
+                                                    statusText = "Sắp chiếu";
                                                     statusClass = "bg-green-500/10 text-green-500";
                                                 }
                                                 else if (movie.Status == 1)
                                                 {
-                                                    statusText = "Sắp chiếu";
+                                                    statusText = "Đang chiếu";
                                                     statusClass = "bg-yellow-500/10 text-yellow-500";
                                                 }
                                                 else
@@ -236,9 +236,11 @@
 
                                         <td class="px-6 py-4 text-right">
                                             <div class="flex items-center justify-end gap-2">
-                                                <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-primary-important hover:text-black transition-all">
+                                                <a asp-page="/Admin/UpdateMovie"
+                                                   asp-route-id="@movie.Id"
+                                                   class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-primary-important hover:text-black transition-all">
                                                     <span class="material-symbols-outlined text-xl">edit_note</span>
-                                                </button>
+                                                </a>
                                                 <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-red-500/20 hover:text-red-500 transition-all">
                                                     <span class="material-symbols-outlined text-xl">delete</span>
                                                 </button>

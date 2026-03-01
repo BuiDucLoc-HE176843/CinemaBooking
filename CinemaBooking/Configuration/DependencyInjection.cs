@@ -15,6 +15,7 @@ namespace CinemaBooking.Configuration
             services.AddScoped<ITheaterRepository, TheaterRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
 
             // ===== Services =====
             //services.AddScoped<IUserService, UserService>();
@@ -22,6 +23,7 @@ namespace CinemaBooking.Configuration
             services.AddScoped<ITheaterService, TheaterService>();
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IMovieService, MovieService>();
+            services.AddScoped<IGenreService, GenreService>();
 
             return services;
         }
