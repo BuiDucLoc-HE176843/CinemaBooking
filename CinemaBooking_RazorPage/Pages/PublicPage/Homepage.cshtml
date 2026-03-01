@@ -245,7 +245,7 @@
                             </p>
 
                             <p class="text-xs text-slate-500 mt-1">
-                                Khởi chiếu: @movie.ReleaseDate.ToString("dd/MM/yyyy")
+                                Khởi chiếu: @(movie.ReleaseDate?.ToString("dd/MM/yyyy") ?? "không xác định")
                             </p>
                         </div>
                     </div>
@@ -287,7 +287,7 @@
                                  class="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
 
                             <div class="absolute bottom-4 left-4 rounded-lg bg-primary/90 px-3 py-1 text-xs font-bold text-background-dark" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">
-                                Dự kiến: @movie.ReleaseDate.ToString("dd/MM/yyyy")
+                                Dự kiến: @(movie.ReleaseDate?.ToString("dd/MM/yyyy") ?? "không xác định")
                             </div>
                         </div>
 

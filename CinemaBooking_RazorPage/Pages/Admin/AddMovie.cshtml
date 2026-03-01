@@ -148,7 +148,7 @@
                                         <p class="text-xs text-slate-300 font-medium">Click hoặc kéo thả để thay đổi ảnh poster</p>
                                         <p id="posterFileName" class="text-green-400 text-xs mt-1 hidden"></p>
                                     </div>
-                                    <input asp-for="PosterFile"
+                                    <input asp-for="Movie.PosterFile"
                                            id="posterInput"
                                            accept="image/*"
                                            class="absolute inset-0 opacity-0 cursor-pointer"
@@ -167,7 +167,7 @@
                                            class="mt-2 text-xs font-bold text-primary px-4 py-1.5 border border-primary rounded-full hover:bg-primary-important hover:text-background-dark transition-all cursor-pointer">
                                         Thay đổi Video
                                     </label>
-                                    <input asp-for="TrailerFile"
+                                    <input asp-for="Movie.TrailerFile"
                                            id="trailerInput"
                                            accept="video/*"
                                            class="hidden"
@@ -252,7 +252,7 @@
                                 {
                                     <label class="flex items-center gap-3 cursor-pointer group">
                                         <input type="checkbox"
-                                               name="SelectedGenres"
+                                               name="Movie.GenreIds"
                                                value="@genre.Id"
                                                class="w-5 h-5 rounded border-primary bg-input-dark text-primary"
                                                />

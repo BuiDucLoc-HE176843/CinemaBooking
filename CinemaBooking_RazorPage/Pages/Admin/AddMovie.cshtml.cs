@@ -11,14 +11,6 @@ namespace CinemaBooking_RazorPage.Pages.Admin
         [BindProperty]
         public CreateMovieRequest Movie { get; set; }
 
-        [BindProperty]
-        public IFormFile? PosterFile { get; set; }
-
-        [BindProperty]
-        public IFormFile? TrailerFile { get; set; }
-
-        [BindProperty]
-        public List<int> SelectedGenres { get; set; } = new();
 
         [TempData]
         public string? SuccessMessage { get; set; }
@@ -52,49 +44,79 @@ namespace CinemaBooking_RazorPage.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
+            if (!ModelState.IsValid)
+            {
+                await OnGet(); // reload genres
+                return Page();
+            }
+
             using var content = new MultipartFormDataContent();
 
             // ===== TEXT DATA =====
-            content.Add(new StringContent(Movie.Title ?? ""), "Title");
-            content.Add(new StringContent(Movie.Description ?? ""), "Description");
-            //content.Add(new StringContent(Movie.ReleaseDate.ToString("o")), "ReleaseDate");
-            content.Add(new StringContent(Movie.DurationMinutes.ToString()), "DurationMinutes");
-            content.Add(new StringContent(Movie.Status.ToString()), "Status");
-            content.Add(new StringContent(Movie.IsMainFeature.ToString()), "IsMainFeature");
+            content.Add(new StringContent(Movie.Title), nameof(Movie.Title));
+
+            if (!string.IsNullOrEmpty(Movie.Description))
+                content.Add(new StringContent(Movie.Description), nameof(Movie.Description));
+
+            if (Movie.ReleaseDate.HasValue)
+                content.Add(
+                    new StringContent(Movie.ReleaseDate.Value.ToString("o")),
+                    nameof(Movie.ReleaseDate));
+
+            content.Add(
+                new StringContent(Movie.DurationMinutes.ToString()),
+                nameof(Movie.DurationMinutes));
+
+            if (!string.IsNullOrEmpty(Movie.Status))
+                content.Add(
+                    new StringContent(Movie.Status),
+                    nameof(Movie.Status));
+
+            content.Add(
+                new StringContent(Movie.IsMainFeature.ToString()),
+                nameof(Movie.IsMainFeature));
 
             // ===== GENRES =====
-            foreach (var genreId in SelectedGenres)
+            if (Movie.GenreIds != null && Movie.GenreIds.Any())
             {
-                content.Add(new StringContent(genreId.ToString()), "GenreIds");
+                foreach (var genreId in Movie.GenreIds)
+                {
+                    content.Add(
+                        new StringContent(genreId.ToString()),
+                        "GenreIds"); // phải đúng tên API nhận
+                }
             }
 
             // ===== POSTER =====
-            if (PosterFile != null)
+            if (Movie.PosterFile != null)
             {
-                var stream = PosterFile.OpenReadStream();
+                var streamContent = new StreamContent(Movie.PosterFile.OpenReadStream());
+                streamContent.Headers.ContentType =
+                    new System.Net.Http.Headers.MediaTypeHeaderValue(Movie.PosterFile.ContentType);
+
                 content.Add(
-                    new StreamContent(stream),
-                    "PosterFile",
-                    PosterFile.FileName
-                );
+                    streamContent,
+                    nameof(Movie.PosterFile),
+                    Movie.PosterFile.FileName);
             }
 
             // ===== TRAILER =====
-            if (TrailerFile != null)
+            if (Movie.TrailerFile != null)
             {
-                var stream = TrailerFile.OpenReadStream();
+                var streamContent = new StreamContent(Movie.TrailerFile.OpenReadStream());
+                streamContent.Headers.ContentType =
+                    new System.Net.Http.Headers.MediaTypeHeaderValue(Movie.TrailerFile.ContentType);
+
                 content.Add(
-                    new StreamContent(stream),
-                    "TrailerFile",
-                    TrailerFile.FileName
-                );
+                    streamContent,
+                    nameof(Movie.TrailerFile),
+                    Movie.TrailerFile.FileName);
             }
 
-            // ===== CALL API (POST thay vì PUT) =====
+            // ===== CALL API =====
             var response = await _httpClient.PostAsync(
                 "http://localhost:5237/api/Movies",
-                content
-            );
+                content);
 
             var json = await response.Content.ReadAsStringAsync();
 
@@ -108,16 +130,12 @@ namespace CinemaBooking_RazorPage.Pages.Admin
             if (result != null && result.Success)
             {
                 SuccessMessage = result.Message;
-
-                // giống behavior add thông thường
                 return RedirectToPage();
             }
-            else
-            {
-                ErrorMessage = result?.Message ?? "Có lỗi xảy ra";
-                await OnGet(); // reload genres
-                return Page();
-            }
+
+            ErrorMessage = result?.Message ?? "Có lỗi xảy ra";
+            await OnGet(); // reload genres
+            return Page();
         }
 
         public IActionResult OnPostLogout()
