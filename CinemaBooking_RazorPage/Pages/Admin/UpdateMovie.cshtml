@@ -85,23 +85,23 @@
                 </div>
                 <!-- Navigation -->
                 <nav class="flex-1 space-y-2">
-                    <a class="flex items-center gap-3 px-4 py-3 rounded-full bg-primary-important text-black font-bold transition-all" href="#">
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full bg-primary-important text-black font-bold transition-all" href="ManageMovie">
                         <span class="material-symbols-outlined">movie_filter</span>
                         <span>Quản lý phim</span>
                     </a>
-                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="#">
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="ManageTheater">
                         <span class="material-symbols-outlined">domain</span>
                         <span>Quản lý rạp phim</span>
                     </a>
-                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="#">
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="ManageRoom">
                         <span class="material-symbols-outlined">meeting_room</span>
                         <span>Quản lý phòng chiếu</span>
                     </a>
-                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="#">
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="ManageSeat">
                         <span class="material-symbols-outlined">event_seat</span>
                         <span>Quản lý ghế ngồi</span>
                     </a>
-                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="#">
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="ManageShowtime">
                         <span class="material-symbols-outlined">schedule</span>
                         <span>Quản lý suất chiếu</span>
                     </a>
@@ -131,6 +131,19 @@
             </header>
             <!-- Update Form Section -->
             <div class="p-8 max-w-5xl mx-auto w-full flex-grow">
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="bg-green-500 text-white p-3 rounded-lg mb-4">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="bg-red-500 text-white p-3 rounded-lg mb-4">
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
                 <form method="post" enctype="multipart/form-data" class="space-y-8 pb-20">
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
                         <!-- Left Column: Media & Visuals -->
@@ -264,19 +277,6 @@
                                     </label>
                                 }
                             </div>
-                            @if (TempData["SuccessMessage"] != null)
-                            {
-                                <div class="bg-green-500 text-white p-3 rounded-lg mb-4">
-                                    @TempData["SuccessMessage"]
-                                </div>
-                            }
-
-                            @if (TempData["ErrorMessage"] != null)
-                            {
-                                <div class="bg-red-500 text-white p-3 rounded-lg mb-4">
-                                    @TempData["ErrorMessage"]
-                                </div>
-                            }
                             <!-- Form Actions -->
                             <div class="flex items-center justify-end gap-4 pt-4">
                                 <button class="px-8 py-3 rounded-xl border border-slate-700 text-slate-400 font-bold hover:bg-slate-800 transition-all flex items-center gap-2" type="submit" asp-page-handler="Cancel">

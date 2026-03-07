@@ -22,6 +22,11 @@ namespace CinemaBooking.Repositories.Implementations
                 .Include(x => x.City)
                 .AsQueryable();
 
+            if (request.Id.HasValue)
+            {
+                query = query.Where(x => x.Id == request.Id.Value);
+            }
+
             // Filter Name
             if (!string.IsNullOrWhiteSpace(request.Name))
             {
