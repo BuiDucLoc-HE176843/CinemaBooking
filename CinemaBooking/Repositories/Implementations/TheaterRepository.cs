@@ -18,7 +18,7 @@ namespace CinemaBooking.Repositories.Implementations
 
         public async Task<PagedResult<Theater>> GetPagedAsync(TheaterFilterRequest request)
         {
-            var query = _context.Theaters
+            var query = _context.Theaters.Where(x => x.IsDeleted == false)
                 .Include(x => x.City)
                 .AsQueryable();
 

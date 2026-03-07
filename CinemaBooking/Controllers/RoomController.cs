@@ -41,5 +41,13 @@ namespace CinemaBooking.Controllers
 
             return ApiResponse<PagedResult<RoomResponse>>.Ok(result);
         }
+
+        [HttpGet("room/{id}")]
+        public async Task<ApiResponse<RoomResponse>> GetById(int id)
+        {
+            var result = await _roomService.GetByIdAsync(id);
+
+            return ApiResponse<RoomResponse>.Ok(result);
+        }
     }
 }

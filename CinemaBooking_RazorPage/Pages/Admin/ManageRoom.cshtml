@@ -1,0 +1,297 @@
+﻿@page
+@model CinemaBooking_RazorPage.Pages.Admin.ManageRoomModel
+@{
+}
+
+
+<!DOCTYPE html>
+
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff8c00",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#121212",
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        :root {
+            --primary-color: #ff8c00;
+        }
+
+        .bg-primary-important {
+            background-color: var(--primary-color) !important;
+        }
+
+        .text-primary-important {
+            color: var(--primary-color) !important;
+        }
+
+        .border-primary-important {
+            border-color: var(--primary-color) !important;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e1e1e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: var(--primary-color);
+            }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="fixed left-0 top-0 h-screen w-72 bg-slate-900/50 dark:bg-black/40 backdrop-blur-xl border-r border-slate-200 dark:border-slate-800 z-50">
+            <div class="flex flex-col h-full p-6">
+                <!-- Logo -->
+                <div class="flex items-center gap-3 mb-10 px-2">
+                    <div class="w-10 h-10 rounded-full bg-primary-important flex items-center justify-center shadow-lg shadow-orange-500/20">
+                        <span class="material-symbols-outlined text-black font-bold">movie</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-black tracking-tight text-white">Cinema<span class="text-primary-important">VN</span></h1>
+                        <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Admin Panel</p>
+                    </div>
+                </div>
+                <!-- Navigation -->
+                <nav class="flex-1 space-y-2">
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="ManageMovie">
+                        <span class="material-symbols-outlined">movie_filter</span>
+                        <span>Quản lý phim</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="ManageTheater">
+                        <span class="material-symbols-outlined">domain</span>
+                        <span>Quản lý rạp phim</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full bg-primary-important text-black font-bold transition-all" href="ManageRoom">
+                        <span class="material-symbols-outlined">meeting_room</span>
+                        <span>Quản lý phòng chiếu</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="ManageSeat">
+                        <span class="material-symbols-outlined">event_seat</span>
+                        <span>Quản lý ghế ngồi</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition-all" href="ManageShowtime">
+                        <span class="material-symbols-outlined">schedule</span>
+                        <span>Quản lý suất chiếu</span>
+                    </a>
+                </nav>
+                <!-- Bottom Actions -->
+                <div class="mt-auto space-y-2 pt-6 border-t border-slate-800">
+                    <form method="post" asp-page-handler="Logout">
+                        <button type="submit" class="flex items-center gap-3 px-4 py-3 rounded-full text-red-400 hover:bg-red-500/10 transition-all">
+                            <span class="material-symbols-outlined">logout</span>
+                            <span>Đăng xuất</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 ml-72 p-8">
+            <div class="max-w-7xl mx-auto">
+                <!-- Header -->
+                <header class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+                    <div>
+                        <h2 class="text-3xl font-black text-white mb-2">Quản lý Phòng chiếu</h2>
+                        <p class="text-slate-400">Điều chỉnh danh sách Phòng chiếu, trạng thái và thông tin chi tiết</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+
+                        <button class="bg-primary-important text-black font-bold px-6 py-3 rounded-full flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-orange-500/20 whitespace-nowrap">
+                            <span class="material-symbols-outlined">add</span>
+                            Thêm Phòng chiếu Mới
+                        </button>
+                    </div>
+                </header>
+                <!-- Movie Table Card -->
+                <form method="post" asp-page-handler="Search">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-slate-900/40 p-6 rounded-3xl border border-slate-800 backdrop-blur-sm">
+                        <!-- Chọn rạp -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                                Rạp
+                            </label>
+                            <select asp-for="SelectedTheaterId"
+                                    class="w-full bg-slate-800/50 border-slate-700 focus:border-primary-important text-white text-sm rounded-full px-4 py-2.5 transition-all outline-none border-primary-important">
+                                @foreach (var theater in Model.Theaters)
+                                {
+                                    <option value="@theater.Id">
+                                        @theater.Name (@theater.CityName)
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                        <!-- placeholder -->
+                        <div></div>
+                        <div></div>
+                        <!-- button -->
+                        <div class="flex items-end">
+                            <button type="submit"
+                                    class="w-full bg-primary-important text-black font-bold py-2.5 rounded-full flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-orange-500/20">
+
+                                <span class="material-symbols-outlined">search</span>
+                                Tìm kiếm
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="bg-slate-900/40 rounded-3xl border border-slate-800 overflow-hidden backdrop-blur-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-800/30 border-b border-slate-800">
+                                    <th class="px-6 py-5 text-sm font-bold text-slate-400 uppercase">Tên Phòng</th>
+                                    <th class="px-6 py-5 text-sm font-bold text-slate-400 uppercase">Số Hàng</th>
+                                    <th class="px-6 py-5 text-sm font-bold text-slate-400 uppercase">Số Cột</th>
+                                    <th class="px-6 py-5 text-sm font-bold text-slate-400 uppercase">Giá Thường</th>
+                                    <th class="px-6 py-5 text-sm font-bold text-slate-400 uppercase">Giá VIP</th>
+                                    <th class="px-6 py-5 text-sm font-bold text-slate-400 uppercase text-right">Hành Động</th>
+                                </tr>
+                            </thead>
+
+                            @if (Model.Rooms.Any())
+                            {
+                                <tbody class="divide-y divide-slate-800">
+                                    @foreach (var room in Model.Rooms)
+                                    {
+                                        <tr class="hover:bg-white/5 transition-colors group">
+                                            <td class="px-6 py-4">
+                                                <div class="font-bold text-white">@room.Name</div>
+                                            </td>
+
+                                            <td class="px-6 py-4 text-slate-300">
+                                                @room.Rows
+                                            </td>
+
+                                            <td class="px-6 py-4 text-slate-300">
+                                                @room.Columns
+                                            </td>
+
+                                            <td class="px-6 py-4 text-green-400 font-semibold">
+                                                @room.RegularPrice.ToString("N0") đ
+                                            </td>
+
+                                            <td class="px-6 py-4 text-yellow-400 font-semibold">
+                                                @room.VipPrice.ToString("N0") đ
+                                            </td>
+
+                                            <td class="px-6 py-4 text-right">
+                                                <div class="flex items-center justify-end gap-2">
+
+                                                    <a asp-page="/Admin/UpdateRoom"
+                                                       asp-route-id="@room.Id"
+                                                       class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-primary-important hover:text-black transition-all">
+                                                        <span class="material-symbols-outlined text-xl">edit_note</span>
+                                                    </a>
+
+                                                    <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-red-500/20 hover:text-red-500 transition-all">
+                                                        <span class="material-symbols-outlined text-xl">delete</span>
+                                                    </button>
+
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            }
+                        </table>
+                    </div>
+                </div>
+                    <!-- Pagination -->
+                @if (Model.TotalPages > 1)
+                {
+                    <div class="px-6 py-4 border-t border-slate-800 flex items-center justify-between">
+                        <div class="text-sm text-slate-500">
+                            Hiển thị @Model.Rooms.Count trên @Model.TotalCount phòng
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <!-- Previous -->
+                            @if (Model.PageNumber > 1)
+                            {
+                                <a asp-page-handler="Page"
+                                   asp-route-theaterId="@Model.SelectedTheaterId"
+                                   asp-route-pageNumber="@(Model.PageNumber - 1)"
+                                   class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white">
+
+                                    <span class="material-symbols-outlined text-lg">chevron_left</span>
+                                </a>
+                            }
+                            <!-- Page numbers -->
+                            @for (int i = 1; i <= Model.TotalPages; i++)
+                            {
+                                if (i == Model.PageNumber)
+                                {
+                                    <span class="w-8 h-8 rounded-full flex items-center justify-center bg-primary-important text-black font-bold text-xs">
+                                        @i
+                                    </span>
+                                }
+                                else
+                                {
+                                    <a asp-page-handler="Page"
+                                       asp-route-theaterId="@Model.SelectedTheaterId"
+                                       asp-route-pageNumber="@i"
+                                       class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white text-xs">
+                                        @i
+                                    </a>
+                                }
+                            }
+                            <!-- Next -->
+                            @if (Model.PageNumber < Model.TotalPages)
+                            {
+                                <a asp-page-handler="Page"
+                                   asp-route-theaterId="@Model.SelectedTheaterId"
+                                   asp-route-pageNumber="@(Model.PageNumber + 1)"
+                                   class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white">
+
+                                    <span class="material-symbols-outlined text-lg">chevron_right</span>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+                </div>
+                <!-- Footer area to show how layout pushes content -->
+                <footer class="mt-12 py-8 border-t border-slate-800 text-center">
+                    <p class="text-slate-500 text-sm">Thiết kế bởi LocCute.</p>
+                </footer>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

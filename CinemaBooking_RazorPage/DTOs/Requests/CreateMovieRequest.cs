@@ -4,14 +4,12 @@ namespace CinemaBooking_RazorPage.DTOs.Requests
 {
     public class CreateMovieRequest
     {
-        [Required]
         public string Title { get; set; } = string.Empty;
 
         public string? Description { get; set; }
 
         public DateTime? ReleaseDate { get; set; }
 
-        [Required]
         public int DurationMinutes { get; set; }
 
         public string? Status { get; set; }

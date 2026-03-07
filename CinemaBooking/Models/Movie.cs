@@ -31,6 +31,7 @@ namespace CinemaBooking.Models
         public DateTime? UpdatedAt { get; set; }
 
         public bool IsMainFeature { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
 
         // Navigation
         public ICollection<Showtime>? Showtimes { get; set; }

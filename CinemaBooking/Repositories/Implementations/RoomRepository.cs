@@ -39,7 +39,7 @@ namespace CinemaBooking.Repositories.Implementations
 
         public async Task<PagedResult<Room>> GetByTheaterIdAsync(int theaterId, PaginationRequest request)
         {
-            var query = _context.Rooms
+            var query = _context.Rooms.Where(x => x.IsDeleted == false)
                 .Where(x => x.TheaterId == theaterId)
                 .AsNoTracking();
 

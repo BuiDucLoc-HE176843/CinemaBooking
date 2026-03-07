@@ -9,5 +9,6 @@ namespace CinemaBooking.Services.Interfaces
         Task AddAsync(CreateRoomRequest request);
         Task UpdateAsync(int id, UpdateRoomRequest request);
         Task<PagedResult<RoomResponse>> GetByTheaterIdAsync(int theaterId, PaginationRequest request);
+        Task<RoomResponse> GetByIdAsync(int id);
     }
 }

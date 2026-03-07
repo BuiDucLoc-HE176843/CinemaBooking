@@ -36,7 +36,7 @@ namespace CinemaBooking.Repositories.Implementations
             int pageNumber,
             int pageSize)
         {
-            var query = _context.Movies
+            var query = _context.Movies.Where(x => x.IsDeleted == false)
                 .Include(x => x.MovieGenres)!
                     .ThenInclude(mg => mg.Genre)
                 .AsQueryable();

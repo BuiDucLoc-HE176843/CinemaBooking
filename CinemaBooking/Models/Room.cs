@@ -28,6 +28,8 @@ namespace CinemaBooking.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
         public ICollection<Seat>? Seats { get; set; }
         public ICollection<Showtime>? Showtimes { get; set; }
     }
