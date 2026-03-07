@@ -4,14 +4,12 @@ namespace CinemaBooking_RazorPage.DTOs.Requests
 {
     public class CreateTheaterRequest
     {
-        [Required]
         [MaxLength(100)]
         public string Name { get; set; } = string.Empty;
 
         [MaxLength(255)]
         public string? Address { get; set; }
 
-        [Required]
         public int CityId { get; set; }
     }
 }
