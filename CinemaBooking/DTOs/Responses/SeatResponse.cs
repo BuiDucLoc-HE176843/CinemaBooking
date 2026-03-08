@@ -14,6 +14,6 @@ namespace CinemaBooking.DTOs.Responses
 
         public SeatType Type { get; set; }
 
-        public SeatStatus Status { get; set; }
+        public bool IsDisabled { get; set; }
     }
 }

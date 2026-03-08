@@ -80,7 +80,6 @@ namespace CinemaBooking.Services.Implementations
                         RowNumber = r,
                         ColumnNumber = c,
                         Type = SeatType.Regular,
-                        Status = SeatStatus.Available,
                         CreatedAt = DateTime.UtcNow
                     });
                 }
@@ -161,7 +160,6 @@ namespace CinemaBooking.Services.Implementations
                                 RowNumber = r,
                                 ColumnNumber = c,
                                 Type = SeatType.Regular,
-                                Status = SeatStatus.Available,
                                 CreatedAt = DateTime.UtcNow
                             });
                         }
@@ -171,7 +169,6 @@ namespace CinemaBooking.Services.Implementations
                             if (existingSeat.IsDeleted)
                             {
                                 existingSeat.IsDeleted = false;
-                                existingSeat.Status = SeatStatus.Available;
                                 existingSeat.UpdatedAt = DateTime.UtcNow;
                             }
                         }

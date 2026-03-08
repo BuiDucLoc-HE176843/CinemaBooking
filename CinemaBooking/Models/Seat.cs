@@ -13,19 +13,19 @@ namespace CinemaBooking.Models
         [ForeignKey(nameof(RoomId))]
         public Room? Room { get; set; }
 
-        public int RowNumber { get; set; }     // 1..8
-        public int ColumnNumber { get; set; }  // 1..8
+        public int RowNumber { get; set; }
+        public int ColumnNumber { get; set; }
 
         [Required]
         public SeatType Type { get; set; } = SeatType.Regular;
 
-        [Required]
-        public SeatStatus Status { get; set; } = SeatStatus.Available;
+        public bool IsDisabled { get; set; } = false;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+
         public bool IsDeleted { get; set; } = false;
 
-        public ICollection<BookingSeat>? BookingSeats { get; set; }
+        public ICollection<ShowtimeSeat>? ShowtimeSeats { get; set; }
     }
 }

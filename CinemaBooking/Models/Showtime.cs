@@ -22,5 +22,6 @@ namespace CinemaBooking.Models
         public DateTime? UpdatedAt { get; set; }
 
         public ICollection<Booking>? Bookings { get; set; }
+        public ICollection<ShowtimeSeat>? ShowtimeSeats { get; set; }
     }
 }

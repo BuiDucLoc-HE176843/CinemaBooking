@@ -1,5 +1,7 @@
 ﻿using CinemaBooking.Configuration;
+using CinemaBooking.DTOs.Requests;
 using CinemaBooking.DTOs.Responses;
+using CinemaBooking.Enums;
 using CinemaBooking.Repositories.Interfaces;
 using CinemaBooking.Services.Interfaces;
 
@@ -16,9 +18,6 @@ namespace CinemaBooking.Services.Implementations
 
         public async Task<SeatResponse> GetByIdAsync(int id)
         {
-            if (id <= 0)
-                throw new AppException("Id không hợp lệ");
-
             var seat = await _seatRepository.GetByIdAsync(id);
 
             if (seat == null)
@@ -31,19 +30,21 @@ namespace CinemaBooking.Services.Implementations
                 RowNumber = seat.RowNumber,
                 ColumnNumber = seat.ColumnNumber,
                 Type = seat.Type,
-                Status = seat.Status
+                IsDisabled = seat.IsDisabled
             };
         }
 
         public async Task<IEnumerable<SeatResponse>> GetByRoomIdAsync(int roomId)
         {
-            if (roomId <= 0)
-                throw new AppException("RoomId không hợp lệ");
+            var roomExists = await _seatRepository.RoomExistsAsync(roomId);
+
+            if (!roomExists)
+                throw new AppException("Phòng không tồn tại");
 
             var seats = await _seatRepository.GetNoDeleteByRoomIdAsync(roomId);
 
             if (!seats.Any())
-                throw new AppException("Phòng không có ghế nào");
+                throw new AppException("Phòng chưa có ghế");
 
             return seats.Select(x => new SeatResponse
             {
@@ -52,8 +53,23 @@ namespace CinemaBooking.Services.Implementations
                 RowNumber = x.RowNumber,
                 ColumnNumber = x.ColumnNumber,
                 Type = x.Type,
-                Status = x.Status
+                IsDisabled = x.IsDisabled
             });
+        }
+
+        public async Task UpdateAsync(int id, SeatUpdateRequest request)
+        {
+            var seat = await _seatRepository.GetByIdAsync(id);
+
+            if (seat == null)
+                throw new AppException("Ghế không tồn tại");
+
+            // update fields
+            seat.Type = request.Type;
+            seat.IsDisabled = request.IsDisabled;
+            seat.UpdatedAt = DateTime.UtcNow;
+
+            await _seatRepository.UpdateAsync(seat);
         }
     }
 }

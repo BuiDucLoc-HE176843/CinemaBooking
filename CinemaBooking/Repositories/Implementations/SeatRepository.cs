@@ -14,6 +14,12 @@ namespace CinemaBooking.Repositories.Implementations
             _context = context;
         }
 
+        public async Task<bool> RoomExistsAsync(int roomId)
+        {
+            return await _context.Rooms
+                .AnyAsync(x => x.Id == roomId);
+        }
+
         public async Task<Seat?> GetByIdAsync(int id)
         {
             return await _context.Seats
@@ -23,6 +29,12 @@ namespace CinemaBooking.Repositories.Implementations
         public async Task AddRangeAsync(IEnumerable<Seat> seats)
         {
             await _context.Seats.AddRangeAsync(seats);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Seat seat)
+        {
+            _context.Seats.Update(seat);
             await _context.SaveChangesAsync();
         }
 

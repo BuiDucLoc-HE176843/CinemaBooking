@@ -30,7 +30,6 @@ namespace CinemaBooking.Data
                             RowNumber = r,
                             ColumnNumber = c,
                             Type = seatType,
-                            Status = SeatStatus.Available,
                             CreatedAt = DateTime.UtcNow
                         });
                     }

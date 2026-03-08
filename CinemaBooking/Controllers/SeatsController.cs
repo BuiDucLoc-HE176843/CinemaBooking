@@ -1,8 +1,9 @@
-﻿using CinemaBooking.DTOs.Responses;
+﻿using CinemaBooking.Configuration;
+using CinemaBooking.DTOs.Requests;
+using CinemaBooking.DTOs.Responses;
 using CinemaBooking.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using CinemaBooking.Configuration;
 
 namespace CinemaBooking.Controllers
 {
@@ -32,6 +33,14 @@ namespace CinemaBooking.Controllers
 
             return ApiResponse<IEnumerable<SeatResponse>>
                 .Ok(seats, "Lấy danh sách ghế thành công");
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ApiResponse<object>> Update(int id, [FromBody] SeatUpdateRequest request)
+        {
+            await _seatService.UpdateAsync(id, request);
+
+            return ApiResponse<object>.Ok("Cập nhật ghế thành công");
         }
     }
 }

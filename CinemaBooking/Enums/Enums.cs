@@ -22,7 +22,6 @@
     public enum SeatStatus
     {
         Available,   // còn trống
-        Disabled,    // admin tắt ghế
         Booked,      // đã đặt và thanh toán xong
         Pending      // chờ thanh toán (đã giữ chỗ tạm thời)
     }

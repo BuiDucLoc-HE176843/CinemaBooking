@@ -194,7 +194,7 @@ namespace CinemaBooking.Migrations
                     RowNumber = table.Column<int>(type: "int", nullable: false),
                     ColumnNumber = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
+                    IsDisabled = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -270,16 +270,43 @@ namespace CinemaBooking.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ShowtimeSeats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ShowtimeId = table.Column<int>(type: "int", nullable: false),
+                    SeatId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShowtimeSeats", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ShowtimeSeats_Seats_SeatId",
+                        column: x => x.SeatId,
+                        principalTable: "Seats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ShowtimeSeats_Showtimes_ShowtimeId",
+                        column: x => x.ShowtimeId,
+                        principalTable: "Showtimes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BookingSeats",
                 columns: table => new
                 {
                     BookingId = table.Column<int>(type: "int", nullable: false),
-                    SeatId = table.Column<int>(type: "int", nullable: false),
+                    ShowtimeSeatId = table.Column<int>(type: "int", nullable: false),
                     PriceAtBooking = table.Column<decimal>(type: "decimal(10,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookingSeats", x => new { x.BookingId, x.SeatId });
+                    table.PrimaryKey("PK_BookingSeats", x => new { x.BookingId, x.ShowtimeSeatId });
                     table.ForeignKey(
                         name: "FK_BookingSeats_Bookings_BookingId",
                         column: x => x.BookingId,
@@ -287,9 +314,9 @@ namespace CinemaBooking.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookingSeats_Seats_SeatId",
-                        column: x => x.SeatId,
-                        principalTable: "Seats",
+                        name: "FK_BookingSeats_ShowtimeSeats_ShowtimeSeatId",
+                        column: x => x.ShowtimeSeatId,
+                        principalTable: "ShowtimeSeats",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -305,9 +332,9 @@ namespace CinemaBooking.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookingSeats_SeatId",
+                name: "IX_BookingSeats_ShowtimeSeatId",
                 table: "BookingSeats",
-                column: "SeatId");
+                column: "ShowtimeSeatId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_Name",
@@ -363,6 +390,17 @@ namespace CinemaBooking.Migrations
                 column: "ShowDateTime");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ShowtimeSeats_SeatId",
+                table: "ShowtimeSeats",
+                column: "SeatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShowtimeSeats_ShowtimeId_SeatId",
+                table: "ShowtimeSeats",
+                columns: new[] { "ShowtimeId", "SeatId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Theaters_CityId",
                 table: "Theaters",
                 column: "CityId");
@@ -396,16 +434,19 @@ namespace CinemaBooking.Migrations
                 name: "Bookings");
 
             migrationBuilder.DropTable(
-                name: "Seats");
+                name: "ShowtimeSeats");
 
             migrationBuilder.DropTable(
                 name: "Genres");
 
             migrationBuilder.DropTable(
-                name: "Showtimes");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Seats");
+
+            migrationBuilder.DropTable(
+                name: "Showtimes");
 
             migrationBuilder.DropTable(
                 name: "Movies");

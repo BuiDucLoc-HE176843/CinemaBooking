@@ -10,5 +10,7 @@ namespace CinemaBooking.Repositories.Interfaces
         Task<List<Seat>> GetNoDeleteByRoomIdAsync(int roomId);
         Task UpdateRangeAsync(IEnumerable<Seat> seats);
         Task<Seat?> GetByIdAsync(int id);
+        Task UpdateAsync(Seat seat);
+        Task<bool> RoomExistsAsync(int roomId);
     }
 }

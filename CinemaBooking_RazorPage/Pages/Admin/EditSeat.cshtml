@@ -2,3 +2,235 @@
 @model CinemaBooking_RazorPage.Pages.Admin.EditSeatModel
 @{
 }
+
+<!DOCTYPE html>
+
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Quản lý Ghế Ngồi - CinemaVN Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --primary-orange: #ff8c00 !important;
+        }
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        .bg-primary-orange {
+            background-color: var(--primary-orange);
+        }
+        .text-primary-orange {
+            color: var(--primary-orange);
+        }
+        .border-primary-orange {
+            border-color: var(--primary-orange);
+        }
+        .seat-grid {
+            display: grid;
+            grid-template-columns: repeat(10, minmax(0, 1fr));
+            gap: 0.5rem;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1a140e;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #4b3820;
+            border-radius: 10px;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#ff8c00",
+                "background-light": "#f8f7f5",
+                "background-dark": "#231a0f",
+                "neutral-dark": "#2a2a2a",
+                "neutral-light": "#e0e0e0"
+              },
+              fontFamily: {
+                "display": ["Be Vietnam Pro"]
+              },
+              borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex">
+    <!-- Sidebar -->
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col h-screen">
+        <!-- Header -->
+        <header class="h-16 border-b border-primary/10 flex items-center justify-between px-8 bg-background-light dark:bg-background-dark/50 backdrop-blur-md z-10">
+            <div class="flex items-center gap-4">
+                <h2 class="text-lg font-bold">Cấu hình Sơ đồ Ghế</h2>
+                <span class="px-2 py-0.5 rounded bg-primary/10 text-primary-orange text-[10px] font-bold uppercase">Phòng Chiếu #04</span>
+            </div>
+        </header>
+        <!-- Page Content -->
+        <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+            <div class="max-w-7xl mx-auto grid grid-cols-12 gap-8">
+                <!-- Left Column: Form -->
+                <div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+                    <div class="bg-[#1a140e] rounded-2xl p-6 border border-white/5 shadow-xl">
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="material-symbols-outlined text-primary-orange">edit_note</span>
+                            <h3 class="text-lg font-bold">Thông tin chi tiết ghế</h3>
+                        </div>
+                        <form class="space-y-5">
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-slate-400">Mã ghế (Read-only)</label>
+                                <input class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light focus:ring-1 focus:ring-primary/50 py-3 px-4 font-mono text-sm cursor-not-allowed" readonly="" type="text" value="SEAT-A10-P04" />
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <label class="text-sm font-medium text-slate-400">Vị trí hàng</label>
+                                    <input class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light focus:ring-2 focus:ring-primary py-3 px-4" readonly="" type="number" value="1" />
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-sm font-medium text-slate-400">Vị trí cột</label>
+                                    <input class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light focus:ring-2 focus:ring-primary py-3 px-4" readonly="" type="number" value="10" />
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-slate-400">Loại ghế</label>
+                                <select class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light focus:ring-2 focus:ring-primary py-3 px-4">
+                                    <option value="Regular">Thường - Regular</option>
+                                    <option selected="" value="Vip">VIP - Premium</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-slate-400">Trạng thái ghế</label>
+                                <select class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light focus:ring-2 focus:ring-primary py-3 px-4">
+                                    <option value="Available">Còn trống - Available</option>
+                                    <option value="Disabled">Tạm khóa - Disabled</option>
+                                    <option value="Booked">Đã đặt - Booked</option>
+                                    <option value="Pending">Chờ thanh toán - Pending</option>
+                                </select>
+                            </div>
+                            <div class="pt-4">
+                                <button class="w-full bg-primary-orange hover:opacity-90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98]" type="button">
+                                    Lưu thay đổi
+                                </button>
+                                <button class="w-full bg-gray-600 text-white font-bold py-4 rounded-xl shadow-lg transition-all hover:bg-gray-700 active:scale-[0.98]"
+                                        type="submit"
+                                        asp-page-handler="Cancel">
+                                    Trở về
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="bg-primary/5 rounded-2xl p-6 border border-primary/10">
+                        <div class="flex items-center gap-2 text-primary-orange mb-2">
+                            <span class="material-symbols-outlined text-sm">info</span>
+                            <span class="text-sm font-bold uppercase tracking-wider">Lưu ý</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Mã ghế được tự động tạo dựa trên số hàng và số cột. Việc thay đổi loại ghế VIP sẽ ảnh hưởng trực tiếp đến giá vé của suất chiếu tương ứng.
+                        </p>
+                    </div>
+                </div>
+                <!-- Right Column: Grid -->
+                <div class="col-span-12 lg:col-span-8 flex flex-col gap-6">
+                    <div class="bg-[#1a140e] rounded-2xl p-8 border border-white/5 shadow-xl">
+                        <div class="flex items-center justify-between mb-10">
+                            <h3 class="text-lg font-bold">Sơ đồ ghế trực quan</h3>
+                            <div class="flex gap-2">
+                                <button class="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                                    <span class="material-symbols-outlined text-sm">zoom_in</span>
+                                </button>
+                                <button class="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                                    <span class="material-symbols-outlined text-sm">zoom_out</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Screen Visualization -->
+                        <div class="w-3/4 mx-auto mb-16">
+                            <div class="h-1.5 w-full bg-slate-700 rounded-full shadow-[0_10px_20px_rgba(255,140,0,0.2)]"></div>
+                            <p class="text-center text-[10px] text-slate-500 mt-2 font-bold tracking-[0.5em] uppercase">Màn Hình Chiếu</p>
+                        </div>
+                        <!-- Grid Simulation 8x10 -->
+                        <div class="seat-grid mb-12 max-w-2xl mx-auto">
+                            <!-- Row A -->
+                            <div class="aspect-square bg-slate-700/50 rounded-lg flex items-center justify-center text-[10px] text-slate-400 font-bold border border-white/5 cursor-pointer hover:border-primary/50 transition-colors">A1</div>
+                            <div class="aspect-square bg-slate-700/50 rounded-lg flex items-center justify-center text-[10px] text-slate-400 font-bold border border-white/5 cursor-pointer hover:border-primary/50 transition-colors">A2</div>
+                            <div class="aspect-square bg-slate-700/50 rounded-lg flex items-center justify-center text-[10px] text-slate-400 font-bold border border-white/5 cursor-pointer hover:border-primary/50 transition-colors">A3</div>
+                            <div class="aspect-square bg-red-900/40 rounded-lg flex items-center justify-center text-red-500 font-bold border border-red-500/30 cursor-pointer">
+                                <span class="material-symbols-outlined text-sm">close</span>
+                            </div>
+                            <div class="aspect-square bg-red-900/40 rounded-lg flex items-center justify-center text-red-500 font-bold border border-red-500/30 cursor-pointer">
+                                <span class="material-symbols-outlined text-sm">close</span>
+                            </div>
+                            <div class="aspect-square bg-slate-700/50 rounded-lg flex items-center justify-center text-[10px] text-slate-400 font-bold border border-white/5 cursor-pointer">A6</div>
+                            <div class="aspect-square bg-slate-700/50 rounded-lg flex items-center justify-center text-[10px] text-slate-400 font-bold border border-white/5 cursor-pointer">A7</div>
+                            <div class="aspect-square bg-slate-700/50 rounded-lg flex items-center justify-center text-[10px] text-slate-400 font-bold border border-white/5 cursor-pointer">A8</div>
+                            <div class="aspect-square bg-slate-700/50 rounded-lg flex items-center justify-center text-[10px] text-slate-400 font-bold border border-white/5 cursor-pointer">A9</div>
+                            <div class="aspect-square bg-primary-orange rounded-lg flex items-center justify-center text-white font-bold ring-4 ring-primary/40 cursor-pointer shadow-lg shadow-primary/30">
+                                <span class="text-[10px]">A10</span>
+                            </div>
+                            <!-- Row B - VIP Row -->
+                            <div class="aspect-square bg-primary-orange/20 rounded-lg flex items-center justify-center text-[10px] text-primary-orange font-bold border border-primary/30 cursor-pointer">B1</div>
+                            <div class="aspect-square bg-primary-orange/20 rounded-lg flex items-center justify-center text-[10px] text-primary-orange font-bold border border-primary/30 cursor-pointer">B2</div>
+                            <div class="aspect-square bg-primary-orange/20 rounded-lg flex items-center justify-center text-[10px] text-primary-orange font-bold border border-primary/30 cursor-pointer">B3</div>
+                            <div class="aspect-square bg-primary-orange/20 rounded-lg flex items-center justify-center text-[10px] text-primary-orange font-bold border border-primary/30 cursor-pointer">B4</div>
+                            <div class="aspect-square bg-primary-orange/20 rounded-lg flex items-center justify-center text-[10px] text-primary-orange font-bold border border-primary/30 cursor-pointer">B5</div>
+                            <div class="aspect-square bg-primary-orange/20 rounded-lg flex items-center justify-center text-[10px] text-primary-orange font-bold border border-primary/30 cursor-pointer">B6</div>
+                            <div class="aspect-square bg-primary-orange/20 rounded-lg flex items-center justify-center text-[10px] text-primary-orange font-bold border border-primary/30 cursor-pointer">B7</div>
+                            <div class="aspect-square bg-primary-orange/20 rounded-lg flex items-center justify-center text-[10px] text-primary-orange font-bold border border-primary/30 cursor-pointer">B8</div>
+                            <div class="aspect-square bg-primary-orange/20 rounded-lg flex items-center justify-center text-[10px] text-primary-orange font-bold border border-primary/30 cursor-pointer">B9</div>
+                            <div class="aspect-square bg-primary-orange/20 rounded-lg flex items-center justify-center text-[10px] text-primary-orange font-bold border border-primary/30 cursor-pointer">B10</div>
+                            <!-- Repeated rows simulation -->
+                            <script>
+                                const grid = document.querySelector('.seat-grid');
+                                const rows = ['C', 'D', 'E', 'F', 'G', 'H'];
+                                rows.forEach(row => {
+                                    for(let i=1; i<=10; i++) {
+                                        const div = document.createElement('div');
+                                        div.className = "aspect-square bg-slate-700/50 rounded-lg flex items-center justify-center text-[10px] text-slate-400 font-bold border border-white/5 cursor-pointer hover:border-primary/50 transition-colors";
+                                        div.innerText = row + i;
+                                        grid.appendChild(div);
+                                    }
+                                });
+                            </script>
+                        </div>
+                        <!-- Legends -->
+                        <div class="border-t border-white/5 pt-8 flex flex-wrap justify-center gap-x-8 gap-y-4">
+                            <div class="flex items-center gap-2">
+                                <div class="size-4 bg-slate-700/50 rounded border border-white/5"></div>
+                                <span class="text-xs text-slate-400 font-medium">Ghế Thường</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="size-4 bg-primary-orange/20 rounded border border-primary/30 flex items-center justify-center">
+                                    <span class="text-[10px] font-bold text-primary-orange">V</span>
+                                </div>
+                                <span class="text-xs text-slate-400 font-medium">Ghế VIP</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="size-4 bg-primary-orange rounded shadow-sm"></div>
+                                <span class="text-xs text-slate-400 font-medium">Đang Chọn</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="size-4 bg-red-900/40 rounded border border-red-500/30 flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-[10px] text-red-500">close</span>
+                                </div>
+                                <span class="text-xs text-slate-400 font-medium">Tạm Khóa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

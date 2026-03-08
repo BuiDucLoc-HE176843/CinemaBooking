@@ -8,5 +8,10 @@ namespace CinemaBooking_RazorPage.Pages.Admin
         public void OnGet()
         {
         }
+
+        public IActionResult OnPostCancel()
+        {
+            return RedirectToPage("/Admin/ManageRoom");
+        }
     }
 }
