@@ -85,44 +85,69 @@
                 <!-- Left Column: Form -->
                 <div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
                     <div class="bg-[#1a140e] rounded-2xl p-6 border border-white/5 shadow-xl">
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="bg-green-500 text-white p-3 rounded-lg mb-4">
+                                @TempData["SuccessMessage"]
+                            </div>
+                        }
+
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="bg-red-500 text-white p-3 rounded-lg mb-4">
+                                @TempData["ErrorMessage"]
+                            </div>
+                        }
                         <div class="flex items-center gap-3 mb-6">
                             <span class="material-symbols-outlined text-primary-orange">edit_note</span>
                             <h3 class="text-lg font-bold">Thông tin chi tiết ghế</h3>
                         </div>
-                        <form class="space-y-5">
+                        <form method="post" asp-page-handler="Update" class="space-y-5">
+                            <input type="hidden" asp-for="SeatId" />
+                            <input type="hidden" asp-for="Id" />
                             <div class="space-y-2">
-                                <label class="text-sm font-medium text-slate-400">Mã ghế (Read-only)</label>
-                                <input class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light focus:ring-1 focus:ring-primary/50 py-3 px-4 font-mono text-sm cursor-not-allowed" readonly="" type="text" value="SEAT-A10-P04" />
+                                <label class="text-sm font-medium text-slate-400">Mã ghế</label>
+                                <input class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light py-3 px-4 font-mono text-sm"
+                                       readonly
+                                       value="@(Model.SelectedSeat != null ? $"ID{Model.SelectedSeat.Id}" : "")" />
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="space-y-2">
                                     <label class="text-sm font-medium text-slate-400">Vị trí hàng</label>
-                                    <input class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light focus:ring-2 focus:ring-primary py-3 px-4" readonly="" type="number" value="1" />
+                                    <input class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light py-3 px-4"
+                                           readonly
+                                           value="@Model.SelectedSeat?.RowNumber" />
                                 </div>
                                 <div class="space-y-2">
                                     <label class="text-sm font-medium text-slate-400">Vị trí cột</label>
-                                    <input class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light focus:ring-2 focus:ring-primary py-3 px-4" readonly="" type="number" value="10" />
+                                    <input class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light py-3 px-4"
+                                           readonly
+                                           value="@Model.SelectedSeat?.ColumnNumber" />
                                 </div>
                             </div>
                             <div class="space-y-2">
                                 <label class="text-sm font-medium text-slate-400">Loại ghế</label>
-                                <select class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light focus:ring-2 focus:ring-primary py-3 px-4">
+                                <select asp-for="Input.Type"
+                                        class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light py-3 px-4">
                                     <option value="Regular">Thường - Regular</option>
-                                    <option selected="" value="Vip">VIP - Premium</option>
+                                    <option value="Vip">VIP - Premium</option>
                                 </select>
                             </div>
                             <div class="space-y-2">
                                 <label class="text-sm font-medium text-slate-400">Mở/Khóa ghế</label>
-                                <select class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light focus:ring-2 focus:ring-primary py-3 px-4">
-                                    <option value="Available">Mở ghế</option>
-                                    <option value="Disabled">Khóa ghế</option>
+                                <select asp-for="Input.IsDisabled"
+                                        class="w-full bg-neutral-dark border-none rounded-xl text-neutral-light py-3 px-4">
+                                    <option value="false">Mở ghế</option>
+                                    <option value="true">Khóa ghế</option>
                                 </select>
                             </div>
                             <div class="pt-4">
-                                <button class="w-full bg-primary-orange hover:opacity-90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98]" type="button">
+                                <button type="submit"
+                                        class="w-full bg-primary-orange hover:opacity-90 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-[0.98]">
+
                                     Lưu thay đổi
                                 </button>
-                                <button class="w-full bg-gray-600 text-white font-bold py-4 rounded-xl shadow-lg transition-all hover:bg-gray-700 active:scale-[0.98]"
+                                <button class="w-full mt-3 bg-gray-600 text-white font-bold py-4 rounded-xl hover:bg-gray-700"
                                         type="submit"
                                         asp-page-handler="Cancel">
                                     Trở về
@@ -164,24 +189,37 @@
                                         <div></div>
                                         continue;
                                     }
-                                    var seatLabel = $"{(char)(64 + r)}{c}";
+                                    var seatLabel = $"ID{seat.Id}";
+                                    var isSelected = Model.SelectedSeat?.Id == seat.Id;
                                     if (seat.IsDisabled)
                                     {
-                                        <div class="aspect-square bg-red-900/40 rounded-lg flex items-center justify-center text-red-500 font-bold border border-red-500/30 cursor-pointer">
+                                        <a asp-page="./EditSeat"
+                                           asp-route-id="@seat.RoomId"
+                                           asp-route-seatId="@seat.Id"
+                                           class="aspect-square bg-red-900/40 rounded-lg flex items-center justify-center text-red-500 font-bold border border-red-500/30 cursor-pointer @(isSelected ? "ring-2 ring-orange-500" : "")">
+
                                             <span class="material-symbols-outlined text-sm">close</span>
-                                        </div>
+                                        </a>
                                     }
                                     else if (seat.Type == SeatType.Vip)
                                     {
-                                        <div class="aspect-square bg-primary-orange/20 rounded-lg flex items-center justify-center text-[10px] text-primary-orange font-bold border border-primary/30 cursor-pointer">
+                                        <a asp-page="./EditSeat"
+                                           asp-route-id="@seat.RoomId"
+                                           asp-route-seatId="@seat.Id"
+                                           class="aspect-square bg-primary-orange/20 rounded-lg flex items-center justify-center text-[10px] text-primary-orange font-bold border border-primary/30 cursor-pointer @(isSelected ? "ring-2 ring-orange-500" : "")">
+
                                             @seatLabel
-                                        </div>
+                                        </a>
                                     }
                                     else
                                     {
-                                        <div class="aspect-square bg-slate-700/50 rounded-lg flex items-center justify-center text-[10px] text-slate-400 font-bold border border-white/5 cursor-pointer hover:border-primary/50 transition-colors">
+                                        <a asp-page="./EditSeat"
+                                           asp-route-id="@seat.RoomId"
+                                           asp-route-seatId="@seat.Id"
+                                           class="aspect-square bg-slate-700/50 rounded-lg flex items-center justify-center text-[10px] text-slate-400 font-bold border border-white/5 cursor-pointer hover:border-primary/50 transition-colors @(isSelected ? "ring-2 ring-orange-500" : "")">
+
                                             @seatLabel
-                                        </div>
+                                        </a>
                                     }
                                 }
                             }
@@ -199,7 +237,7 @@
                                 <span class="text-xs text-slate-400 font-medium">Ghế VIP</span>
                             </div>
                             <div class="flex items-center gap-2">
-                                <div class="size-4 bg-primary-orange rounded shadow-sm"></div>
+                                <div class="size-4 border-2 border-primary-orange rounded shadow-sm"></div>
                                 <span class="text-xs text-slate-400 font-medium">Đang Chọn</span>
                             </div>
                             <div class="flex items-center gap-2">
