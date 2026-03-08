@@ -138,7 +138,7 @@ namespace CinemaBooking.Services.Implementations
 
             if (seatLayoutChanged)
             {
-                var seats = await _seatRepository.GetByRoomIdAsync(room.Id);
+                var seats = await _seatRepository.GetAllByRoomIdAsync(room.Id);
 
                 int newRows = room.Rows;
                 int newColumns = room.Columns;
