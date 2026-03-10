@@ -18,6 +18,7 @@ namespace CinemaBooking.Models
         public Seat? Seat { get; set; }
 
         public SeatStatus Status { get; set; } = SeatStatus.Available;
+        public bool IsDeleted { get; set; } = false;
 
         public ICollection<BookingSeat>? BookingSeats { get; set; }
     }

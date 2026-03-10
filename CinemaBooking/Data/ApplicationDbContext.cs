@@ -166,9 +166,6 @@ namespace CinemaBooking.Data
             // INDEXES
             //------------------------------------
 
-            modelBuilder.Entity<Showtime>()
-                .HasIndex(s => s.ShowDateTime);
-
             modelBuilder.Entity<Seat>()
                 .HasIndex(s => new { s.RoomId, s.RowNumber, s.ColumnNumber })
                 .IsUnique();

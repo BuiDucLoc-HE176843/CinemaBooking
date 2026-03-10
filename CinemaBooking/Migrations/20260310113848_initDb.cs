@@ -72,6 +72,7 @@ namespace CinemaBooking.Migrations
                     FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Role = table.Column<int>(type: "int", nullable: false),
+                    Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -218,9 +219,11 @@ namespace CinemaBooking.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MovieId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
-                    ShowDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -277,7 +280,8 @@ namespace CinemaBooking.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ShowtimeId = table.Column<int>(type: "int", nullable: false),
                     SeatId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -383,11 +387,6 @@ namespace CinemaBooking.Migrations
                 name: "IX_Showtimes_RoomId",
                 table: "Showtimes",
                 column: "RoomId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Showtimes_ShowDateTime",
-                table: "Showtimes",
-                column: "ShowDateTime");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShowtimeSeats_SeatId",

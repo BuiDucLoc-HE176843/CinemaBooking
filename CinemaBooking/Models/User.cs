@@ -30,6 +30,8 @@ namespace CinemaBooking.Models
         [Required]
         public UserRole Role { get; set; } = UserRole.User;
 
+        public decimal Balance { get; set; } = 0m;
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
 

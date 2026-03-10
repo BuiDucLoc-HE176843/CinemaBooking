@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBooking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260308095435_initDb")]
+    [Migration("20260310113848_initDb")]
     partial class initDb
     {
         /// <inheritdoc />
@@ -313,13 +313,19 @@ namespace CinemaBooking.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ShowDateTime")
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -331,8 +337,6 @@ namespace CinemaBooking.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.HasIndex("ShowDateTime");
-
                     b.ToTable("Showtimes");
                 });
 
@@ -343,6 +347,9 @@ namespace CinemaBooking.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("SeatId")
                         .HasColumnType("int");
@@ -406,6 +413,9 @@ namespace CinemaBooking.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
