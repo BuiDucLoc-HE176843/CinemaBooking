@@ -76,8 +76,6 @@ namespace CinemaBooking.Repositories.Implementations
         public async Task<PagedResult<ShowtimeResponse>> FilterAsync(ShowtimeFilterRequest request)
         {
             var query = _context.Showtimes
-                .Include(x => x.Movie)
-                .Include(x => x.Room)
                 .Where(x => !x.IsDeleted)
                 .AsQueryable();
 
@@ -93,6 +91,7 @@ namespace CinemaBooking.Repositories.Implementations
             var totalCount = await query.CountAsync();
 
             var items = await query
+                .OrderByDescending(x => x.StartTime)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .Select(x => new ShowtimeResponse
@@ -102,7 +101,9 @@ namespace CinemaBooking.Repositories.Implementations
                     MovieTitle = x.Movie != null ? x.Movie.Title : null,
 
                     RoomId = x.RoomId,
-                    RoomName = x.Room != null ? x.Room.Name : null,
+                    RoomName = x.Room != null
+                        ? x.Room.Name + " - Rạp: " + x.Room.Theater!.Name
+                        : null,
 
                     StartTime = x.StartTime,
                     EndTime = x.EndTime
