@@ -68,11 +68,22 @@
                     <span class="text-2xl font-black uppercase tracking-tighter">CinemaVN</span>
                 </a>
                 <nav class="hidden items-center gap-6 lg:flex">
-                    <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Danh sách rạp</a>
-                    <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Danh sách phim</a>
+                    <a class="text-sm font-medium hover:text-primary transition-colors" href="MoviesList">Danh sách phim</a>
                     @if (Model.IsLoggedIn)
                     {
                         <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Quản lý tài khoản</a>
+                        <a class="text-sm font-medium hover:text-primary transition-colors flex items-center gap-1" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="16" height="16"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 viewBox="0 0 24 24">
+                                <path d="M21 12V7a2 2 0 0 0-2-2H3v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5z" />
+                                <circle cx="16" cy="12" r="1" />
+                            </svg>
+                            Quản lý ví tiền
+                        </a>
                     }
                 </nav>
             </div>
@@ -146,42 +157,6 @@
             </div>
         </div>
     </section>
-    <!-- Search Section -->
-    <section class="relative z-20 -mt-10 px-4">
-        <div class="mx-auto max-w-5xl rounded-2xl border border-border-dark bg-surface-dark p-6 shadow-2xl md:p-8 cvn-search-bar">
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-4">
-                <div class="flex flex-col gap-2">
-                    <label class="text-xs font-bold uppercase tracking-wider text-slate-400">Tên phim</label>
-                    <div class="relative">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary" style="color: var(--cvn-primary) !important;">search</span>
-                        <input class="w-full rounded-xl border-border-dark bg-background-dark py-3 pl-10 pr-4 text-sm text-white focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Tìm tên phim..." type="text" />
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <label class="text-xs font-bold uppercase tracking-wider text-slate-400">Ngày ra rạp</label>
-                    <div class="relative">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary" style="color: var(--cvn-primary) !important;">calendar_today</span>
-                        <input class="w-full rounded-xl border-border-dark bg-background-dark py-3 pl-10 pr-4 text-sm text-white focus:border-primary focus:ring-1 focus:ring-primary" type="date" />
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <label class="text-xs font-bold uppercase tracking-wider text-slate-400">Thể loại</label>
-                    <div class="relative">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary" style="color: var(--cvn-primary) !important;">category</span>
-                        <select class="w-full rounded-xl border-border-dark bg-background-dark py-3 pl-10 pr-4 text-sm text-white focus:border-primary focus:ring-1 focus:ring-primary appearance-none">
-                            <option>Tất cả thể loại</option>
-                            <option>Hành động</option>
-                            <option>Hoạt hình</option>
-                            <option>Kinh dị</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="flex items-end">
-                    <button class="w-full rounded-xl bg-primary py-3 font-bold text-background-dark hover:brightness-110 transition-all" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">TÌM KIẾM</button>
-                </div>
-            </div>
-        </div>
-    </section>
     <!-- Phim Đang Chiếu Slider -->
     <section class="py-16 cvn-movie-slider">
         <div class="mx-auto max-w-7xl px-4 md:px-8">
@@ -192,7 +167,8 @@
                 </div>
                 <div class="flex items-center gap-3">
 
-                    <a asp-page="/PublicPage/Movies"
+                    <a asp-page="/PublicPage/MoviesList"
+                       asp-route-Status="1"
                        class="rounded-full border border-border-dark bg-surface-dark px-4 py-2 text-sm font-semibold text-white hover:bg-primary hover:text-background-dark transition-colors">
                         Xem tất cả
                     </a>
@@ -263,7 +239,8 @@
                     <div class="mt-2 h-1.5 w-24 rounded-full bg-primary"></div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a asp-page="/PublicPage/UpcomingMovies"
+                    <a asp-page="/PublicPage/MoviesList"
+                       asp-route-Status="0"
                        class="rounded-full border border-border-dark bg-background-dark px-4 py-2 text-sm font-semibold text-white hover:bg-primary hover:text-background-dark transition-colors">
                         Xem tất cả
                     </a>

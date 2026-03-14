@@ -1,0 +1,350 @@
+﻿@page
+@model CinemaBooking_RazorPage.Pages.PublicPage.MoviesListModel
+@{
+}
+
+<!DOCTYPE html>
+
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CinemaVN - Danh Sách Phim</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff8c00",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#121212",
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        :root {
+            --primary-orange: #ff8c00 !important;
+            --bg-dark: #121212 !important;
+            --card-bg: #1e1e1e !important;
+            --input-bg: #2a2a2a !important
+        }
+
+        body {
+            background-color: var(--bg-dark) !important;
+            color: #f8f7f5;
+            font-family: "Be Vietnam Pro", sans-serif;
+            position: relative
+        }
+            /* Subtle professional background with light leaks */
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDf1xgiL0IdJTL4XuFHJUOAM6fceTj_mDaX2xxGieQZol4OMePGix8-d1cNG5egGiUL87I2sFamhTeLLRnLLsuxdRRcFhKwtTjzDWQ0X6lGrDdxgnb72WSUYUvzjycyJzAuf_-Lomm1291BRm6bBQvnNo6PmfdmVi0RdcbUipzv57MlV8IW0qqjCWmVjFgWEK-P4SPkDIklx2esROfXnvP7mMCPW41FM3GZcE5Tr_D0tgwtskfTZamHE2FaJWyCnvekxq_u4ctgnto);
+                background-size: cover;
+                background-position: center;
+                opacity: 0.15;
+                z-index: -1;
+                filter: grayscale(100%) sepia(50%) hue-rotate(-20deg) saturate(200%);
+                /* Gold/Orange tint */
+            }
+            /* Dark overlay for readability */
+            body::after {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle at center, transparent 0%, rgba(18, 18, 18, 0.8) 100%), linear-gradient(to bottom, rgba(18, 18, 18, 0.4), rgba(18, 18, 18, 0.9));
+                z-index: -1
+            }
+
+        .text-primary {
+            color: var(--primary-orange) !important
+        }
+
+        .bg-primary {
+            background-color: var(--primary-orange) !important
+        }
+
+        .border-primary {
+            border-color: var(--primary-orange) !important
+        }
+
+        .genre-dropdown:hover .genre-menu {
+            display: block
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1)
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #121212
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ff8c00;
+            border-radius: 10px
+        }</style>
+</head>
+<body class="bg-background-dark text-slate-100 font-display selection:bg-primary selection:text-background-dark">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <!-- Header Section -->
+        <header class="sticky top-0 z-50 w-full border-b border-white/10 bg-background-dark/80 backdrop-blur-md px-6 md:px-10 py-4">
+            <div class="max-w-[1440px] mx-auto flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center gap-8">
+                    <a class="flex items-center gap-2 text-primary" href="#" style="color: var(--primary-orange) !important;">
+                        <span class="material-symbols-outlined text-4xl font-bold">movie_filter</span>
+                        <span class="text-2xl font-black uppercase tracking-tighter">CinemaVN</span>
+                    </a>
+                </div>
+                <div class="flex items-center gap-4">
+                    @if (HttpContext.Session.GetString("JWToken") == null)
+                    {
+                        <a asp-page="#"
+                           class="px-5 py-2 text-sm font-bold text-white hover:text-primary transition-colors">
+                            Đăng ký
+                        </a>
+                        <a asp-page="/PublicPage/Login"
+                           class="px-6 py-2 text-sm font-bold bg-primary text-background-dark rounded-xl hover:brightness-110 transition-all shadow-lg shadow-primary/20">
+                            Đăng nhập
+                        </a>
+                    }
+                    else
+                    {
+                        <form method="post" asp-page="/PublicPage/MoviesList" asp-page-handler="Logout">
+                            <button type="submit"
+                                    class="px-6 py-2 text-sm font-bold bg-red-500 text-white rounded-xl hover:brightness-110 transition-all">
+                                Đăng xuất
+                            </button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 w-full max-w-[1440px] mx-auto px-6 md:px-10 py-8">
+            <!-- Hero Title -->
+            <div class="mb-10">
+                <h2 class="text-4xl md:text-5xl font-black mb-4">DANH SÁCH <span class="text-primary">PHIM</span></h2>
+                <p class="text-slate-400 max-w-2xl">Trải nghiệm những thước phim sống động nhất với công nghệ âm thanh và hình ảnh hàng đầu tại CinemaVN. Đặt vé ngay hôm nay!</p>
+            </div>
+            <section class="bg-[#1e1e1e]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 mb-12 shadow-2xl">
+                <form method="get" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                    <!-- Title -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Tên phim</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-lg">search</span>
+                            <input name="Title"
+                                   value="@Model.Title"
+                                   class="w-full bg-[#2a2a2a] border-none rounded-xl py-3 pl-10 pr-4 text-sm text-white focus:ring-2 focus:ring-primary placeholder:text-slate-600"
+                                   placeholder="Tìm kiếm phim..." />
+                        </div>
+                    </div>
+                    <!-- Release Date -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Ngày khởi chiếu</label>
+                        <input type="date"
+                               name="ReleaseDate"
+                               value="@(Model.ReleaseDate?.ToString("yyyy-MM-dd"))"
+                               class="w-full bg-[#2a2a2a] border-none rounded-xl py-3 px-4 text-sm text-white focus:ring-2 focus:ring-primary" />
+                    </div>
+                    <!-- Status -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Trạng thái</label>
+                        <select name="Status"
+                                class="w-full bg-[#2a2a2a] border-none rounded-xl py-3 px-4 text-sm text-white focus:ring-2 focus:ring-primary">
+                            <option value="">Tất cả</option>
+                            <option value="1" selected="@(Model.Status == 1)">Đang chiếu</option>
+                            <option value="0" selected="@(Model.Status == 0)">Sắp chiếu</option>
+                        </select>
+                    </div>
+                    <!-- Genre -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Thể loại</label>
+                        <select name="GenreId"
+                                class="w-full bg-[#2a2a2a] border-none rounded-xl py-3 px-4 text-sm text-white focus:ring-2 focus:ring-primary">
+                            <option value="">Mọi thể loại</option>
+                            @foreach (var g in Model.AllGenres)
+                            {
+                                <option value="@g.Id" selected="@(Model.GenreId==g.Id)">
+                                    @g.Name
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <!-- Button -->
+                    <div class="flex items-end">
+                        <button class="w-full bg-primary/10 border border-primary/30 text-primary hover:bg-primary hover:text-white transition-all font-bold py-3 rounded-xl flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">filter_list</span>
+                            Lọc kết quả
+                        </button>
+                    </div>
+                </form>
+            </section>
+            <!-- Movie Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+                @foreach (var movie in Model.Movies)
+                {
+                    <div class="group relative flex flex-col gap-3">
+                        <div class="relative aspect-[2/3] overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+                            <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                 src="@($"http://localhost:5237{movie.PosterUrl}")"
+                                 alt="@movie.Title" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+                                <a href="/Movies/Detail?id=@movie.Id"
+                                   class="w-full text-center bg-primary text-background-dark font-black py-2 rounded-lg text-sm hover:brightness-110">
+                                    ĐẶT VÉ NGAY
+                                </a>
+                            </div>
+                            <div class="absolute top-3 left-3 flex flex-col gap-2">
+                                @if (movie.Status == 1)
+                                {
+                                    <span class="bg-primary text-background-dark text-[10px] font-black px-2 py-1 rounded-md uppercase">
+                                        Đang Chiếu
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="bg-gray-500 text-white text-[10px] font-black px-2 py-1 rounded-md uppercase">
+                                        Sắp Chiếu
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg group-hover:text-primary transition-colors line-clamp-1 uppercase">
+                                @movie.Title
+                            </h3>
+                            <p class="text-xs text-slate-500 font-medium">
+                                @(movie.Genres != null ? string.Join(", ", movie.Genres) : "")
+                                • @movie.DurationMinutes phút
+                            </p>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- Pagination -->
+            <div class="flex justify-center items-center gap-2 mt-16 mb-8">
+                @if (Model.CurrentPage > 1)
+                {
+                    <a asp-page="./MoviesList"
+                       asp-route-pageNumber="@(Model.CurrentPage - 1)"
+                       asp-route-title="@Model.Title"
+                       asp-route-status="@Model.Status"
+                       asp-route-genreId="@Model.GenreId"
+                       asp-route-releaseDate="@Model.ReleaseDate"
+                       class="size-10 flex items-center justify-center rounded-xl bg-[#1e1e1e] hover:bg-primary/20">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </a>
+                }
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <a asp-page="./MoviesList"
+                       asp-route-pageNumber="@i"
+                       asp-route-title="@Model.Title"
+                       asp-route-status="@Model.Status"
+                       asp-route-genreId="@Model.GenreId"
+                       asp-route-releaseDate="@Model.ReleaseDate"
+                       class="size-10 flex items-center justify-center rounded-xl @(Model.CurrentPage==i?"bg-primary text-white":"bg-[#1e1e1e] hover:bg-primary/20")">
+                        @i
+                    </a>
+                }
+                @if (Model.CurrentPage < Model.TotalPages)
+                {
+                    <a asp-page="./MoviesList"
+                       asp-route-pageNumber="@(Model.CurrentPage + 1)"
+                       asp-route-title="@Model.Title"
+                       asp-route-status="@Model.Status"
+                       asp-route-genreId="@Model.GenreId"
+                       asp-route-releaseDate="@Model.ReleaseDate"
+                       class="size-10 flex items-center justify-center rounded-xl bg-[#1e1e1e] hover:bg-primary/20">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </a>
+                }
+            </div>
+        </main>
+        <!-- Footer Section -->
+        <footer class="bg-[#0a0a0a]/95 pt-16 pb-8 border-t border-white/5 mt-auto relative z-10">
+            <div class="max-w-[1440px] mx-auto px-6 md:px-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                    <!-- Brand -->
+                    <!-- Logo + Description -->
+                    <div class="col-span-1 md:col-span-2 flex flex-col gap-6">
+                        <a class="flex items-center gap-2 text-primary" href="#">
+                            <span class="material-symbols-outlined text-4xl font-bold">movie_filter</span>
+                            <span class="text-2xl font-black uppercase tracking-tighter">CinemaVN</span>
+                        </a>
+                        <p class="max-w-md text-slate-500 text-sm leading-relaxed">
+                            CinemaVN là nền tảng đặt vé phim hàng đầu Việt Nam, mang đến cho bạn trải nghiệm điện ảnh tuyệt vời nhất với hệ thống rạp hiện đại trên toàn quốc.
+                        </p>
+                        <div class="flex gap-4">
+                            <a class="size-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-background-dark transition-all" href="#">
+                                <i class="material-symbols-outlined text-lg">public</i>
+                            </a>
+                            <a class="size-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-background-dark transition-all" href="#">
+                                <i class="material-symbols-outlined text-lg">thumb_up</i>
+                            </a>
+                            <a class="size-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-background-dark transition-all" href="#">
+                                <i class="material-symbols-outlined text-lg">movie</i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Policy -->
+                    <div>
+                        <h4 class="font-bold text-white mb-6">Chính sách & Hỗ trợ</h4>
+                        <ul class="flex flex-col gap-4 text-sm text-slate-500">
+                            <li><a class="hover:text-primary transition-colors" href="#">Điều khoản sử dụng</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Chính sách bảo mật</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Chăm sóc khách hàng</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Câu hỏi thường gặp</a></li>
+                        </ul>
+                    </div>
+                    <!-- Contact -->
+                    <div>
+                        <h4 class="font-bold text-white mb-6">Liên hệ</h4>
+                        <ul class="flex flex-col gap-4 text-sm text-slate-500">
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-sm">mail</span>
+                                DepTraiNhatThanhHoa.com
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-sm">call</span>
+                                0999999999
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-sm">location_on</span>
+                                Thanh Hóa
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border-t border-white/5 pt-8 text-center">
+                    <p class="text-xs text-slate-600 font-medium">Thiết kế bởi LocCute.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
