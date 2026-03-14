@@ -13,12 +13,20 @@ namespace CinemaBooking_RazorPage.Pages.Admin
         public List<RoomResponse> Rooms { get; set; } = new();
         public List<MovieResponse> Movies { get; set; } = new();
 
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public int? SelectedTheaterId { get; set; }
-        [BindProperty]
+
+        [BindProperty(SupportsGet = true)]
         public int? SelectedRoomId { get; set; }
-        [BindProperty]
+
+        [BindProperty(SupportsGet = true)]
         public int? SelectedMovieId { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public DateTime? StartTime { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public DateTime? EndTime { get; set; }
 
         public List<ShowtimeResponse> Showtimes { get; set; } = new();
 
@@ -35,17 +43,19 @@ namespace CinemaBooking_RazorPage.Pages.Admin
             PageNumber = pageNumber;
 
             await LoadTheaters();
+            await LoadMovies();
+            await LoadShowtimes();
         }
 
-        public async Task<IActionResult> OnPostSearchAsync()
+        public async Task<IActionResult> OnPostAsync(int pageNumber = 1)
         {
+            PageNumber = pageNumber;
+
             await LoadTheaters();
 
-            if (SelectedTheaterId != null)
-            {
-                await LoadRooms();
-                await LoadMovies();
-            }
+            await LoadRooms();
+            await LoadMovies();
+            await LoadShowtimes();
 
             return Page();
         }
@@ -55,14 +65,16 @@ namespace CinemaBooking_RazorPage.Pages.Admin
             var url = $"http://localhost:5237/api/Showtime?PageNumber={PageNumber}&PageSize=4";
 
             if (SelectedRoomId != null)
-            {
                 url += $"&RoomId={SelectedRoomId}";
-            }
 
             if (SelectedMovieId != null)
-            {
                 url += $"&MovieId={SelectedMovieId}";
-            }
+
+            if (StartTime != null)
+                url += $"&StartTime={StartTime:yyyy-MM-ddTHH:mm}";
+
+            if (EndTime != null)
+                url += $"&EndTime={EndTime:yyyy-MM-ddTHH:mm}";
 
             var result = await _httpClient
                 .GetFromJsonAsync<ApiResponse<PagedData<ShowtimeResponse>>>(url);
@@ -74,28 +86,12 @@ namespace CinemaBooking_RazorPage.Pages.Admin
             }
         }
 
-        public async Task<IActionResult> OnPostFilterAsync(int pageNumber = 1)
-        {
-            PageNumber = pageNumber;
-
-            await LoadTheaters();
-
-            if (SelectedTheaterId != null)
-            {
-                await LoadRooms();
-                await LoadMovies();
-            }
-
-            await LoadShowtimes();
-
-            return Page();
-        }
-
         private async Task LoadTheaters()
         {
             var url = "http://localhost:5237/api/Theaters?PageSize=50";
 
-            var result = await _httpClient.GetFromJsonAsync<ApiResponse<PagedData<TheaterResponse>>>(url);
+            var result = await _httpClient
+                .GetFromJsonAsync<ApiResponse<PagedData<TheaterResponse>>>(url);
 
             if (result != null && result.Success)
             {
@@ -118,14 +114,12 @@ namespace CinemaBooking_RazorPage.Pages.Admin
 
         private async Task LoadRooms()
         {
-            if (SelectedTheaterId == null)
-            {
-                SelectedTheaterId = 1;
-            }
+            if (SelectedTheaterId == null) return;
 
             var url = $"http://localhost:5237/api/Room/{SelectedTheaterId}";
 
-            var result = await _httpClient.GetFromJsonAsync<ApiResponse<PagedData<RoomResponse>>>(url);
+            var result = await _httpClient
+                .GetFromJsonAsync<ApiResponse<PagedData<RoomResponse>>>(url);
 
             if (result != null && result.Success)
             {

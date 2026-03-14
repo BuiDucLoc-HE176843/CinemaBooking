@@ -224,13 +224,17 @@
                             Hiển thị @Model.Theaters.Count trên @Model.TotalCount rạp
                         </div>
                         <div class="flex items-center gap-2">
-                            @* Previous *@
+                            <!-- Previous -->
                             <a asp-page="./ManageTheater"
                                asp-route-PageNumber="@(Model.PageNumber - 1)"
+                               asp-route-Name="@Model.Name"
+                               asp-route-Address="@Model.Address"
+                               asp-route-CityName="@Model.CityName"
                                class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-all @(Model.PageNumber == 1 ? "pointer-events-none opacity-50" : "")">
 
                                 <span class="material-symbols-outlined text-lg">chevron_left</span>
                             </a>
+                            <!-- Page numbers -->
                             @for (int i = 1; i <= Model.TotalPages; i++)
                             {
                                 if (i == Model.PageNumber)
@@ -243,6 +247,9 @@
                                 {
                                     <a asp-page="./ManageTheater"
                                        asp-route-PageNumber="@i"
+                                       asp-route-Name="@Model.Name"
+                                       asp-route-Address="@Model.Address"
+                                       asp-route-CityName="@Model.CityName"
                                        class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-all text-xs">
 
                                         @i
@@ -250,11 +257,13 @@
                                     </a>
                                 }
                             }
-                            @* Next *@
+                            <!-- Next -->
                             <a asp-page="./ManageTheater"
                                asp-route-PageNumber="@(Model.PageNumber + 1)"
+                               asp-route-Name="@Model.Name"
+                               asp-route-Address="@Model.Address"
+                               asp-route-CityName="@Model.CityName"
                                class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition-all @(Model.PageNumber == Model.TotalPages ? "pointer-events-none opacity-50" : "")">
-
                                 <span class="material-symbols-outlined text-lg">chevron_right</span>
                             </a>
                         </div>

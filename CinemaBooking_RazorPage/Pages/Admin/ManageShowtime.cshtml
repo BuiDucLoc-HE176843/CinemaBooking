@@ -37,6 +37,9 @@
         }
     </script>
     <style>
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(54%) sepia(88%) saturate(1482%) hue-rotate(3deg) brightness(104%) contrast(101%);
+        }
         :root {
             --primary-color: #ff8c00;
         }
@@ -120,22 +123,24 @@
                     </div>
                     <div class="flex items-center gap-4">
 
-                        <button class="bg-primary-important text-black font-bold px-6 py-3 rounded-full flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-orange-500/20 whitespace-nowrap">
+                        <a asp-page="/Admin/AddShowtime"
+                           class="bg-primary-important text-black font-bold px-6 py-3 rounded-full flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-orange-500/20 whitespace-nowrap">
                             <span class="material-symbols-outlined">add</span>
-                            Thêm Suất chiếu Mới
-                        </button>
+                            Thêm suất chiếu Mới
+                        </a>
                     </div>
                 </header>
                 <!-- Movie Table Card -->
-                <form method="post" asp-page-handler="Search">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-slate-900/40 p-6 rounded-3xl border border-slate-800 backdrop-blur-sm">
+                <form method="post">
+                    <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6 bg-slate-900/40 p-6 rounded-3xl border border-slate-800 backdrop-blur-sm">
                         <!-- Theater -->
                         <div>
-                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-2">
                                 Chọn rạp
                             </label>
                             <select asp-for="SelectedTheaterId"
-                                    class="w-full bg-slate-800/50 border-slate-700 focus:border-primary-important text-white text-sm rounded-full px-4 py-2.5 outline-none">
+                                    class="w-full bg-slate-800/50 border-slate-700 text-white text-sm rounded-full px-4 py-2.5 outline-none"
+                                    onchange="this.form.submit()">
                                 <option value="">-- Chọn rạp --</option>
                                 @foreach (var theater in Model.Theaters)
                                 {
@@ -145,68 +150,63 @@
                                 }
                             </select>
                         </div>
-                        <div></div>
-                        <div></div>
-                        <!-- Search -->
+                        <!-- Movie -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-2">
+                                Chọn phim
+                            </label>
+                            <select asp-for="SelectedMovieId"
+                                    class="w-full bg-slate-800/50 border border-slate-700 text-white text-sm rounded-full px-4 py-2.5 outline-none">
+                                <option value="">-- Tất cả phim --</option>
+                                @foreach (var movie in Model.Movies)
+                                {
+                                    <option value="@movie.Id">@movie.Title</option>
+                                }
+                            </select>
+                        </div>
+                        <!-- Room -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-2">
+                                Chọn phòng
+                            </label>
+                            <select asp-for="SelectedRoomId"
+                                    class="w-full bg-slate-800/50 border border-slate-700 text-white text-sm rounded-full px-4 py-2.5 outline-none">
+                                <option value="">-- Tất cả phòng --</option>
+                                @foreach (var room in Model.Rooms)
+                                {
+                                    <option value="@room.Id">@room.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <!-- Start Time From -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-2">
+                                Từ thời gian
+                            </label>
+                            <input asp-for="StartTime"
+                                   type="datetime-local"
+                                   class="w-full bg-slate-800/50 border border-slate-700 text-white text-sm rounded-full px-4 py-2.5 outline-none" />
+                        </div>
+                        <!-- Start Time To -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-2">
+                                Đến thời gian
+                            </label>
+                            <input asp-for="EndTime"
+                                   type="datetime-local"
+                                   class="w-full bg-slate-800/50 border border-slate-700 text-white text-sm rounded-full px-4 py-2.5 outline-none" />
+                        </div>
+                        <!-- Button -->
                         <div class="flex items-end">
                             <button type="submit"
                                     class="w-full bg-primary-important text-black font-bold py-2.5 rounded-full flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-orange-500/20">
+
                                 <span class="material-symbols-outlined">search</span>
-                                Tải danh sách
+                                Tìm showtime
                             </button>
                         </div>
                     </div>
                 </form>
-
-                @if (Model.Rooms != null && Model.Rooms.Any())
-                {
-                    <form method="post" asp-page-handler="Filter">
-                        <input type="hidden" asp-for="SelectedTheaterId" />
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-slate-900/40 p-6 rounded-3xl border border-slate-800 backdrop-blur-sm">
-                            <!-- Movie Filter -->
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                                    Chọn phim
-                                </label>
-                                <select asp-for="SelectedMovieId"
-                                        class="w-full bg-slate-800/50 border border-slate-700 focus:border-primary-important text-white text-sm rounded-full px-4 py-2.5 outline-none transition-all">
-                                    <option value="">-- Tất cả phim --</option>
-                                    @if (Model.Movies != null)
-                                    {
-                                        foreach (var movie in Model.Movies)
-                                        {
-                                            <option value="@movie.Id">@movie.Title</option>
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <!-- Room Filter -->
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                                    Chọn phòng
-                                </label>
-                                <select asp-for="SelectedRoomId"
-                                        class="w-full bg-slate-800/50 border border-slate-700 focus:border-primary-important text-white text-sm rounded-full px-4 py-2.5 outline-none transition-all">
-                                    <option value="">-- Tất cả phòng --</option>
-                                    @foreach (var room in Model.Rooms)
-                                    {
-                                        <option value="@room.Id">@room.Name - Rạp: @Model.Theaters.FirstOrDefault(t => t.Id == Model.SelectedTheaterId)?.Name</option>
-                                    }
-                                </select>
-                            </div>
-                            <!-- Spacer -->
-                            <div></div>
-                            <!-- Search Button -->
-                            <div class="flex items-end">
-                                <button type="submit"
-                                        class="w-full bg-primary-important text-black font-bold py-2.5 rounded-full flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-orange-500/20">
-                                    <span class="material-symbols-outlined">search</span>
-                                    Tìm showtime
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                }
                 
                 <div class="bg-slate-900/40 rounded-3xl border border-slate-800 overflow-hidden backdrop-blur-sm">
                     <div class="overflow-x-auto">
@@ -250,9 +250,9 @@
                                         </td>
                                         <td class="px-6 py-4 text-right">
                                             <div class="flex items-center justify-end gap-2">
-                                                <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-primary-important hover:text-black transition-all">
+                                                @* <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-primary-important hover:text-black transition-all">
                                                     <span class="material-symbols-outlined text-xl">edit_note</span>
-                                                </button>
+                                                </button> *@
                                                 <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-red-500/20 hover:text-red-500 transition-all">
                                                     <span class="material-symbols-outlined text-xl">delete</span>
                                                 </button>
@@ -269,30 +269,53 @@
                             Trang @Model.PageNumber / @Model.TotalPages
                         </div>
                         <div class="flex items-center gap-2">
+                            <!-- Previous -->
                             @if (Model.PageNumber > 1)
                             {
                                 <a asp-page="./ManageShowtime"
                                    asp-route-pageNumber="@(Model.PageNumber - 1)"
-                                   class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white">
+                                   asp-route-SelectedTheaterId="@Model.SelectedTheaterId"
+                                   asp-route-SelectedRoomId="@Model.SelectedRoomId"
+                                   asp-route-SelectedMovieId="@Model.SelectedMovieId"
+                                   asp-route-StartTime="@Model.StartTime"
+                                   asp-route-EndTime="@Model.EndTime"
+                                   class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition">
                                     <span class="material-symbols-outlined text-lg">chevron_left</span>
                                 </a>
                             }
+                            <!-- Page numbers -->
                             @for (int i = 1; i <= Model.TotalPages; i++)
                             {
                                 <a asp-page="./ManageShowtime"
                                    asp-route-pageNumber="@i"
-                                   class="w-8 h-8 rounded-full flex items-center justify-center
-                                      @(i == Model.PageNumber ? "bg-primary-important text-black font-bold"
-                                      : "bg-slate-800 text-slate-400 hover:text-white") text-xs">
+                                   asp-route-SelectedTheaterId="@Model.SelectedTheaterId"
+                                   asp-route-SelectedRoomId="@Model.SelectedRoomId"
+                                   asp-route-SelectedMovieId="@Model.SelectedMovieId"
+                                   asp-route-StartTime="@Model.StartTime"
+                                   asp-route-EndTime="@Model.EndTime"
+                                   class="w-8 h-8 rounded-full flex items-center justify-center text-xs transition
+                   @(i == Model.PageNumber
+                                                       ? "bg-primary-important text-black font-bold"
+                                                       : "bg-slate-800 text-slate-400 hover:text-white")">
+
                                 @i
-                            </a>
-                            }
+
+                                </a>
+                                                        }
+                            <!-- Next -->
                             @if (Model.PageNumber < Model.TotalPages)
                             {
                                 <a asp-page="./ManageShowtime"
                                    asp-route-pageNumber="@(Model.PageNumber + 1)"
-                                   class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white">
+                                   asp-route-SelectedTheaterId="@Model.SelectedTheaterId"
+                                   asp-route-SelectedRoomId="@Model.SelectedRoomId"
+                                   asp-route-SelectedMovieId="@Model.SelectedMovieId"
+                                   asp-route-StartTime="@Model.StartTime"
+                                   asp-route-EndTime="@Model.EndTime"
+                                   class="w-8 h-8 rounded-full flex items-center justify-center bg-slate-800 text-slate-400 hover:text-white transition">
+
                                     <span class="material-symbols-outlined text-lg">chevron_right</span>
+
                                 </a>
                             }
                         </div>

@@ -56,6 +56,9 @@ namespace CinemaBooking.Services.Implementations
                 throw new AppException("Room không tồn tại");
 
             var startTime = request.StartTime;
+            if (startTime < DateTime.Now)
+                throw new AppException("Thời gian chiếu phải là tương lai");
+
             var endTime = startTime.AddMinutes(movie.DurationMinutes);
 
             // lấy showtime của room

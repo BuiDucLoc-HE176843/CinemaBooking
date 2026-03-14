@@ -88,6 +88,13 @@ namespace CinemaBooking.Repositories.Implementations
             if (request.RoomId.HasValue)
                 query = query.Where(x => x.RoomId == request.RoomId.Value);
 
+            // 🔥 Filter thời gian
+            if (request.StartTime.HasValue)
+                query = query.Where(x => x.StartTime >= request.StartTime.Value);
+
+            if (request.EndTime.HasValue)
+                query = query.Where(x => x.EndTime <= request.EndTime.Value);
+
             var totalCount = await query.CountAsync();
 
             var items = await query
