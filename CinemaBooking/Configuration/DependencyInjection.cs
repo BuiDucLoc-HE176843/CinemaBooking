@@ -1,5 +1,6 @@
 ﻿using CinemaBooking.Repositories.Implementations;
 using CinemaBooking.Repositories.Interfaces;
+using CinemaBooking.Services.BackgroundServices;
 using CinemaBooking.Services.Implementations;
 using CinemaBooking.Services.Interfaces;
 
@@ -32,6 +33,7 @@ namespace CinemaBooking.Configuration
             services.AddScoped<ISeatService, SeatService>();
             services.AddScoped<IShowtimeService, ShowtimeService>();
             services.AddScoped<IReviewService, ReviewService>();
+            services.AddHostedService<SePaySyncService>();
 
             return services;
         }

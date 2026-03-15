@@ -12,6 +12,28 @@ namespace CinemaBooking.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "BankTransactions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BankBrandName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AmountOut = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AmountIn = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Accumulated = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TransactionContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReferenceNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubAccount = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BankAccountId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BankTransactions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cities",
                 columns: table => new
                 {
@@ -420,6 +442,9 @@ namespace CinemaBooking.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "BankTransactions");
+
             migrationBuilder.DropTable(
                 name: "BookingSeats");
 

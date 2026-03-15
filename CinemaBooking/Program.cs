@@ -12,6 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>
     (option => option.UseSqlServer(builder.Configuration.GetConnectionString("DB")));
 
 // Add services to the container.
+builder.Services.AddHttpClient();
 
 builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("JwtSettings"));

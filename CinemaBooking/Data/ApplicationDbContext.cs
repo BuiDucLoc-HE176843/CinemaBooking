@@ -24,6 +24,7 @@ namespace CinemaBooking.Data
         public DbSet<City> Cities { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<MovieGenre> MovieGenres { get; set; }
+        public DbSet<BankTransaction> BankTransactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
