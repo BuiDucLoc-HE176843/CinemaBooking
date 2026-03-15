@@ -19,6 +19,7 @@ namespace CinemaBooking.Configuration
             services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<ISeatRepository, SeatRepository>();
             services.AddScoped<IShowtimeRepository, ShowtimeRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
 
             // ===== Services =====
             //services.AddScoped<IUserService, UserService>();
@@ -30,6 +31,7 @@ namespace CinemaBooking.Configuration
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<ISeatService, SeatService>();
             services.AddScoped<IShowtimeService, ShowtimeService>();
+            services.AddScoped<IReviewService, ReviewService>();
 
             return services;
         }

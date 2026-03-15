@@ -91,12 +91,11 @@
 
                 @if (!Model.IsLoggedIn)
                 {
+                    <button class="hidden rounded-full px-5 py-2 text-sm font-bold text-slate-100 transition-colors hover:text-primary md:block">Đăng ký</button>
                     <a asp-page="/PublicPage/Login"
-                       class="hidden rounded-full px-5 py-2 text-sm font-bold text-slate-100 transition-colors hover:text-primary md:block">
+                       class="rounded-full bg-primary px-6 py-2.5 text-sm font-bold text-background-dark transition-transform hover:scale-105 active:scale-95" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">
                         Đăng nhập
                     </a>
-
-                    <button class="rounded-full bg-primary px-6 py-2.5 text-sm font-bold text-background-dark transition-transform hover:scale-105 active:scale-95" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">Đăng ký</button>
                 }
                 else
                 {
@@ -122,20 +121,27 @@
                 {
                     var posterUrl = "http://localhost:5237" + Model.MainFeatureMovie.PosterUrl;
 
-                    <img src="@posterUrl"
-                         alt="@Model.MainFeatureMovie.Title"
-                         class="mx-auto lg:mx-0 w-40 md:w-52 rounded-xl shadow-2xl object-cover aspect-[2/3]" />
+                    <a asp-page="/PublicPage/MovieDetail" asp-route-id="@Model.MainFeatureMovie.Id">
+                        <img src="@posterUrl"
+                             alt="@Model.MainFeatureMovie.Title"
+                             class="mx-auto lg:mx-0 w-40 md:w-52 rounded-xl shadow-2xl object-cover aspect-[2/3]" />
+                    </a>
                 }
                 <p class="max-w-xl text-lg text-slate-300">@Model.MainFeatureMovie?.Description</p>
                 <div class="flex flex-wrap justify-center gap-4 lg:justify-start">
-                    <button class="flex items-center gap-2 rounded-full bg-primary px-8 py-4 font-bold text-background-dark shadow-lg shadow-primary/20 transition-all hover:bg-primary/90" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">
+                    <a asp-page="/PublicPage/MovieDetail"
+                       asp-route-id="@Model.MainFeatureMovie.Id"
+                       class="flex items-center gap-2 rounded-full bg-primary px-8 py-4 font-bold text-background-dark shadow-lg shadow-primary/20 transition-all hover:bg-primary/90"
+                       style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">
                         <span class="material-symbols-outlined">local_activity</span>
                         ĐẶT VÉ NGAY
-                    </button>
-                    <button class="flex items-center gap-2 rounded-full border-2 border-white/20 bg-white/10 px-8 py-4 font-bold text-white backdrop-blur-md transition-all hover:bg-white/20">
+                    </a>
+                    <a asp-page="/PublicPage/MovieDetail"
+                       asp-route-id="@Model.MainFeatureMovie.Id"
+                       class="flex items-center gap-2 rounded-full border-2 border-white/20 bg-white/10 px-8 py-4 font-bold text-white backdrop-blur-md transition-all hover:bg-white/20">
                         <span class="material-symbols-outlined">play_circle</span>
                         XEM TRAILER
-                    </button>
+                    </a>
                 </div>
             </div>
             <div class="relative mt-12 w-full max-w-2xl flex-1 lg:mt-0">
@@ -193,18 +199,11 @@
                     <div class="group min-w-[280px] cursor-pointer">
                         <div class="relative overflow-hidden rounded-2xl aspect-[2/3] transition-transform duration-500 group-hover:-translate-y-2">
 
-                            <img src="@poster"
-                                 alt="@movie.Title"
-                                 class="h-full w-full object-cover" />
-
-                            <div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                                <div class="absolute bottom-6 left-0 w-full px-6">
-                                    <button class="w-full rounded-full bg-primary py-3 text-sm font-bold text-background-dark"
-                                            style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">
-                                        ĐẶT VÉ
-                                    </button>
-                                </div>
-                            </div>
+                            <a asp-page="/PublicPage/MovieDetail" asp-route-id="@movie.Id">
+                                <img src="@poster"
+                                     alt="@movie.Title"
+                                     class="h-full w-full object-cover" />
+                            </a>
 
                             <div class="absolute right-3 top-3 rounded-lg bg-primary px-2 py-1 text-xs font-black text-background-dark">
                                 @movie.DurationMinutes phút
@@ -213,7 +212,9 @@
 
                         <div class="mt-4">
                             <h3 class="font-bold text-white group-hover:text-primary transition-colors">
-                                @movie.Title
+                                <a asp-page="/PublicPage/MovieDetail" asp-route-id="@movie.Id">
+                                    @movie.Title
+                                </a>
                             </h3>
 
                             <p class="text-sm text-slate-400">
@@ -259,9 +260,11 @@
 
                     <div class="group min-w-[320px]">
                         <div class="relative overflow-hidden rounded-2xl aspect-[2/3]">
-                            <img src="@poster"
-                                 alt="@movie.Title"
-                                 class="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                            <a asp-page="/PublicPage/MovieDetail" asp-route-id="@movie.Id">
+                                <img src="@poster"
+                                     alt="@movie.Title"
+                                     class="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                            </a>
 
                             <div class="absolute bottom-4 left-4 rounded-lg bg-primary/90 px-3 py-1 text-xs font-bold text-background-dark" style="background-color: var(--cvn-primary) !important; color: var(--cvn-background) !important;">
                                 Dự kiến: @(movie.ReleaseDate?.ToString("dd/MM/yyyy") ?? "không xác định")
@@ -270,7 +273,9 @@
 
                         <div class="mt-4">
                             <h3 class="text-lg font-bold text-white">
-                                @movie.Title
+                                <a asp-page="/PublicPage/MovieDetail" asp-route-id="@movie.Id">
+                                    @movie.Title
+                                </a>
                             </h3>
 
                             <div class="flex items-center gap-2 text-sm text-primary font-medium" style="color: var(--cvn-primary) !important;">

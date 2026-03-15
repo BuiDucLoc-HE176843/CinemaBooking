@@ -209,15 +209,11 @@
                 {
                     <div class="group relative flex flex-col gap-3">
                         <div class="relative aspect-[2/3] overflow-hidden rounded-2xl shadow-lg cursor-pointer">
-                            <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                 src="@($"http://localhost:5237{movie.PosterUrl}")"
-                                 alt="@movie.Title" />
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
-                                <a href="/Movies/Detail?id=@movie.Id"
-                                   class="w-full text-center bg-primary text-background-dark font-black py-2 rounded-lg text-sm hover:brightness-110">
-                                    ĐẶT VÉ NGAY
-                                </a>
-                            </div>
+                            <a asp-page="/PublicPage/MovieDetail" asp-route-id="@movie.Id">
+                                <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                     src="@($"http://localhost:5237{movie.PosterUrl}")"
+                                     alt="@movie.Title" />
+                            </a>
                             <div class="absolute top-3 left-3 flex flex-col gap-2">
                                 @if (movie.Status == 1)
                                 {
@@ -235,7 +231,9 @@
                         </div>
                         <div>
                             <h3 class="font-bold text-lg group-hover:text-primary transition-colors line-clamp-1 uppercase">
-                                @movie.Title
+                                <a asp-page="/PublicPage/MovieDetail" asp-route-id="@movie.Id">
+                                    @movie.Title
+                                </a>
                             </h3>
                             <p class="text-xs text-slate-500 font-medium">
                                 @(movie.Genres != null ? string.Join(", ", movie.Genres) : "")

@@ -1,0 +1,253 @@
+﻿@page
+@model CinemaBooking_RazorPage.Pages.PublicPage.MovieDetailModel
+@{
+}
+
+<!DOCTYPE html>
+
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff8c00",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#231a0f",
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro"]
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .bg-primary-important { background-color: #ff8c00 !important; }
+        .text-primary-important { color: #ff8c00 !important; }
+        .border-primary-important { border-color: #ff8c00 !important; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #231a0f; }
+        ::-webkit-scrollbar-thumb { background: #4b3820; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff8c00; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+    <div class="layout-container flex h-full grow flex-col">
+        <!-- Header: Exact match to SCREEN_8 -->
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-[#4b3820] px-6 md:px-20 py-4 sticky top-0 bg-background-light dark:bg-background-dark z-50">
+            <div class="flex items-center gap-8">
+                <div class="flex items-center gap-3 text-primary-important">
+                    <span class="material-symbols-outlined text-4xl font-bold">movie_filter</span>
+                    <span class="text-2xl font-black uppercase tracking-tighter">CinemaVN</span>
+                </div>
+            </div>
+            <div class="flex flex-1 justify-end gap-6 items-center">
+                <div class="flex gap-3">
+                    @if (HttpContext.Session.GetString("JWToken") == null)
+                    {
+                        <button class="flex h-10 px-6 cursor-pointer items-center justify-center rounded-full bg-slate-200 dark:bg-[#4b3820] text-slate-900 dark:text-white text-sm font-bold transition-transform hover:scale-105">
+                            <span>Đăng ký</span>
+                        </button>
+                        <a asp-page="/PublicPage/Login"
+                           class="flex h-10 px-6 cursor-pointer items-center justify-center rounded-full bg-primary-important text-background-dark text-sm font-bold transition-transform hover:scale-105">
+                            <span>Đăng nhập</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <form method="post" asp-page-handler="Logout">
+                            <button type="submit"
+                                    class="rounded-full bg-red-500 px-6 py-2.5 text-sm font-bold text-white transition-transform hover:scale-105 active:scale-95">
+                                Đăng xuất
+                            </button>
+                        </form>
+                    }
+
+                </div>
+            </div>
+        </header>
+        <main class="flex-1">
+            <!-- New Hero/Detail Section: Clean, no background, poster next to description -->
+            <div class="max-w-7xl mx-auto px-6 md:px-20 py-12">
+                <div class="flex flex-col md:flex-row gap-10 items-start">
+                    <!-- Movie Poster directly next to info -->
+                    <div class="w-full md:w-1/3 lg:w-1/4 shrink-0">
+                        <div class="rounded-2xl overflow-hidden shadow-2xl border-4 border-slate-200 dark:border-slate-800">
+                            <img alt="Movie Poster" class="w-full h-auto object-cover aspect-[2/3]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRmn4kiKNgYMLseys8oxITio3MQfd7mYptetBoQSgr4iikf_T9ctyWgLxz5BI44NJNfsuBaNESZ97y3ImuyYeBV_07ryo1ZeMDk5wOfANBJeN3SWMZPwuoKQC7NppAW2c5si8p_TsVifAOtDwsz3XZ8MIdVyWsWbFVckJbw4rMKdtPJPA4bOaXcI6t-wRyoN96jMG1YlzUd4eiotEYkQkVx4Qu358-aa0szIQPM3fkbp0szzYsM0XYzpfnekqEB9hhc2aAnGztcpA" />
+                        </div>
+                    </div>
+                    <!-- Movie Description -->
+                    <div class="flex-1 space-y-6">
+                        <div class="space-y-2">
+                            <span class="px-3 py-1 bg-primary-important text-background-dark text-xs font-bold rounded-full w-fit uppercase tracking-widest">Phim Sắp Chiếu</span>
+                            <h1 class="text-4xl md:text-6xl font-black leading-tight">Hành Tinh Cát: Phần Hai</h1>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-6 text-slate-600 dark:text-slate-400 text-sm font-medium">
+                            <span class="flex items-center gap-2"><span class="material-symbols-outlined text-primary-important">calendar_today</span> 15/03/2024</span>
+                            <span class="flex items-center gap-2"><span class="material-symbols-outlined text-primary-important">schedule</span> 166 phút</span>
+                            <span class="flex items-center gap-2"><span class="material-symbols-outlined text-primary-important">theater_comedy</span> Hành động, Khoa học viễn tưởng</span>
+                            <div class="flex items-center gap-2 px-3 py-1 bg-slate-100 dark:bg-[#2d2316] rounded-full">
+                                <span class="material-symbols-outlined text-primary-important text-sm">star</span>
+                                <span class="font-bold text-sm text-slate-900 dark:text-white">4.9/5 (1,2k đánh giá)</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">
+                            Paul Atreides hợp nhất với Chani và người Fremen khi đang trên con đường trả thù những kẻ đã tiêu diệt gia đình mình. Đối mặt với sự lựa chọn giữa tình yêu của đời mình và số phận của vũ trụ đã biết, anh ta nỗ lực ngăn chặn một tương lai khủng khiếp mà chỉ mình anh ta có thể thấy trước.
+                        </p>
+                        <div class="pt-4">
+                            <button class="flex min-w-[200px] h-14 cursor-pointer items-center justify-center gap-2 rounded-full bg-primary-important text-background-dark text-lg font-black uppercase tracking-wider hover:brightness-110 shadow-lg shadow-primary/20 transition-all">
+                                @if (HttpContext.Session.GetString("JWToken") == null)
+                                {
+                                    <a href="Login">
+                                        <span class="material-symbols-outlined">confirmation_number</span>
+                                        <span>Đặt vé ngay</span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="Booking">
+                                        <span class="material-symbols-outlined">confirmation_number</span>
+                                        <span>Đặt vé ngay</span>
+                                    </a>
+                                }
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-6 md:px-20 py-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    <!-- Left Content: Media & Reviews -->
+                    <div class="lg:col-span-3 space-y-12">
+                        <section>
+                            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                                <span class="w-1 h-8 bg-primary-important rounded-full"></span>
+                                Trailer &amp; Hình ảnh
+                            </h3>
+                            <div class="aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-2xl relative border border-slate-800">
+                                <div class="absolute inset-0 flex items-center justify-center bg-cover bg-center group cursor-pointer" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBlb6a9uGt8o39YFl0g_8ry02RJJmWkDHqDA4WebigpjpBiJkOfYd1cyY8sI4nOu1AJf4EDNERevlyOb0lmVfnwonHNmIlaKa5I7Lb7TD5kcKdSXp6f0PqPls106xjAFxMjiBS8sfdJBHHbXbr3dilotFVEid8JA8xQVwrGisIpXcLptYoZdRZnNT5noem8T9TsEUf41cZtX7Je0uzs0Rl6m1MQos1EC7yT-Qubkbm4BmqqH_hPpMzKjx_Yij_NohTx2-PlMudfXwU');">
+                                    <div class="size-20 bg-primary-important rounded-full flex items-center justify-center text-background-dark shadow-xl group-hover:scale-110 transition-transform">
+                                        <span class="material-symbols-outlined text-4xl">play_arrow</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section>
+                            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                                <span class="w-1 h-8 bg-primary-important rounded-full"></span>
+                                Đánh giá từ cộng đồng
+                            </h3>
+                            <!-- Review Form -->
+                            @if (HttpContext.Session.GetString("JWToken") != null)
+                            {
+                                <div class="bg-slate-100 dark:bg-[#2d2316] p-8 rounded-2xl border border-slate-200 dark:border-slate-800 mb-8">
+                                    <h4 class="text-lg font-bold mb-4">Viết đánh giá của bạn</h4>
+                                    <div class="flex gap-2 mb-4">
+                                        <span class="material-symbols-outlined text-primary-important cursor-pointer">star</span>
+                                        <span class="material-symbols-outlined text-primary-important cursor-pointer">star</span>
+                                        <span class="material-symbols-outlined text-primary-important cursor-pointer">star</span>
+                                        <span class="material-symbols-outlined text-primary-important cursor-pointer">star</span>
+                                        <span class="material-symbols-outlined text-slate-400 cursor-pointer">star</span>
+                                    </div>
+    <textarea class="w-full bg-background-light dark:bg-[#231a0f] border-slate-300 dark:border-slate-700 rounded-xl p-4 focus:ring-primary-important focus:border-primary-important text-sm min-h-[120px]" placeholder="Chia sẻ cảm nghĩ của bạn về bộ phim..."></textarea>
+                                    <div class="flex justify-end mt-4">
+                                        <button class="bg-primary-important text-background-dark px-8 py-3 rounded-full font-bold text-sm hover:brightness-110 transition-all">Gửi đánh giá</button>
+                                    </div>
+                                </div>
+                            }
+                            <!-- Review List -->
+                            <div class="space-y-6">
+                                <!-- Review Item -->
+                                <div class="flex gap-4 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+                                    <div class="size-12 rounded-full bg-slate-300 dark:bg-slate-700 flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             fill="currentColor"
+                                             viewBox="0 0 24 24"
+                                             class="w-7 h-7 text-slate-500 dark:text-slate-300">
+                                            <path fill-rule="evenodd"
+                                                  d="M18 20a6 6 0 10-12 0h12zm-6-8a4 4 0 100-8 4 4 0 000 8z"
+                                                  clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div>
+                                                <h5 class="font-bold">Nguyễn Minh Tuấn</h5>
+                                                <div class="flex text-primary-important text-xs">
+                                                    <span class="material-symbols-outlined !text-sm">star</span>
+                                                    <span class="material-symbols-outlined !text-sm">star</span>
+                                                    <span class="material-symbols-outlined !text-sm">star</span>
+                                                    <span class="material-symbols-outlined !text-sm">star</span>
+                                                    <span class="material-symbols-outlined !text-sm">star</span>
+                                                </div>
+                                            </div>
+                                            <span class="text-xs text-slate-500">15/09/2025</span>
+                                        </div>
+                                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Bộ phim thực sự là một kiệt tác hình ảnh và âm thanh. Dennis Villeneuve đã không làm người hâm mộ thất vọng. Cốt truyện sâu sắc và diễn xuất của Timothée Chalamet quá tuyệt vời.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Footer: Exact match to SCREEN_8 -->
+        <footer class="border-t border-slate-200 dark:border-[#4b3820] py-12 bg-background-light dark:bg-background-dark mt-20">
+            <div class="max-w-7xl mx-auto px-6 md:px-20 grid grid-cols-1 md:grid-cols-4 gap-12">
+                <!-- Logo + Description -->
+                <div class="space-y-4 md:col-span-2">
+                    <div class="flex items-center gap-3 text-primary-important mb-4">
+                        <span class="material-symbols-outlined text-4xl">movie_filter</span>
+                        <h2 class="text-2xl font-black leading-tight tracking-tight uppercase">CinemaVN</h2>
+                    </div>
+                    <p class="text-sm text-slate-500 leading-relaxed max-w-md">
+                        CinemaVN là nền tảng đặt vé phim hàng đầu Việt Nam, mang đến cho bạn trải nghiệm điện ảnh tuyệt vời nhất với hệ thống rạp hiện đại trên toàn quốc.
+                    </p>
+                </div>
+                <!-- Policy -->
+                <div>
+                    <h6 class="font-bold mb-4">Chính sách & Hỗ trợ</h6>
+                    <ul class="text-sm text-slate-500 space-y-2">
+                        <li><a class="hover:text-primary-important" href="#">Điều khoản sử dụng</a></li>
+                        <li><a class="hover:text-primary-important" href="#">Chính sách bảo mật</a></li>
+                        <li><a class="hover:text-primary-important" href="#">Chăm sóc khách hàng</a></li>
+                        <li><a class="hover:text-primary-important" href="#">Câu hỏi thường gặp</a></li>
+                    </ul>
+                </div>
+                <!-- Contact -->
+                <div>
+                    <h6 class="font-bold mb-4">Liên hệ</h6>
+                    <ul class="text-sm text-slate-500 space-y-3">
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary-important text-sm">mail</span>
+                            DepTraiNhatThanhHoa.com
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary-important text-sm">call</span>
+                            0999999999
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary-important text-sm">location_on</span>
+                            Thanh Hóa
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Bottom -->
+            <div class="max-w-7xl mx-auto px-6 md:px-20 mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-500">
+                Thiết kế bởi LocCute.
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
