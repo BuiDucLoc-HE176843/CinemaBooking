@@ -36,6 +36,10 @@ namespace CinemaBooking_RazorPage.Pages.User
 
         [BindProperty(SupportsGet = true)]
         public int? ShowtimeId { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public List<int> ShowtimeSeatIds { get; set; }
+
         public List<ShowtimeSeatResponse> Seats { get; set; } = new();
 
         public async Task OnGetAsync()
@@ -54,6 +58,7 @@ namespace CinemaBooking_RazorPage.Pages.User
             {
                 await LoadSeats();
             }
+            Console.WriteLine(string.Join(",", ShowtimeSeatIds ?? new List<int>()));
         }
 
         private async Task LoadSeats()

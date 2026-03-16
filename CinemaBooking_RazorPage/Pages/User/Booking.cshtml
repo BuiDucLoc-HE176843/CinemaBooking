@@ -426,15 +426,21 @@
 
                     </div>
 
-                    <button class="w-full bg-primary hover:bg-orange-500 text-white font-bold py-4 rounded-full shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 group">
-
-                        Xác nhận & Thanh toán
-
-                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">
-                            arrow_forward
-                        </span>
-
-                    </button>
+                    <form method="get" id="paymentForm">
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                        <input type="hidden" name="TheaterId" value="@Model.TheaterId" />
+                        <input type="hidden" name="StartTime" value="@Model.StartTime?.ToString("yyyy-MM-dd")" />
+                        <input type="hidden" name="EndTime" value="@Model.EndTime?.ToString("yyyy-MM-dd")" />
+                        <input type="hidden" name="ShowtimeId" value="@Model.ShowtimeId" />
+                        <div id="seatInputs"></div>
+                        <button type="submit"
+                                class="w-full bg-primary hover:bg-orange-500 text-white font-bold py-4 rounded-full shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 group">
+                            Xác nhận & Thanh toán
+                            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">
+                                arrow_forward
+                            </span>
+                        </button>
+                    </form>
 
                     <p class="text-center text-neutral-500 text-[10px] mt-4 px-4 leading-relaxed">
                         Bằng cách nhấn nút, bạn đồng ý với các Điều khoản & Chính sách của CinemaVN.
@@ -464,37 +470,63 @@
     const seats = document.querySelectorAll(".seat-item");
     const seatDisplay = document.getElementById("selectedSeats");
     const priceDisplay = document.getElementById("totalPrice");
+    // div chứa hidden input
+    const seatInputs = document.getElementById("seatInputs");
     seats.forEach(seat => {
-    seat.addEventListener("click", function(){
-    const id = this.dataset.seatId;
-    const label = this.dataset.seatLabel;
-    const price = parseFloat(this.dataset.price);
-    const index = selectedSeats.findIndex(x=>x.id==id);
-    if(index>=0){
-    selectedSeats.splice(index,1);
-    this.classList.remove("bg-primary","text-white","shadow","shadow-primary/50");
-    }else{
-    selectedSeats.push({
-    id:id,
-    label:label,
-    price:price
+        seat.addEventListener("click", function () {
+            const id = this.dataset.seatId;
+            const label = this.dataset.seatLabel;
+            const price = parseFloat(this.dataset.price);
+            const index = selectedSeats.findIndex(x => x.id == id);
+            if (index >= 0) {
+                // bỏ chọn ghế
+                selectedSeats.splice(index, 1);
+                this.classList.remove(
+                    "bg-primary",
+                    "text-white",
+                    "shadow",
+                    "shadow-primary/50"
+                );
+            } else {
+                // thêm ghế
+                selectedSeats.push({
+                    id: id,
+                    label: label,
+                    price: price
+                });
+                this.classList.add(
+                    "bg-primary",
+                    "text-white",
+                    "shadow",
+                    "shadow-primary/50"
+                );
+            }
+            updateTicket();
+        });
     });
-    this.classList.add("bg-primary","text-white","shadow","shadow-primary/50");
-    }
-    updateTicket();
-    });
-    });
-    function updateTicket(){
-    if(selectedSeats.length===0){
-    seatDisplay.innerText="Chưa chọn";
-    priceDisplay.innerText="0đ";
-    return;
-    }
-    const labels = selectedSeats.map(x=>x.label);
-    const total = selectedSeats
-    .map(x=>x.price)
-    .reduce((a,b)=>a+b,0);
-    seatDisplay.innerText = labels.join(", ");
-    priceDisplay.innerText = total.toLocaleString("vi-VN")+"đ";
+    function updateTicket() {
+        // reset hidden inputs
+        seatInputs.innerHTML = "";
+        if (selectedSeats.length === 0) {
+
+            seatDisplay.innerText = "Chưa chọn";
+            priceDisplay.innerText = "0đ";
+
+            return;
+        }
+        const labels = selectedSeats.map(x => x.label);
+        const total = selectedSeats
+            .map(x => x.price)
+            .reduce((a, b) => a + b, 0);
+        seatDisplay.innerText = labels.join(", ");
+        priceDisplay.innerText = total.toLocaleString("vi-VN") + "đ";
+        // tạo hidden inputs cho Razor
+        selectedSeats.forEach(seat => {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "ShowtimeSeatIds";
+            input.value = seat.id;
+            seatInputs.appendChild(input);
+        });
     }
 </script>
