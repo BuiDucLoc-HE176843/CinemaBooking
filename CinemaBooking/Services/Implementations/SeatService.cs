@@ -1,7 +1,6 @@
 ﻿using CinemaBooking.Configuration;
 using CinemaBooking.DTOs.Requests;
 using CinemaBooking.DTOs.Responses;
-using CinemaBooking.Enums;
 using CinemaBooking.Repositories.Interfaces;
 using CinemaBooking.Services.Interfaces;
 

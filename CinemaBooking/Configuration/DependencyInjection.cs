@@ -21,6 +21,7 @@ namespace CinemaBooking.Configuration
             services.AddScoped<ISeatRepository, SeatRepository>();
             services.AddScoped<IShowtimeRepository, ShowtimeRepository>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddScoped<IShowtimeSeatRepository, ShowtimeSeatRepository>();
 
             // ===== Services =====
             //services.AddScoped<IUserService, UserService>();
@@ -34,6 +35,7 @@ namespace CinemaBooking.Configuration
             services.AddScoped<IShowtimeService, ShowtimeService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddHostedService<SePaySyncService>();
+            services.AddScoped<IShowtimeSeatService, ShowtimeSeatService>();
 
             return services;
         }
