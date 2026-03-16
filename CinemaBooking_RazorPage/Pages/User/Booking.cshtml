@@ -175,49 +175,57 @@
 
                                     <!-- Showtime -->
                                     <div>
-                                        <label class="text-[10px] font-bold text-neutral-500 uppercase block mb-2 px-1">
-                                            Phòng Chiếu & Suất chiếu
-                                        </label>
-                                        <div class="space-y-3">
-                                            @if (Model.Showtimes != null && Model.Showtimes.Any())
-                                            {
-                                                var rooms = Model.Showtimes
-                                                .GroupBy(x => new { x.RoomId, x.RoomName });
-                                                foreach (var room in rooms)
+                                        <div>
+                                            <label class="text-[10px] font-bold text-neutral-500 uppercase block mb-2 px-1">
+                                                Phòng Chiếu & Suất chiếu
+                                            </label>
+                                            <div class="space-y-3">
+                                                @if (Model.Showtimes != null && Model.Showtimes.Any())
                                                 {
-                                                    <div class="bg-neutral-900/50 rounded-2xl p-3 border border-neutral-700">
+                                                    var rooms = Model.Showtimes
+                                                    .GroupBy(x => new { x.RoomId, x.RoomName });
+                                                    foreach (var room in rooms)
+                                                    {
+                                                        <div class="bg-neutral-900/50 rounded-2xl p-3 border border-neutral-700">
 
-                                                        <span class="text-[10px] font-bold text-neutral-400 uppercase block mb-2">
-                                                            @room.Key.RoomName
-                                                        </span>
-
-                                                        <div class="grid grid-cols-2 gap-3">
-                                                            @foreach (var show in room)
-                                                            {
-                                                                <span class="text-xs text-neutral-400">Từ</span>
-                                                                <div class="flex items-center gap-2">
-                                                                    <a class="bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-full text-xs text-white hover:border-primary transition-colors flex items-center justify-center">
-                                                                        @show.StartTime.ToString("dd/MM/yyyy HH:mm")
+                                                            <!-- ROOM NAME -->
+                                                            <div class="text-sm font-extrabold text-white bg-primary px-3 py-1 rounded-md inline-block mb-3 uppercase tracking-wide shadow">
+                                                                @room.Key.RoomName
+                                                            </div>
+                                                            <!-- SHOWTIME LIST (HORIZONTAL) -->
+                                                            <div class="flex gap-3 overflow-x-auto pb-2">
+                                                                @foreach (var show in room)
+                                                                {
+                                                                    <a asp-page="./Booking"
+                                                                       asp-route-id="@Model.Id"
+                                                                       asp-route-theaterId="@Model.TheaterId"
+                                                                       asp-route-startTime="@Model.StartTime"
+                                                                       asp-route-endTime="@Model.EndTime"
+                                                                       asp-route-showtimeId="@show.Id"
+                                                                       class="min-w-[170px] bg-neutral-900 border border-neutral-700
+                                                      rounded-xl p-3 hover:border-primary
+                                                      hover:bg-neutral-800 transition-all">
+                                                                        <div class="text-xs text-neutral-400">Từ</div>
+                                                                        <div class="text-xs text-white font-semibold mb-2">
+                                                                            @show.StartTime.ToString("dd/MM/yyyy HH:mm")
+                                                                        </div>
+                                                                        <div class="text-xs text-neutral-400">Đến</div>
+                                                                        <div class="text-xs text-white font-semibold">
+                                                                            @show.EndTime.ToString("dd/MM/yyyy HH:mm")
+                                                                        </div>
                                                                     </a>
-                                                                </div>
-
-                                                                <span class="text-xs text-neutral-400">Đến</span>
-                                                                <div class="flex items-center gap-2">
-                                                                    <a class="bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-full text-xs text-white hover:border-primary transition-colors flex items-center justify-center">
-                                                                        @show.EndTime.ToString("dd/MM/yyyy HH:mm")
-                                                                    </a>
-                                                                </div>
-                                                            }
+                                                                }
+                                                            </div>
                                                         </div>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="text-sm text-neutral-400 px-2">
+                                                        Không có suất chiếu
                                                     </div>
                                                 }
-                                            }
-                                            else
-                                            {
-                                                <div class="text-sm text-neutral-400 px-2">
-                                                    Không có suất chiếu
-                                                </div>
-                                            }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -227,113 +235,142 @@
                 </div>
             </aside>
             <!-- Middle Column: Seat Map -->
-            <section class="lg:col-span-6 flex flex-col items-center justify-start py-8">
-                <!-- Screen UI -->
+            <section class="lg:col-span-6 flex flex-col items-center py-8">
+
+                <!-- Screen -->
                 <div class="w-full flex flex-col items-center mb-16 screen-curve">
                     <div class="screen-element mb-4"></div>
-                    <p class="text-[10px] tracking-[0.4em] font-bold text-neutral-500 uppercase">Màn Hình / Screen</p>
+                    <p class="text-[10px] tracking-[0.4em] font-bold text-neutral-500 uppercase">
+                        Màn Hình / Screen
+                    </p>
                 </div>
-                <!-- Seating Grid -->
+
                 <div class="flex flex-col gap-3 mb-12">
-                    <!-- Row A - Regular -->
-                    <div class="flex gap-3 justify-center">
-                        <span class="text-[10px] w-4 text-neutral-600 self-center">A</span>
-                        <div class="flex gap-2">
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-700 border border-neutral-600 flex items-center justify-center"><span class="material-symbols-outlined text-xs text-neutral-500">close</span></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+
+                    @if (Model.Seats != null && Model.Seats.Any())
+                    {
+                        var rows = Model.Seats
+                        .GroupBy(x => x.RowNumber)
+                        .OrderBy(x => x.Key);
+
+                        var maxColumn = Model.Seats.Max(x => x.ColumnNumber);
+
+                        foreach (var row in rows)
+                        {
+                            var rowLetter = ((char)(64 + row.Key)).ToString();
+
+                            <div class="flex items-center gap-3 justify-center">
+
+                                <!-- Left Row Label -->
+                                <span class="text-[10px] w-4 text-neutral-600 text-center">
+                                    @rowLetter
+                                </span>
+
+                                <!-- Seat Grid -->
+                                <div class="grid gap-2"
+                                     style="grid-template-columns: repeat(@maxColumn, 2rem);">
+
+                                    @for (int col = 1; col <= maxColumn; col++)
+                                    {
+                                        var seat = row.FirstOrDefault(x => x.ColumnNumber == col);
+
+                                        if (seat == null)
+                                        {
+                                            <!-- Empty space if seat doesn't exist -->
+                                            <div class="size-8"></div>
+                                            continue;
+                                        }
+
+                                        var seatLabel = $"{rowLetter}{seat.ColumnNumber}";
+
+                                        if (seat.Status == "Booked")
+                                        {
+                                            <div class="size-8 rounded-lg bg-neutral-700 border border-neutral-600 flex items-center justify-center">
+                                                <span class="material-symbols-outlined text-xs text-neutral-500">
+                                                    close
+                                                </span>
+                                            </div>
+                                        }
+                                        else if (seat.Status == "Pending")
+                                        {
+                                            <div class="size-8 rounded-lg seat-pending flex items-center justify-center shadow">
+                                                <span class="text-black font-bold text-[10px]">
+                                                    @seatLabel
+                                                </span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            if (seat.SeatType == "Vip")
+                                            {
+                                                <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition">
+                                                    <span class="text-primary text-[10px]">
+                                                        @seatLabel
+                                                    </span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700 flex items-center justify-center hover:bg-neutral-700 transition">
+                                                    <span class="text-[10px]">
+                                                        @seatLabel
+                                                    </span>
+                                                </div>
+                                            }
+                                        }
+                                    }
+
+                                </div>
+
+                                <!-- Right Row Label -->
+                                <span class="text-[10px] w-4 text-neutral-600 text-center">
+                                    @rowLetter
+                                </span>
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-neutral-500 text-sm text-center">
+                            Hãy chọn suất chiếu để xem sơ đồ ghế
                         </div>
-                        <span class="text-[10px] w-4 text-neutral-600 self-center">A</span>
-                    </div>
-                    <!-- Row B - Regular -->
-                    <div class="flex gap-3 justify-center">
-                        <span class="text-[10px] w-4 text-neutral-600 self-center">B</span>
-                        <div class="flex gap-2">
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                        </div>
-                        <span class="text-[10px] w-4 text-neutral-600 self-center">B</span>
-                    </div>
-                    <!-- Row C - VIP (Pending) -->
-                    <div class="flex gap-3 justify-center">
-                        <span class="text-[10px] w-4 text-neutral-600 self-center">C</span>
-                        <div class="flex gap-2">
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                            <div class="size-8 rounded-lg seat-pending flex items-center justify-center shadow-lg"><span class="text-black font-bold text-[10px]">C3</span></div>
-                            <div class="size-8 rounded-lg seat-pending flex items-center justify-center shadow-lg"><span class="text-black font-bold text-[10px]">C4</span></div>
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                        </div>
-                        <span class="text-[10px] w-4 text-neutral-600 self-center">C</span>
-                    </div>
-                    <!-- Row D - VIP -->
-                    <div class="flex gap-3 justify-center">
-                        <span class="text-[10px] w-4 text-neutral-600 self-center">D</span>
-                        <div class="flex gap-2">
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
-                        </div>
-                        <span class="text-[10px] w-4 text-neutral-600 self-center">D</span>
-                    </div>
-                    <!-- Row E - Regular -->
-                    <div class="flex gap-3 justify-center">
-                        <span class="text-[10px] w-4 text-neutral-600 self-center">E</span>
-                        <div class="flex gap-2">
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
-                        </div>
-                        <span class="text-[10px] w-4 text-neutral-600 self-center">E</span>
-                    </div>
+                    }
+
                 </div>
-                <!-- Enhanced Legend -->
+
+                <!-- Legend -->
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-[10px] font-bold uppercase tracking-widest text-neutral-500">
+
                     <div class="flex items-center gap-2">
                         <div class="size-3 rounded-sm bg-neutral-800 border border-neutral-700"></div>
                         <span>Thường (Còn trống)</span>
                     </div>
+
                     <div class="flex items-center gap-2">
                         <div class="size-3 rounded-sm border-2 border-primary/50 bg-primary/10"></div>
                         <span class="text-primary">VIP (Còn trống)</span>
                     </div>
+
                     <div class="flex items-center gap-2">
-                        <div class="size-3 rounded-sm bg-neutral-700 flex items-center justify-center"><span class="material-symbols-outlined text-[8px]">close</span></div>
-                        <span>Đã đặt &amp; Thanh toán</span>
+                        <div class="size-3 rounded-sm bg-neutral-700 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-[8px]">close</span>
+                        </div>
+                        <span>Đã đặt & Thanh toán</span>
                     </div>
+
                     <div class="flex items-center gap-2">
                         <div class="size-3 rounded-sm seat-pending"></div>
                         <span class="text-accent-cyan">Chờ thanh toán</span>
                     </div>
+
                     <div class="flex items-center gap-2">
                         <div class="size-3 rounded-sm bg-primary shadow shadow-primary/50"></div>
                         <span class="text-white">Bạn đang chọn</span>
                     </div>
+
                 </div>
+
             </section>
             <!-- Right Column: Summary -->
             <aside class="lg:col-span-3">

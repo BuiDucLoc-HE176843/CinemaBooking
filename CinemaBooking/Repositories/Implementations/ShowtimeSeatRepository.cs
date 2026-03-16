@@ -22,7 +22,7 @@ namespace CinemaBooking.Repositories.Implementations
                 .Where(x =>
                     !x.IsDeleted &&
                     x.Seat != null &&
-                    !x.Seat.IsDeleted &&
+                    //!x.Seat.IsDeleted &&
                     !x.Seat.IsDisabled
                 )
                 .AsQueryable();
