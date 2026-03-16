@@ -68,6 +68,11 @@ namespace CinemaBooking.Repositories.Implementations
             return await _context.Movies.AnyAsync(x => x.Id == movieId);
         }
 
+        public async Task<bool> TheaterExistsAsync(int theaterId)
+        {
+            return await _context.Theaters.AnyAsync(x => x.Id == theaterId);
+        }
+
         public async Task<bool> RoomExistsAsync(int roomId)
         {
             return await _context.Rooms.AnyAsync(x => x.Id == roomId);
@@ -87,6 +92,11 @@ namespace CinemaBooking.Repositories.Implementations
 
             if (request.RoomId.HasValue)
                 query = query.Where(x => x.RoomId == request.RoomId.Value);
+
+            if (request.TheaterId.HasValue)
+            {
+                query = query.Where(x => x.Room!.TheaterId == request.TheaterId.Value);
+            }
 
             // 🔥 Filter thời gian
             if (request.StartTime.HasValue)

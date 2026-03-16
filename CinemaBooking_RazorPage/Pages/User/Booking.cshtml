@@ -1,0 +1,320 @@
+﻿@page
+@model CinemaBooking_RazorPage.Pages.User.BookingModel
+@{
+}
+
+<!DOCTYPE html>
+
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff8c00",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#0a0a0a",
+                        "neutral-800": "#1a1a1a",
+                        "neutral-700": "#2d2d2d",
+                        "accent-cyan": "#00f2ff",
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "9999px",
+                        "lg": "9999px",
+                        "xl": "9999px",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        :root {
+            --primary-orange: #ff8c00 !important;
+            --primary-glow: rgba(255, 140, 0, 0.4) !important;
+            --cyan-glow: rgba(0, 242, 255, 0.5) !important;
+        }
+
+        .seat-selected {
+            background-color: var(--primary-orange) !important;
+            box-shadow: 0 0 15px var(--primary-glow) !important;
+            border-color: var(--primary-orange) !important;
+        }
+
+        .seat-pending {
+            background-color: #00f2ff !important;
+            box-shadow: 0 0 15px var(--cyan-glow) !important;
+            border-color: #00f2ff !important;
+        }
+
+        .screen-curve {
+            perspective: 1000px;
+        }
+
+        .screen-element {
+            height: 8px;
+            width: 80%;
+            background: linear-gradient(to bottom, #ffffff, transparent);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.2);
+            border-radius: 50% / 100% 100% 0 0;
+            transform: rotateX(-45deg);
+        }
+        /* Custom date input styling */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+        /* Ensure primary orange persists */
+        .bg-primary {
+            background-color: #ff8c00 !important;
+        }
+
+        .text-primary {
+            color: #ff8c00 !important;
+        }
+
+        .border-primary {
+            border-color: #ff8c00 !important;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+    <div class="layout-container flex flex-col min-h-screen">
+        <!-- Header Section -->
+        <header class="w-full border-b border-neutral-800 bg-neutral-900/50 backdrop-blur-md sticky top-0 z-50">
+            <div class="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="size-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+                        <span class="material-symbols-outlined text-white text-2xl">movie</span>
+                    </div>
+                    <span class="text-xl font-black tracking-tighter text-white">Cinema<span class="text-primary">VN</span></span>
+                </div>
+                <h1 class="absolute left-1/2 -translate-x-1/2 text-lg font-bold uppercase tracking-[0.2em] text-neutral-200">Trang đặt vé</h1>
+                <div class="w-10 md:w-32"></div> <!-- Spacer to maintain centering -->
+            </div>
+        </header>
+        <main class="flex-grow max-w-[1440px] mx-auto w-full p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left Column: Movie Info & Controls -->
+            <aside class="lg:col-span-3 flex flex-col gap-6">
+                <div class="bg-neutral-800 rounded-3xl overflow-hidden border border-neutral-700">
+                    <div class="aspect-[2/3] w-full bg-neutral-700 relative">
+                        <img alt="Official movie poster for Avengers Endgame" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABdYm3m9t0YQap42U_oqiPfu895Wr_AuexOmqn4dkTTVwl6q1ZSIAErD5UnwroI-PCFOa8kHq47p-xFA_M55pPlo2DkeHb25bsJak7629TahuLeHBCNFB5yZ9PMr4al2XbvkJhIqtVBY8vIAVriaHcO1DGSc3rnDaKmKIr5ZwtNF7KIthqnVfMo3d1N96C-hBYf4C7yzMF-za2lOShJo0OvfnkkVnMF6TXyGtnAld94duFjAcxG4FVR25arEplZXdTFmmAGrhUYtE" />
+                        <div class="absolute top-4 left-4 px-3 py-1 bg-primary text-white text-[10px] font-bold rounded-full uppercase">Hot</div>
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-xl font-bold leading-tight mb-2 text-white">Avengers: Endgame</h2>
+                        <div class="flex items-center gap-4 text-sm text-neutral-400 mb-6">
+                            <span>181 phút</span>
+                            <span class="border border-neutral-500 px-2 py-0.5 rounded-full text-[10px]">C18</span>
+                        </div>
+                        <div class="space-y-6">
+                            <div>
+                                <label class="text-[10px] font-bold text-neutral-500 uppercase block mb-2 px-1">Chọn Rạp</label>
+                                <div class="bg-neutral-900 border border-neutral-700 rounded-full p-3 flex items-center justify-between cursor-pointer">
+                                    <span class="text-sm px-2 text-white">CinemaVN Quận 1</span>
+                                    <span class="material-symbols-outlined text-neutral-500">expand_more</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-neutral-500 uppercase block mb-2 px-1">Ngày Chiếu</label>
+                                <input class="w-full bg-neutral-900 border-neutral-700 rounded-full text-white text-sm focus:ring-primary focus:border-primary p-3" type="date" value="2024-06-24" />
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-neutral-500 uppercase block mb-2 px-1">Phòng Chiếu &amp; Suất chiếu</label>
+                                <div class="space-y-3">
+                                    <div class="bg-neutral-900/50 rounded-2xl p-3 border border-neutral-700">
+                                        <span class="text-[10px] font-bold text-neutral-400 uppercase block mb-2">Phòng 04 (IMAX)</span>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <button class="bg-neutral-900 border border-neutral-700 py-2 rounded-full text-xs text-white hover:border-primary transition-colors">14:00</button>
+                                            <button class="bg-primary border border-primary py-2 rounded-full text-xs text-white font-bold">17:30</button>
+                                        </div>
+                                    </div>
+                                    <div class="bg-neutral-900/50 rounded-2xl p-3 border border-neutral-700">
+                                        <span class="text-[10px] font-bold text-neutral-400 uppercase block mb-2">Phòng 02 (Standard)</span>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <button class="bg-neutral-900 border border-neutral-700 py-2 rounded-full text-xs text-white hover:border-primary transition-colors">20:15</button>
+                                            <button class="bg-neutral-900 border border-neutral-700 py-2 rounded-full text-xs text-white hover:border-primary transition-colors">22:45</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <!-- Middle Column: Seat Map -->
+            <section class="lg:col-span-6 flex flex-col items-center justify-start py-8">
+                <!-- Screen UI -->
+                <div class="w-full flex flex-col items-center mb-16 screen-curve">
+                    <div class="screen-element mb-4"></div>
+                    <p class="text-[10px] tracking-[0.4em] font-bold text-neutral-500 uppercase">Màn Hình / Screen</p>
+                </div>
+                <!-- Seating Grid -->
+                <div class="flex flex-col gap-3 mb-12">
+                    <!-- Row A - Regular -->
+                    <div class="flex gap-3 justify-center">
+                        <span class="text-[10px] w-4 text-neutral-600 self-center">A</span>
+                        <div class="flex gap-2">
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-700 border border-neutral-600 flex items-center justify-center"><span class="material-symbols-outlined text-xs text-neutral-500">close</span></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                        </div>
+                        <span class="text-[10px] w-4 text-neutral-600 self-center">A</span>
+                    </div>
+                    <!-- Row B - Regular -->
+                    <div class="flex gap-3 justify-center">
+                        <span class="text-[10px] w-4 text-neutral-600 self-center">B</span>
+                        <div class="flex gap-2">
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                        </div>
+                        <span class="text-[10px] w-4 text-neutral-600 self-center">B</span>
+                    </div>
+                    <!-- Row C - VIP (Pending) -->
+                    <div class="flex gap-3 justify-center">
+                        <span class="text-[10px] w-4 text-neutral-600 self-center">C</span>
+                        <div class="flex gap-2">
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                            <div class="size-8 rounded-lg seat-pending flex items-center justify-center shadow-lg"><span class="text-black font-bold text-[10px]">C3</span></div>
+                            <div class="size-8 rounded-lg seat-pending flex items-center justify-center shadow-lg"><span class="text-black font-bold text-[10px]">C4</span></div>
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                        </div>
+                        <span class="text-[10px] w-4 text-neutral-600 self-center">C</span>
+                    </div>
+                    <!-- Row D - VIP -->
+                    <div class="flex gap-3 justify-center">
+                        <span class="text-[10px] w-4 text-neutral-600 self-center">D</span>
+                        <div class="flex gap-2">
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                            <div class="size-8 rounded-lg border-2 border-primary/50 bg-primary/10"></div>
+                        </div>
+                        <span class="text-[10px] w-4 text-neutral-600 self-center">D</span>
+                    </div>
+                    <!-- Row E - Regular -->
+                    <div class="flex gap-3 justify-center">
+                        <span class="text-[10px] w-4 text-neutral-600 self-center">E</span>
+                        <div class="flex gap-2">
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                            <div class="size-8 rounded-lg bg-neutral-800 border border-neutral-700"></div>
+                        </div>
+                        <span class="text-[10px] w-4 text-neutral-600 self-center">E</span>
+                    </div>
+                </div>
+                <!-- Enhanced Legend -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-[10px] font-bold uppercase tracking-widest text-neutral-500">
+                    <div class="flex items-center gap-2">
+                        <div class="size-3 rounded-sm bg-neutral-800 border border-neutral-700"></div>
+                        <span>Thường (Còn trống)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="size-3 rounded-sm border-2 border-primary/50 bg-primary/10"></div>
+                        <span class="text-primary">VIP (Còn trống)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="size-3 rounded-sm bg-neutral-700 flex items-center justify-center"><span class="material-symbols-outlined text-[8px]">close</span></div>
+                        <span>Đã đặt &amp; Thanh toán</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="size-3 rounded-sm seat-pending"></div>
+                        <span class="text-accent-cyan">Chờ thanh toán</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="size-3 rounded-sm bg-primary shadow shadow-primary/50"></div>
+                        <span class="text-white">Bạn đang chọn</span>
+                    </div>
+                </div>
+            </section>
+            <!-- Right Column: Summary -->
+            <aside class="lg:col-span-3">
+                <div class="bg-neutral-800 rounded-3xl p-6 border border-neutral-700 sticky top-24">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2 text-white">
+                        <span class="material-symbols-outlined text-primary">confirmation_number</span>
+                        Thông tin vé
+                    </h3>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex justify-between items-start">
+                            <span class="text-neutral-500 text-sm">Phim</span>
+                            <span class="text-right font-medium max-w-[150px] text-white">Avengers: Endgame</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500 text-sm">Suất chiếu</span>
+                            <span class="font-medium text-primary">17:30, 24 Th06</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500 text-sm">Rạp / Phòng</span>
+                            <span class="font-medium text-white">Quận 1, P. 04</span>
+                        </div>
+                        <div class="flex justify-between border-t border-neutral-700 pt-4">
+                            <span class="text-neutral-500 text-sm">Ghế đã chọn</span>
+                            <span class="font-bold text-accent-cyan">C3, C4</span>
+                        </div>
+                    </div>
+                    <div class="bg-neutral-900 rounded-2xl p-4 mb-6">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs text-neutral-500 uppercase font-bold tracking-wider">Tổng cộng</span>
+                            <span class="text-primary text-xl font-black">240.000đ</span>
+                        </div>
+                        <p class="text-[10px] text-neutral-600 italic">* Đã bao gồm 10% VAT</p>
+                    </div>
+                    <button class="w-full bg-primary hover:bg-orange-500 text-white font-bold py-4 rounded-full shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 group">
+                        Xác nhận &amp; Thanh toán
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    </button>
+                    <p class="text-center text-neutral-500 text-[10px] mt-4 px-4 leading-relaxed">
+                        Bằng cách nhấn nút, bạn đồng ý với các Điều khoản &amp; Chính sách của CinemaVN.
+                    </p>
+                </div>
+            </aside>
+        </main>
+        <footer class="mt-auto border-t border-neutral-800 bg-neutral-900/50 py-8">
+            <div class="max-w-[1440px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-neutral-500 text-xs">
+                    Thiết kế bởi LocCute.
+                </div>
+                <div class="flex gap-6 text-neutral-400 text-xs">
+                    <a class="hover:text-primary transition-colors" href="#">Quy định giao dịch</a>
+                    <a class="hover:text-primary transition-colors" href="#">Chính sách bảo mật</a>
+                    <a class="hover:text-primary transition-colors" href="#">Liên hệ</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

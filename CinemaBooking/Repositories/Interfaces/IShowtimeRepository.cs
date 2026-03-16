@@ -11,6 +11,7 @@ namespace CinemaBooking.Repositories.Interfaces
 
         Task<bool> MovieExistsAsync(int movieId);
         Task<bool> RoomExistsAsync(int roomId);
+        Task<bool> TheaterExistsAsync(int roomId);
 
         Task<PagedResult<ShowtimeResponse>> FilterAsync(ShowtimeFilterRequest request);
 

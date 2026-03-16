@@ -67,6 +67,9 @@ namespace CinemaBooking_RazorPage.Pages.Admin
             if (SelectedRoomId != null)
                 url += $"&RoomId={SelectedRoomId}";
 
+            if (SelectedTheaterId != null)
+                url += $"&TheaterId={SelectedTheaterId}";
+
             if (SelectedMovieId != null)
                 url += $"&MovieId={SelectedMovieId}";
 

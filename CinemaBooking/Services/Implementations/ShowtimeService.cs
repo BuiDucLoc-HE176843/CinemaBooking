@@ -40,6 +40,13 @@ namespace CinemaBooking.Services.Implementations
                     throw new AppException("Room không tồn tại");
             }
 
+            if (request.TheaterId.HasValue)
+            {
+                var exists = await _showtimeRepository.TheaterExistsAsync(request.TheaterId.Value);
+                if (!exists)
+                    throw new AppException("Rạp không tồn tại");
+            }
+
             return await _showtimeRepository.FilterAsync(request);
         }
 
