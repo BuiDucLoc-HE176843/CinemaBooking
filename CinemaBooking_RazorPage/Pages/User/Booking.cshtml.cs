@@ -58,7 +58,80 @@ namespace CinemaBooking_RazorPage.Pages.User
             {
                 await LoadSeats();
             }
-            Console.WriteLine(string.Join(",", ShowtimeSeatIds ?? new List<int>()));
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var token = HttpContext.Session.GetString("JWToken");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                TempData["ErrorMessage"] = "Bạn cần đăng nhập để đặt vé";
+                return RedirectToPage("/PublicPage/Login");
+            }
+
+            if (!ShowtimeId.HasValue || ShowtimeSeatIds == null || !ShowtimeSeatIds.Any())
+            {
+                TempData["ErrorMessage"] = "Vui lòng chọn ghế";
+                return RedirectToPage(new
+                {
+                    Id,
+                    TheaterId,
+                    StartTime,
+                    EndTime,
+                    ShowtimeId
+                });
+            }
+
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var request = new
+            {
+                showtimeId = ShowtimeId.Value,
+                showtimeSeatIds = ShowtimeSeatIds
+            };
+
+            var response = await _httpClient.PostAsJsonAsync(
+                "http://localhost:5237/api/Booking",
+                request
+            );
+
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<JsonElement>>();
+
+            // lỗi http hoặc api
+            if (!response.IsSuccessStatusCode || result == null)
+            {
+                TempData["ErrorMessage"] = "Không thể tạo booking";
+                return RedirectToPage(new
+                {
+                    Id,
+                    TheaterId,
+                    StartTime,
+                    EndTime,
+                    ShowtimeId
+                });
+            }
+
+            // API trả success = false
+            if (!result.Success)
+            {
+                TempData["ErrorMessage"] = result.Message;
+
+                return RedirectToPage(new
+                {
+                    Id,
+                    TheaterId,
+                    StartTime,
+                    EndTime,
+                    ShowtimeId
+                });
+            }
+
+            // Thành công
+            var bookingId = result.Data.GetProperty("bookingId").GetInt32();
+
+            return RedirectToPage("/User/Payment", new { bookingId });
         }
 
         private async Task LoadSeats()

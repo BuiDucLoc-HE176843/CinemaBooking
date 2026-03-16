@@ -370,7 +370,12 @@
             </section>
             <!-- Right Column: Summary -->
             <aside class="lg:col-span-3">
-
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="bg-red-500 text-white p-3 rounded-lg mb-4">
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
                 <div class="bg-neutral-800 rounded-3xl p-6 border border-neutral-700 sticky top-24">
 
                     <h3 class="text-lg font-bold mb-6 flex items-center gap-2 text-white">
@@ -426,7 +431,7 @@
 
                     </div>
 
-                    <form method="get" id="paymentForm">
+                    <form method="post" id="paymentForm">
                         <input type="hidden" name="Id" value="@Model.Id" />
                         <input type="hidden" name="TheaterId" value="@Model.TheaterId" />
                         <input type="hidden" name="StartTime" value="@Model.StartTime?.ToString("yyyy-MM-dd")" />
