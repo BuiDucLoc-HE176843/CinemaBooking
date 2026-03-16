@@ -108,46 +108,120 @@
             <aside class="lg:col-span-3 flex flex-col gap-6">
                 <div class="bg-neutral-800 rounded-3xl overflow-hidden border border-neutral-700">
                     <div class="aspect-[2/3] w-full bg-neutral-700 relative">
-                        <img alt="Official movie poster for Avengers Endgame" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABdYm3m9t0YQap42U_oqiPfu895Wr_AuexOmqn4dkTTVwl6q1ZSIAErD5UnwroI-PCFOa8kHq47p-xFA_M55pPlo2DkeHb25bsJak7629TahuLeHBCNFB5yZ9PMr4al2XbvkJhIqtVBY8vIAVriaHcO1DGSc3rnDaKmKIr5ZwtNF7KIthqnVfMo3d1N96C-hBYf4C7yzMF-za2lOShJo0OvfnkkVnMF6TXyGtnAld94duFjAcxG4FVR25arEplZXdTFmmAGrhUYtE" />
-                        <div class="absolute top-4 left-4 px-3 py-1 bg-primary text-white text-[10px] font-bold rounded-full uppercase">Hot</div>
+                        <img class="w-full h-full object-cover"
+                             src="@(Model.Movie?.PosterUrl != null ? "http://localhost:5237" + Model.Movie.PosterUrl : "/images/no-image.png")"
+                             alt="@Model.Movie?.Title" />
+
+                        @if (Model.Movie?.IsMainFeature == true)
+                        {
+                            <div class="absolute top-4 left-4 px-3 py-1 bg-primary text-white text-[10px] font-bold rounded-full uppercase">
+                                Hot
+                            </div>
+                        }
                     </div>
                     <div class="p-6">
-                        <h2 class="text-xl font-bold leading-tight mb-2 text-white">Avengers: Endgame</h2>
+                        <h2 class="text-xl font-bold leading-tight mb-2 text-white">@Model.Movie?.Title</h2>
                         <div class="flex items-center gap-4 text-sm text-neutral-400 mb-6">
-                            <span>181 phút</span>
-                            <span class="border border-neutral-500 px-2 py-0.5 rounded-full text-[10px]">C18</span>
+                            <span>@Model.Movie?.DurationMinutes phút</span>
                         </div>
                         <div class="space-y-6">
-                            <div>
-                                <label class="text-[10px] font-bold text-neutral-500 uppercase block mb-2 px-1">Chọn Rạp</label>
-                                <div class="bg-neutral-900 border border-neutral-700 rounded-full p-3 flex items-center justify-between cursor-pointer">
-                                    <span class="text-sm px-2 text-white">CinemaVN Quận 1</span>
-                                    <span class="material-symbols-outlined text-neutral-500">expand_more</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-bold text-neutral-500 uppercase block mb-2 px-1">Ngày Chiếu</label>
-                                <input class="w-full bg-neutral-900 border-neutral-700 rounded-full text-white text-sm focus:ring-primary focus:border-primary p-3" type="date" value="2024-06-24" />
-                            </div>
-                            <div>
-                                <label class="text-[10px] font-bold text-neutral-500 uppercase block mb-2 px-1">Phòng Chiếu &amp; Suất chiếu</label>
-                                <div class="space-y-3">
-                                    <div class="bg-neutral-900/50 rounded-2xl p-3 border border-neutral-700">
-                                        <span class="text-[10px] font-bold text-neutral-400 uppercase block mb-2">Phòng 04 (IMAX)</span>
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <button class="bg-neutral-900 border border-neutral-700 py-2 rounded-full text-xs text-white hover:border-primary transition-colors">14:00</button>
-                                            <button class="bg-primary border border-primary py-2 rounded-full text-xs text-white font-bold">17:30</button>
+                            <form method="get">
+                                <input type="hidden" name="Id" value="@Model.Id" />
+                                <div class="space-y-6">
+                                    <!-- Chọn rạp -->
+                                    <div>
+                                        <label class="text-[10px] font-bold text-neutral-500 uppercase block mb-2 px-1">
+                                            Chọn Rạp
+                                        </label>
+                                        <select name="TheaterId"
+                                                class="w-full bg-neutral-900 border border-neutral-700 rounded-full text-white text-sm p-3">
+                                            <option value="">-- Tất cả rạp --</option>
+                                            @foreach (var theater in Model.Theaters)
+                                            {
+                                                <option value="@theater.Id"
+                                                        selected="@(Model.TheaterId == theater.Id)">
+                                                    @theater.Name
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <!-- Ngày chiếu -->
+                                    <div>
+                                        <label class="text-[10px] font-bold text-neutral-500 uppercase block mb-2 px-1">
+                                            Ngày Chiếu Từ
+                                        </label>
+                                        <input type="date"
+                                               name="StartTime"
+                                               value="@Model.StartTime?.ToString("yyyy-MM-dd")"
+                                               class="w-full bg-neutral-900 border-neutral-700 rounded-full text-white text-sm focus:ring-primary focus:border-primary p-3" />
+                                    </div>
+
+                                    <div>
+                                        <label class="text-[10px] font-bold text-neutral-500 uppercase block mb-2 px-1">
+                                            Ngày Chiếu Đến
+                                        </label>
+                                        <input type="date"
+                                               name="EndTime"
+                                               value="@Model.EndTime?.ToString("yyyy-MM-dd")"
+                                               class="w-full bg-neutral-900 border-neutral-700 rounded-full text-white text-sm focus:ring-primary focus:border-primary p-3" />
+                                    </div>
+
+                                    <!-- Nút tìm -->
+                                    <button type="submit"
+                                            class="w-full bg-primary text-white rounded-full py-3 text-sm font-bold hover:opacity-90 transition">
+                                        Tìm suất chiếu
+                                    </button>
+
+                                    <!-- Showtime -->
+                                    <div>
+                                        <label class="text-[10px] font-bold text-neutral-500 uppercase block mb-2 px-1">
+                                            Phòng Chiếu & Suất chiếu
+                                        </label>
+                                        <div class="space-y-3">
+                                            @if (Model.Showtimes != null && Model.Showtimes.Any())
+                                            {
+                                                var rooms = Model.Showtimes
+                                                .GroupBy(x => new { x.RoomId, x.RoomName });
+                                                foreach (var room in rooms)
+                                                {
+                                                    <div class="bg-neutral-900/50 rounded-2xl p-3 border border-neutral-700">
+
+                                                        <span class="text-[10px] font-bold text-neutral-400 uppercase block mb-2">
+                                                            @room.Key.RoomName
+                                                        </span>
+
+                                                        <div class="grid grid-cols-2 gap-3">
+                                                            @foreach (var show in room)
+                                                            {
+                                                                <span class="text-xs text-neutral-400">Từ</span>
+                                                                <div class="flex items-center gap-2">
+                                                                    <a class="bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-full text-xs text-white hover:border-primary transition-colors flex items-center justify-center">
+                                                                        @show.StartTime.ToString("dd/MM/yyyy HH:mm")
+                                                                    </a>
+                                                                </div>
+
+                                                                <span class="text-xs text-neutral-400">Đến</span>
+                                                                <div class="flex items-center gap-2">
+                                                                    <a class="bg-neutral-900 border border-neutral-700 px-3 py-2 rounded-full text-xs text-white hover:border-primary transition-colors flex items-center justify-center">
+                                                                        @show.EndTime.ToString("dd/MM/yyyy HH:mm")
+                                                                    </a>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div class="text-sm text-neutral-400 px-2">
+                                                    Không có suất chiếu
+                                                </div>
+                                            }
                                         </div>
                                     </div>
-                                    <div class="bg-neutral-900/50 rounded-2xl p-3 border border-neutral-700">
-                                        <span class="text-[10px] font-bold text-neutral-400 uppercase block mb-2">Phòng 02 (Standard)</span>
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <button class="bg-neutral-900 border border-neutral-700 py-2 rounded-full text-xs text-white hover:border-primary transition-colors">20:15</button>
-                                            <button class="bg-neutral-900 border border-neutral-700 py-2 rounded-full text-xs text-white hover:border-primary transition-colors">22:45</button>
-                                        </div>
-                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
