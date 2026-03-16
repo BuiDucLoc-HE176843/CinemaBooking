@@ -17,7 +17,7 @@ namespace CinemaBooking.Services.Implementations
             _bookingRepository = bookingRepository;
         }
 
-        public async Task CreateBookingAsync(int userId, CreateBookingRequest request)
+        public async Task<int> CreateBookingAsync(int userId, CreateBookingRequest request)
         {
             if (request.ShowtimeSeatIds == null || !request.ShowtimeSeatIds.Any())
                 throw new AppException("Danh sách ghế không hợp lệ");
@@ -93,6 +93,8 @@ namespace CinemaBooking.Services.Implementations
             booking.TotalPrice = totalPrice;
 
             await _bookingRepository.UpdateAsync(booking);
+
+            return booking.Id;
         }
     }
 }
