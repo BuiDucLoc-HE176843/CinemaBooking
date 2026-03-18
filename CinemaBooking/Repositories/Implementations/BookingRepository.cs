@@ -64,9 +64,9 @@ namespace CinemaBooking.Repositories.Implementations
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<List<Booking>> GetByUserIdAsync(int userId)
+        public IQueryable<Booking> GetByUserIdQueryable(int userId)
         {
-            return await _context.Bookings
+            return _context.Bookings
                 .Where(b => b.UserId == userId)
                 .Include(b => b.Showtime)
                     .ThenInclude(s => s.Movie)
@@ -76,7 +76,7 @@ namespace CinemaBooking.Repositories.Implementations
                 .Include(b => b.BookingSeats)
                     .ThenInclude(bs => bs.ShowtimeSeat)
                         .ThenInclude(ss => ss.Seat)
-                .ToListAsync();
+                .OrderByDescending(b => b.BookingDate); // 👈 nên sort
         }
     }
 }

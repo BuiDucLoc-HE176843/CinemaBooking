@@ -5,6 +5,7 @@ using CinemaBooking.Enums;
 using CinemaBooking.Models;
 using CinemaBooking.Repositories.Interfaces;
 using CinemaBooking.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CinemaBooking.Services.Implementations
 {
@@ -108,11 +109,27 @@ namespace CinemaBooking.Services.Implementations
             return MapToResponse(booking);
         }
 
-        public async Task<List<BookingResponse>> GetMyBookingsAsync(int userId)
+        public async Task<PagedResult<BookingResponse>> GetMyBookingsAsync(int userId, PaginationRequest request)
         {
-            var bookings = await _bookingRepository.GetByUserIdAsync(userId);
+            var query = _bookingRepository.GetByUserIdQueryable(userId);
 
-            return bookings.Select(MapToResponse).ToList();
+            var totalCount = await query.CountAsync();
+
+            var bookings = await query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
+            var items = bookings.Select(MapToResponse).ToList();
+
+            return new PagedResult<BookingResponse>
+            {
+                Items = items,
+                PageNumber = request.PageNumber,
+                PageSize = request.PageSize,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling(totalCount / (double)request.PageSize)
+            };
         }
 
         private BookingResponse MapToResponse(Booking booking)
@@ -125,6 +142,8 @@ namespace CinemaBooking.Services.Implementations
                 TheaterName = booking.Showtime?.Room?.Theater?.Name ?? "",
                 RoomName = booking.Showtime?.Room?.Name ?? "",
                 TransactionContent = booking.TransactionContent,
+                StartTime = booking.Showtime?.StartTime ?? DateTime.MinValue,
+                EndTime = booking.Showtime?.EndTime ?? DateTime.MinValue,
                 BookingDate = booking.BookingDate,
                 TotalPrice = booking.TotalPrice,
                 Status = booking.Status.ToString(),

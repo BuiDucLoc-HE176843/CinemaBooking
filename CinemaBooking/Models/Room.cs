@@ -20,10 +20,10 @@ namespace CinemaBooking.Models
         public int Columns { get; set; } = 8;
 
         [Column(TypeName = "decimal(10,2)")]
-        public decimal RegularPrice { get; set; } = 90000m;
+        public decimal RegularPrice { get; set; } = 2000m;
 
         [Column(TypeName = "decimal(10,2)")]
-        public decimal VipPrice { get; set; } = 150000m;
+        public decimal VipPrice { get; set; } = 3000m;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }

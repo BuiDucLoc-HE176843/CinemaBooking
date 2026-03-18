@@ -13,6 +13,6 @@ namespace CinemaBooking.Repositories.Interfaces
         Task AddRangeAsync(List<BookingSeat> bookingSeats);
 
         Task<Booking?> GetByIdAsync(int id);
-        Task<List<Booking>> GetByUserIdAsync(int userId);
+        IQueryable<Booking> GetByUserIdQueryable(int userId);
     }
 }

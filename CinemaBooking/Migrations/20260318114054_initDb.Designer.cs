@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBooking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260315174348_initDb")]
+    [Migration("20260318114054_initDb")]
     partial class initDb
     {
         /// <inheritdoc />

@@ -1,4 +1,4 @@
-﻿namespace CinemaBooking.DTOs.Responses
+﻿namespace CinemaBooking_RazorPage.DTOs.Responses
 {
     public class BookingSeatResponse
     {

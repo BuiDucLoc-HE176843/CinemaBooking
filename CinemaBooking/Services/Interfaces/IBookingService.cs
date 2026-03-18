@@ -1,4 +1,5 @@
-﻿using CinemaBooking.DTOs.Requests;
+﻿using CinemaBooking.Configuration;
+using CinemaBooking.DTOs.Requests;
 using CinemaBooking.DTOs.Responses;
 
 namespace CinemaBooking.Services.Interfaces
@@ -7,6 +8,6 @@ namespace CinemaBooking.Services.Interfaces
     {
         Task<int> CreateBookingAsync(int userId, CreateBookingRequest request);
         Task<BookingResponse> GetByIdAsync(int id);
-        Task<List<BookingResponse>> GetMyBookingsAsync(int userId);
+        Task<PagedResult<BookingResponse>> GetMyBookingsAsync(int userId, PaginationRequest request);
     }
 }

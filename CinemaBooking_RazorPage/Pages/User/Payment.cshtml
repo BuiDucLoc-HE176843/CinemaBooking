@@ -67,18 +67,17 @@
 <body class="min-h-screen flex flex-col">
     <!-- BEGIN: MainHeader -->
     <header class="w-full py-4 px-6 md:px-12 grid grid-cols-3 items-center border-b border-white/10 bg-darkBg sticky top-0 z-50">
-        @* <div class="flex items-center gap-2">
-            <span class="text-xl font-black tracking-tighter text-white">Cinema<span class="text-primary">VN</span></span>
-        </div> *@
         <div class="flex items-center gap-2">
             <!-- Icon phim -->
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 class="w-6 h-6 text-primary"
-                 fill="currentColor"
-                 viewBox="0 0 24 24">
-                <path d="M4 4h16v16H4V4zm2 2v2h2V6H6zm0 4v2h2v-2H6zm0 4v2h2v-2H6zm10-8v2h2V6h-2zm0 4v2h2v-2h-2zm0 4v2h2v-2h-2z" />
-            </svg>
-
+            <div class="size-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+                <!-- SVG icon phim -->
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="w-6 h-6 text-white"
+                     fill="currentColor"
+                     viewBox="0 0 24 24">
+                    <path d="M4 4h16v16H4V4zm2 2v2h2V6H6zm0 4v2h2v-2H6zm0 4v2h2v-2H6zm10-8v2h2V6h-2zm0 4v2h2v-2h-2zm0 4v2h2v-2h-2z" />
+                </svg>
+            </div>
             <span class="text-xl font-black tracking-tighter text-white">
                 Cinema<span class="text-primary">VN</span>
             </span>
@@ -106,29 +105,70 @@
                     <div class="p-6 md:p-8 border-r border-white/5 bg-white/5" data-purpose="movie-info-container">
                         <div class="flex flex-col h-full">
                             <div class="relative aspect-[2/3] w-full rounded-2xl overflow-hidden mb-6 shadow-xl">
-                                <img alt="Mưa đỏ Poster" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x900?text=Mua+Do'" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2dKMERYonNTBiivDeaaQKi1lgi3M1uBsISpXiZtxg4GjeiK71v0xcWEYGpbMVTKOfvIWdDQjdcS2By8l1hFNtX69paa3vCOrrNLzjmd-Uyq54UxuOEa0ERz9JbscQ74173Zt2Sdd_uG5VZe_5o7XijA8-hzxRTceW9DsdUlKWM3hCfCWiWit0b3rdbkGs8F3oDtkZTR_9cPTdju1M7T09Biouqa1Fp0GLfD9eNQAhFB_BzhcApstJVVjyRUSvQmGgzZiU4j024qg" />
+                                <img alt="@Model.Booking.MovieName Poster"
+                                     class="w-full h-full object-cover"
+                                     onerror="this.src='https://placehold.co/600x900?text=No+Image'"
+                                     src="@($"http://localhost:5237{Model.Booking.PosterUrl}")" />
                                 <div class="absolute top-3 left-3 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
                                     Hot
                                 </div>
                             </div>
                             <div class="space-y-4">
-                                <h2 class="text-2xl font-bold text-white">Mưa đỏ</h2>
+                                <h2 class="text-2xl font-bold text-white">
+                                    @Model.Booking.MovieName
+                                </h2>
                                 <div class="space-y-3">
+                                    <!-- Theater -->
                                     <div class="flex items-center gap-3 text-gray-400">
-                                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                                        <span class="text-sm">CGV Vincom Bà Triệu</span>
+                                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                            <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                                                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                        </svg>
+                                        <span class="text-sm">@Model.Booking.TheaterName</span>
+                                    </div>
+                                    <!-- Room -->
+                                    <div class="flex items-center gap-3 text-gray-400">
+                                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                            <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                                                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                        </svg>
+                                        <span class="text-sm">@Model.Booking.RoomName</span>
+                                    </div>
+                                    <!-- Date -->
+                                    <div class="flex items-center gap-3 text-gray-400">
+                                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                            <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                        </svg>
+                                        <span class="text-sm">
+                                            Ngày đặt: @Model.Booking.BookingDate.ToString("dd/MM/yyyy")
+                                        </span>
                                     </div>
                                     <div class="flex items-center gap-3 text-gray-400">
-                                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                                        <span class="text-sm">Phòng 1</span>
+                                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                            <path d="M12 8v4l3 3M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10z"
+                                                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                        </svg>
+
+                                        <span class="text-sm">
+                                            <span class="text-gray-400">Suất chiếu:</span>
+                                            <span class="text-white font-medium ml-1">
+                                                @($"{Model.Booking.StartTime:dd/MM/yyyy HH:mm} → {Model.Booking.EndTime:dd/MM/yyyy HH:mm}")
+                                            </span>
+                                        </span>
                                     </div>
+                                    <!-- Seats -->
                                     <div class="flex items-center gap-3 text-gray-400">
-                                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                                        <span class="text-sm">18/03/2026</span>
-                                    </div>
-                                    <div class="flex items-center gap-3 text-gray-400">
-                                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M7 7h.01M7 11h.01M7 15h.01M11 7h.01M11 11h.01M11 15h.01M15 7h.01M15 11h.01M15 15h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                                        <span class="text-sm">Ghế: <span class="text-primary font-bold">Seat 35, Seat 36</span></span>
+                                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                            <path d="M7 7h.01M7 11h.01M7 15h.01M11 7h.01M11 11h.01M11 15h.01M15 7h.01M15 11h.01M15 15h.01"
+                                                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                        </svg>
+                                        <span class="text-sm">
+                                            Ghế:
+                                            <span class="text-primary font-bold">
+                                                @string.Join(", ", Model.Booking.Seats.Select(s => $"Seat {s.SeatId}"))
+                                            </span>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -138,32 +178,90 @@
                     <div class="p-6 md:p-8 flex flex-col justify-center space-y-8" data-purpose="payment-details-container">
                         <div class="flex flex-col items-center space-y-6">
                             <div class="bg-white p-4 rounded-2xl shadow-inner">
-                                <!-- QR Code -->
-                                <img alt="Payment QR Code" class="w-48 h-48 md:w-56 md:h-56" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHcgaWkQNnEf3_4xUbn1ddwOuCCy_H-C8aD2SNDIMzuVa7z8eR2epS3Gk76ch8FnT9hAadSMACcDVlS9qrQ6OH71L5Z0Qg1hfeKOq_bRqABbtoLbO1Gnz3dQowvoJJpLc2HF_OSEX9l2LEzmXD25xJQ2JlWiOE_TgQRofVS5Y0thPc6q0VGvmPimUVxZ3nFiQTJSHKB46HoFuPEBHFOW2WmVL6V7gMqIldSMk2gZy9b5q2uiumAo1ghnm75XRSYMqWk5JQU7LbG1g" />
+                                @if (Model.Booking.Status == "Pending")
+                                {
+                                    <img alt="Payment QR Code"
+                                         class="w-48 h-48 md:w-56 md:h-56"
+                                         src="@($"https://img.vietqr.io/image/BIDV-9624750HMH-print.png?amount={Model.Booking.TotalPrice}&addInfo={Uri.EscapeDataString(Model.Booking.TransactionContent)}")" />
+                                }
+                                else if (Model.Booking.Status == "Paid")
+                                {
+                                    <div class="text-center">
+                                        <p class="text-green-500 font-bold text-lg">✅ Đã thanh toán</p>
+                                        <p class="text-gray-400 text-sm mt-2">Vé của bạn đã được xác nhận</p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-center">
+                                        <p class="text-red-500 font-bold text-lg">❌ Đã hủy</p>
+                                        <p class="text-gray-400 text-sm mt-2">Giao dịch đã bị hủy</p>
+                                    </div>
+                                }
                             </div>
                             <p class="text-xs text-gray-400 text-center italic">Quét mã QR bằng ứng dụng ngân hàng của bạn để thanh toán</p>
                         </div>
                         <div class="space-y-6" data-purpose="transaction-details">
                             <div class="space-y-4 border-b border-white/10 pb-6">
+                                <!-- Booking Id -->
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-400 text-sm">Mã giao dịch</span>
-                                    <span class="text-white font-bold">#7</span>
+                                    <span class="text-white font-bold">#@Model.Booking.Id</span>
                                 </div>
+                                <!-- Transaction Content -->
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-400 text-sm">Nội dung chuyển khoản</span>
-                                    <span class="text-primary font-mono font-bold px-2 py-1 bg-white/5 rounded">4IUR4AEC</span>
+                                    <span class="text-primary font-mono font-bold px-2 py-1 bg-white/5 rounded">
+                                        @Model.Booking.TransactionContent
+                                    </span>
                                 </div>
+                                <!-- Status -->
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-400 text-sm">Trạng thái</span>
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-500">
-                                        <span class="w-2 h-2 mr-2 bg-yellow-500 rounded-full animate-pulse"></span>
-                                        Chờ thanh toán
+                                    @{
+                                        var status = Model.Booking.Status;
+                                        string text = "";
+                                        string css = "";
+                                        string dot = "";
+                                        switch (status)
+                                        {
+                                            case "Pending":
+                                                text = "Chờ thanh toán";
+                                                css = "bg-yellow-500/20 text-yellow-500";
+                                                dot = "bg-yellow-500 animate-pulse";
+                                                break;
+
+                                            case "Paid":
+                                                text = "Đã thanh toán";
+                                                css = "bg-green-500/20 text-green-500";
+                                                dot = "bg-green-500";
+                                                break;
+
+                                            case "Cancelled":
+                                                text = "Đã hủy";
+                                                css = "bg-red-500/20 text-red-500";
+                                                dot = "bg-red-500";
+                                                break;
+
+                                            default:
+                                                text = status;
+                                                css = "bg-gray-500/20 text-gray-500";
+                                                dot = "bg-gray-500";
+                                                break;
+                                        }
+                                    }
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium @css">
+                                        <span class="w-2 h-2 mr-2 rounded-full @dot"></span>
+                                        @text
                                     </span>
                                 </div>
                             </div>
+                            <!-- Total Price -->
                             <div class="flex justify-between items-end">
                                 <span class="text-gray-400 mb-1 text-sm">Tổng cộng</span>
-                                <span class="text-4xl font-bold text-primary">180.000đ</span>
+                                <span class="text-4xl font-bold text-primary">
+                                    @Model.Booking.TotalPrice.ToString("N0")đ
+                                </span>
                             </div>
                         </div>
                         <p class="text-[10px] text-center text-gray-500 pt-4">

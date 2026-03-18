@@ -22,8 +22,8 @@ namespace CinemaBooking.Data
                     Name = "Phòng 1",
                     Rows = 8,
                     Columns = 8,
-                    RegularPrice = 90000,
-                    VipPrice = 150000,
+                    RegularPrice = 2000,
+                    VipPrice = 3000,
                     CreatedAt = DateTime.UtcNow
                 });
 
@@ -33,8 +33,8 @@ namespace CinemaBooking.Data
                     Name = "Phòng 2",
                     Rows = 10,
                     Columns = 10,
-                    RegularPrice = 100000,
-                    VipPrice = 170000,
+                    RegularPrice = 2000,
+                    VipPrice = 4000,
                     CreatedAt = DateTime.UtcNow
                 });
             }

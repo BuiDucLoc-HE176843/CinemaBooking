@@ -45,14 +45,14 @@ namespace CinemaBooking.Controllers
 
         // 🔹 GET booking của user hiện tại
         [Authorize]
-        [HttpGet("my-bookings")]
-        public async Task<ApiResponse<List<BookingResponse>>> GetMyBookings()
+        [HttpGet("me")]
+        public async Task<ApiResponse<PagedResult<BookingResponse>>> GetMyBookings([FromQuery] PaginationRequest request)
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
-            var result = await _bookingService.GetMyBookingsAsync(userId);
+            var result = await _bookingService.GetMyBookingsAsync(userId, request);
 
-            return ApiResponse<List<BookingResponse>>.Ok(result);
+            return ApiResponse<PagedResult<BookingResponse>>.Ok(result);
         }
     }
 }
