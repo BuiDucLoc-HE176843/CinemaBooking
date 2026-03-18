@@ -36,6 +36,8 @@ namespace CinemaBooking.Configuration
             services.AddScoped<IShowtimeService, ShowtimeService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddHostedService<SePaySyncService>();
+            services.AddHostedService<BookingTimeoutService>();
+            services.AddHostedService<BookingActivationService>();
             services.AddScoped<IShowtimeSeatService, ShowtimeSeatService>();
             services.AddScoped<IBookingService, BookingService>();
 

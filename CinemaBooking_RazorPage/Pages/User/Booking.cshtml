@@ -154,6 +154,7 @@
                                         <input type="date"
                                                name="StartTime"
                                                value="@Model.StartTime?.ToString("yyyy-MM-dd")"
+                                               min="@DateTime.Now.ToString("yyyy-MM-dd")"
                                                class="w-full bg-neutral-900 border-neutral-700 rounded-full text-white text-sm focus:ring-primary focus:border-primary p-3" />
                                     </div>
 
@@ -164,6 +165,7 @@
                                         <input type="date"
                                                name="EndTime"
                                                value="@Model.EndTime?.ToString("yyyy-MM-dd")"
+                                               min="@DateTime.Now.ToString("yyyy-MM-dd")"
                                                class="w-full bg-neutral-900 border-neutral-700 rounded-full text-white text-sm focus:ring-primary focus:border-primary p-3" />
                                     </div>
 

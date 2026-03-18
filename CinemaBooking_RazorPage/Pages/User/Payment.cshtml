@@ -290,3 +290,33 @@
     <!-- END: MainFooter -->
 </body>
 </html>
+
+@section Scripts {
+    <script>
+        const bookingId = '@Model.Booking.Id';
+        const currentStatus = '@Model.Booking.Status';
+
+        // Chỉ chạy nếu trạng thái hiện tại là Pending
+        if (currentStatus === "Pending") {
+            const checkInterval = setInterval(async () => {
+                const response = await fetch(`?handler=CheckStatus&bookingId=${bookingId}`);
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    // Nếu trạng thái chuyển sang Paid hoặc Cancelled thì reload để cập nhật UI
+                    if (data.status === "Paid" || data.status === "Cancelled") {
+                        clearInterval(checkInterval);
+                        window.location.reload();
+                    }
+                    // Nếu không tìm thấy booking (NotFound) cũng nên dừng lại để tránh rác tài nguyên
+                    else if (data.status === "NotFound") {
+                        console.warn("Booking không tồn tại trên hệ thống.");
+                        clearInterval(checkInterval);
+                    }
+                    // Nếu status là "Pending" hoặc "Error", vòng lặp sẽ tiếp tục chạy ở chu kỳ sau
+                }
+            }, 3000); // 3 giây kiểm tra một lần
+        }
+    </script>
+}

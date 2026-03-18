@@ -45,7 +45,7 @@ namespace CinemaBooking.Services.BackgroundServices
                     Console.WriteLine($"SePay sync error: {ex.Message}");
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(15), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
             }
         }
 

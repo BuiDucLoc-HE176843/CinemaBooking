@@ -45,5 +45,31 @@ namespace CinemaBooking_RazorPage.Pages.User
 
             return Page();
         }
+
+        public async Task<JsonResult> OnGetCheckStatusAsync(int bookingId)
+        {
+            var response = await _httpClient.GetAsync($"http://localhost:5237/api/Booking/{bookingId}");
+
+            // 1. Kiểm tra lỗi kết nối hoặc lỗi server (500, 404, v.v.)
+            if (!response.IsSuccessStatusCode)
+            {
+                return new JsonResult(new { status = "Error" });
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            var result = JsonSerializer.Deserialize<ApiResponse<BookingResponse>>(json, options);
+
+            // 2. Kiểm tra nếu result null (lỗi parse) hoặc API báo success = false
+            // Ví dụ trường hợp: { "success": false, "message": "Booking không tồn tại", "data": null }
+            if (result == null || !result.Success || result.Data == null)
+            {
+                return new JsonResult(new { status = "NotFound" });
+            }
+
+            // 3. Trường hợp thành công và có dữ liệu
+            // Trả về đúng trạng thái từ API (Pending, Paid, Cancelled)
+            return new JsonResult(new { status = result.Data.Status });
+        }
     }
 }
