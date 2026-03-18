@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBooking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260318114054_initDb")]
+    [Migration("20260318121249_initDb")]
     partial class initDb
     {
         /// <inheritdoc />
@@ -99,7 +99,6 @@ namespace CinemaBooking.Migrations
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("TransactionContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")

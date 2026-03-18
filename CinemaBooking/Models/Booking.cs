@@ -19,7 +19,7 @@ namespace CinemaBooking.Models
 
         [Column(TypeName = "decimal(10,2)")]
         public decimal TotalPrice { get; set; }
-        public string TransactionContent { get; set; }
+        public string? TransactionContent { get; set; }
 
         [Required]
         public BookingStatus Status { get; set; } = BookingStatus.Pending;

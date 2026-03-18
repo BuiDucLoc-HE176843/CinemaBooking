@@ -96,7 +96,6 @@ namespace CinemaBooking.Migrations
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("TransactionContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")

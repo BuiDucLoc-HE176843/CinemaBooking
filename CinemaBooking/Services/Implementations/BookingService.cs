@@ -41,24 +41,26 @@ namespace CinemaBooking.Services.Implementations
                     throw new AppException("Ghế đã được đặt");
             }
 
-            // random transaction code 8 ký tự chữ + số
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            var transactionContent = new string(
-                Enumerable.Range(0, 8)
-                .Select(_ => chars[Random.Shared.Next(chars.Length)])
-                .ToArray());
-
             // 1️⃣ tạo booking trước
             var booking = new Booking
             {
                 UserId = userId,
                 ShowtimeId = request.ShowtimeId,
                 Status = BookingStatus.Pending,
-                TotalPrice = 0,
-                TransactionContent = transactionContent
+                TotalPrice = 0
             };
 
             booking = await _bookingRepository.CreateAsync(booking);
+
+            // random 6 ký tự chữ in hoa
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var randomPart = new string(
+                Enumerable.Range(0, 6)
+                .Select(_ => chars[Random.Shared.Next(chars.Length)])
+                .ToArray());
+
+            // TransactionContent = bookingId + random string
+            booking.TransactionContent = $"{booking.Id}{randomPart}";
 
             decimal totalPrice = 0;
 
