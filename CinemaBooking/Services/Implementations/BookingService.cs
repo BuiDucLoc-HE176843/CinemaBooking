@@ -1,5 +1,6 @@
 ﻿using CinemaBooking.Configuration;
 using CinemaBooking.DTOs.Requests;
+using CinemaBooking.DTOs.Responses;
 using CinemaBooking.Enums;
 using CinemaBooking.Models;
 using CinemaBooking.Repositories.Interfaces;
@@ -95,6 +96,47 @@ namespace CinemaBooking.Services.Implementations
             await _bookingRepository.UpdateAsync(booking);
 
             return booking.Id;
+        }
+
+        public async Task<BookingResponse> GetByIdAsync(int id)
+        {
+            var booking = await _bookingRepository.GetByIdAsync(id);
+
+            if (booking == null)
+                throw new AppException("Booking không tồn tại");
+
+            return MapToResponse(booking);
+        }
+
+        public async Task<List<BookingResponse>> GetMyBookingsAsync(int userId)
+        {
+            var bookings = await _bookingRepository.GetByUserIdAsync(userId);
+
+            return bookings.Select(MapToResponse).ToList();
+        }
+
+        private BookingResponse MapToResponse(Booking booking)
+        {
+            return new BookingResponse
+            {
+                Id = booking.Id,
+                MovieName = booking.Showtime?.Movie?.Title ?? "",
+                PosterUrl = booking.Showtime?.Movie?.PosterUrl ?? "",
+                TheaterName = booking.Showtime?.Room?.Theater?.Name ?? "",
+                RoomName = booking.Showtime?.Room?.Name ?? "",
+                TransactionContent = booking.TransactionContent,
+                BookingDate = booking.BookingDate,
+                TotalPrice = booking.TotalPrice,
+                Status = booking.Status.ToString(),
+
+                Seats = booking.BookingSeats?
+                    .Select(s => new BookingSeatResponse
+                    {
+                        ShowtimeSeatId = s.ShowtimeSeatId,
+                        SeatId = s.ShowtimeSeat?.Seat?.Id ?? 0,
+                        Price = s.PriceAtBooking
+                    }).ToList() ?? new List<BookingSeatResponse>()
+            };
         }
     }
 }

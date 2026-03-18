@@ -1,10 +1,11 @@
-﻿using CinemaBooking.DTOs.Requests;
+﻿using CinemaBooking.Configuration;
+using CinemaBooking.DTOs.Requests;
+using CinemaBooking.DTOs.Responses;
 using CinemaBooking.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using CinemaBooking.Configuration;
 
 namespace CinemaBooking.Controllers
 {
@@ -31,6 +32,27 @@ namespace CinemaBooking.Controllers
             {
                 BookingId = bookingId
             }, "Đặt vé thành công");
+        }
+
+        // 🔹 GET booking theo id
+        [HttpGet("{id}")]
+        public async Task<ApiResponse<BookingResponse>> GetById(int id)
+        {
+            var result = await _bookingService.GetByIdAsync(id);
+
+            return ApiResponse<BookingResponse>.Ok(result);
+        }
+
+        // 🔹 GET booking của user hiện tại
+        [Authorize]
+        [HttpGet("my-bookings")]
+        public async Task<ApiResponse<List<BookingResponse>>> GetMyBookings()
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var result = await _bookingService.GetMyBookingsAsync(userId);
+
+            return ApiResponse<List<BookingResponse>>.Ok(result);
         }
     }
 }

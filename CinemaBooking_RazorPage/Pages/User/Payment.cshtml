@@ -2,3 +2,193 @@
 @model CinemaBooking_RazorPage.Pages.User.PaymentModel
 @{
 }
+
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Thanh Toán - CinemaVN</title>
+    <!-- Tailwind CSS CDN with plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Google Fonts: Be Vietnam Pro -->
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                primary: '#ff8c00',
+                darkBg: '#121212',
+                cardBg: '#1e1e1e',
+              },
+              fontFamily: {
+                sans: ['Be Vietnam Pro', 'sans-serif'],
+              },
+              borderRadius: {
+                'full': '9999px',
+              }
+            }
+          }
+        }
+    </script>
+    <style data-purpose="custom-overrides">
+        body {
+          background-color: #121212 !important;
+          color: #ffffff;
+          font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        .text-primary {
+          color: #ff8c00 !important;
+        }
+        .bg-primary {
+          background-color: #ff8c00 !important;
+        }
+        .border-primary {
+          border-color: #ff8c00 !important;
+        }
+        /* Smooth transition for buttons */
+        .btn-transition {
+          transition: all 0.3s ease;
+        }
+        .btn-transition:hover {
+          opacity: 0.9;
+          transform: translateY(-1px);
+        }
+        /* Glassmorphism effect for cards */
+        .glass-card {
+          background: rgba(30, 30, 30, 0.6);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- BEGIN: MainHeader -->
+    <header class="w-full py-4 px-6 md:px-12 grid grid-cols-3 items-center border-b border-white/10 bg-darkBg sticky top-0 z-50">
+        @* <div class="flex items-center gap-2">
+            <span class="text-xl font-black tracking-tighter text-white">Cinema<span class="text-primary">VN</span></span>
+        </div> *@
+        <div class="flex items-center gap-2">
+            <!-- Icon phim -->
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="w-6 h-6 text-primary"
+                 fill="currentColor"
+                 viewBox="0 0 24 24">
+                <path d="M4 4h16v16H4V4zm2 2v2h2V6H6zm0 4v2h2v-2H6zm0 4v2h2v-2H6zm10-8v2h2V6h-2zm0 4v2h2v-2h-2zm0 4v2h2v-2h-2z" />
+            </svg>
+
+            <span class="text-xl font-black tracking-tighter text-white">
+                Cinema<span class="text-primary">VN</span>
+            </span>
+        </div>
+        <h1 class="text-white font-semibold text-sm md:text-lg uppercase tracking-widest text-center" data-purpose="page-title">
+            TRANG THANH TOÁN
+        </h1>
+        <div class="justify-self-end">
+            <!-- Right spacer to maintain centering -->
+        </div>
+    </header>
+    <!-- END: MainHeader -->
+    <!-- BEGIN: MainContent -->
+    <main class="flex-grow container mx-auto px-4 py-8 md:py-12 flex justify-center">
+        <div class="w-full max-w-4xl">
+            <div class="glass-card rounded-3xl overflow-hidden shadow-2xl">
+                <!-- Warning Section -->
+                <div class="bg-primary/10 border-b border-primary/20 p-4" data-purpose="warning-banner">
+                    <p class="text-primary text-center font-medium text-sm md:text-base">
+                        Thời gian chờ thanh toán khoảng 5 phút, hết thời gian chờ không thanh toán thì đơn vé sẽ bị hủy
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+                    <!-- Left side within card: Movie Info -->
+                    <div class="p-6 md:p-8 border-r border-white/5 bg-white/5" data-purpose="movie-info-container">
+                        <div class="flex flex-col h-full">
+                            <div class="relative aspect-[2/3] w-full rounded-2xl overflow-hidden mb-6 shadow-xl">
+                                <img alt="Mưa đỏ Poster" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x900?text=Mua+Do'" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2dKMERYonNTBiivDeaaQKi1lgi3M1uBsISpXiZtxg4GjeiK71v0xcWEYGpbMVTKOfvIWdDQjdcS2By8l1hFNtX69paa3vCOrrNLzjmd-Uyq54UxuOEa0ERz9JbscQ74173Zt2Sdd_uG5VZe_5o7XijA8-hzxRTceW9DsdUlKWM3hCfCWiWit0b3rdbkGs8F3oDtkZTR_9cPTdju1M7T09Biouqa1Fp0GLfD9eNQAhFB_BzhcApstJVVjyRUSvQmGgzZiU4j024qg" />
+                                <div class="absolute top-3 left-3 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                    Hot
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <h2 class="text-2xl font-bold text-white">Mưa đỏ</h2>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3 text-gray-400">
+                                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                                        <span class="text-sm">CGV Vincom Bà Triệu</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 text-gray-400">
+                                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                                        <span class="text-sm">Phòng 1</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 text-gray-400">
+                                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                                        <span class="text-sm">18/03/2026</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 text-gray-400">
+                                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M7 7h.01M7 11h.01M7 15h.01M11 7h.01M11 11h.01M11 15h.01M15 7h.01M15 11h.01M15 15h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                                        <span class="text-sm">Ghế: <span class="text-primary font-bold">Seat 35, Seat 36</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right side within card: Payment Details -->
+                    <div class="p-6 md:p-8 flex flex-col justify-center space-y-8" data-purpose="payment-details-container">
+                        <div class="flex flex-col items-center space-y-6">
+                            <div class="bg-white p-4 rounded-2xl shadow-inner">
+                                <!-- QR Code -->
+                                <img alt="Payment QR Code" class="w-48 h-48 md:w-56 md:h-56" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHcgaWkQNnEf3_4xUbn1ddwOuCCy_H-C8aD2SNDIMzuVa7z8eR2epS3Gk76ch8FnT9hAadSMACcDVlS9qrQ6OH71L5Z0Qg1hfeKOq_bRqABbtoLbO1Gnz3dQowvoJJpLc2HF_OSEX9l2LEzmXD25xJQ2JlWiOE_TgQRofVS5Y0thPc6q0VGvmPimUVxZ3nFiQTJSHKB46HoFuPEBHFOW2WmVL6V7gMqIldSMk2gZy9b5q2uiumAo1ghnm75XRSYMqWk5JQU7LbG1g" />
+                            </div>
+                            <p class="text-xs text-gray-400 text-center italic">Quét mã QR bằng ứng dụng ngân hàng của bạn để thanh toán</p>
+                        </div>
+                        <div class="space-y-6" data-purpose="transaction-details">
+                            <div class="space-y-4 border-b border-white/10 pb-6">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400 text-sm">Mã giao dịch</span>
+                                    <span class="text-white font-bold">#7</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400 text-sm">Nội dung chuyển khoản</span>
+                                    <span class="text-primary font-mono font-bold px-2 py-1 bg-white/5 rounded">4IUR4AEC</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400 text-sm">Trạng thái</span>
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-500">
+                                        <span class="w-2 h-2 mr-2 bg-yellow-500 rounded-full animate-pulse"></span>
+                                        Chờ thanh toán
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <span class="text-gray-400 mb-1 text-sm">Tổng cộng</span>
+                                <span class="text-4xl font-bold text-primary">180.000đ</span>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-center text-gray-500 pt-4">
+                            Bằng cách thực hiện giao dịch, bạn đồng ý với các
+                            <a class="text-primary hover:underline" href="#">Điều khoản &amp; Chính sách</a> của CinemaVN.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- END: MainContent -->
+    <!-- BEGIN: MainFooter -->
+    <footer class="mt-auto py-8 px-6 md:px-12 border-t border-white/10 bg-darkBg/50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-gray-500 text-sm">
+                Thiết kế bởi LocCute.
+            </div>
+            <nav class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+                <a class="hover:text-primary transition-colors" href="#">Quy định giao dịch</a>
+                <a class="hover:text-primary transition-colors" href="#">Chính sách bảo mật</a>
+                <a class="hover:text-primary transition-colors" href="#">Liên hệ</a>
+            </nav>
+        </div>
+    </footer>
+    <!-- END: MainFooter -->
+</body>
+</html>

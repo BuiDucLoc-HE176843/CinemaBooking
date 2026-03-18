@@ -11,5 +11,8 @@ namespace CinemaBooking.Repositories.Interfaces
         Task UpdateRangeAsync(List<ShowtimeSeat> seats);
 
         Task AddRangeAsync(List<BookingSeat> bookingSeats);
+
+        Task<Booking?> GetByIdAsync(int id);
+        Task<List<Booking>> GetByUserIdAsync(int userId);
     }
 }

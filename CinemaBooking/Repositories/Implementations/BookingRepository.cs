@@ -49,5 +49,34 @@ namespace CinemaBooking.Repositories.Implementations
             _context.BookingSeats.AddRange(bookingSeats);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Booking?> GetByIdAsync(int id)
+        {
+            return await _context.Bookings
+                .Include(b => b.Showtime)
+                    .ThenInclude(s => s.Movie)
+                .Include(b => b.Showtime)
+                    .ThenInclude(s => s.Room)
+                        .ThenInclude(r => r.Theater)
+                .Include(b => b.BookingSeats)
+                    .ThenInclude(bs => bs.ShowtimeSeat)
+                        .ThenInclude(ss => ss.Seat)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<List<Booking>> GetByUserIdAsync(int userId)
+        {
+            return await _context.Bookings
+                .Where(b => b.UserId == userId)
+                .Include(b => b.Showtime)
+                    .ThenInclude(s => s.Movie)
+                .Include(b => b.Showtime)
+                    .ThenInclude(s => s.Room)
+                        .ThenInclude(r => r.Theater)
+                .Include(b => b.BookingSeats)
+                    .ThenInclude(bs => bs.ShowtimeSeat)
+                        .ThenInclude(ss => ss.Seat)
+                .ToListAsync();
+        }
     }
 }
