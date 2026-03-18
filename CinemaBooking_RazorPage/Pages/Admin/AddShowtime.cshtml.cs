@@ -97,7 +97,7 @@ namespace CinemaBooking_RazorPage.Pages.Admin
 
         private async Task LoadMovies()
         {
-            var url = "http://localhost:5237/api/Movies?PageSize=50";
+            var url = "http://localhost:5237/api/Movies?Status=1&PageSize=50";
 
             var result = await _httpClient
                 .GetFromJsonAsync<ApiResponse<PagedData<MovieResponse>>>(url);
