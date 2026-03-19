@@ -107,117 +107,105 @@
                     </div>
                     <!-- Booking List -->
                     <div class="flex flex-col gap-4">
-                        <!-- Item 1: Pending -->
-                        <div class="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-xl bg-card-dark p-5 border border-white/5 hover:border-primary/30 transition-all shadow-lg">
-                            <div class="flex flex-[2_2_0px] flex-col justify-between gap-4">
-                                <div class="flex flex-col gap-2">
-                                    <div class="flex items-center gap-2">
-                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border border-primary text-primary">Pending</span>
-                                        <p class="text-slate-400 text-sm font-medium">20/03/2026 14:00</p>
-                                    </div>
-                                    <h3 class="text-white text-xl font-bold leading-tight">Mưa đỏ</h3>
-                                    <div class="flex flex-col gap-1">
-                                        <div class="flex items-center gap-2 text-slate-300">
-                                            <span class="material-symbols-outlined text-sm">apartment</span>
-                                            <p class="text-sm">CGV Vincom Bà Triệu</p>
+                        @if (Model.Bookings?.Items != null)
+                        {
+                            foreach (var item in Model.Bookings.Items)
+                            {
+                                var statusClass = item.Status switch
+                                {
+                                    "Pending" => "border-primary text-primary",
+                                    "Paid" => "bg-emerald-500/10 border-emerald-500 text-emerald-500",
+                                    "Cancelled" => "bg-rose-500/10 border-rose-500 text-rose-500",
+                                    _ => "border-white text-white"
+                                };
+                                var statusBg = item.Status switch
+                                {
+                                    "Pending" => "border-primary text-primary",
+                                    "Paid" => "bg-emerald-500/10 border-emerald-500 text-emerald-500",
+                                    "Cancelled" => "bg-rose-500/10 border-rose-500 text-rose-500",
+                                    _ => ""
+                                };
+                                <div class="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-xl bg-card-dark p-5 border border-white/5 hover:border-primary/30 transition-all shadow-lg @(item.Status == "Cancelled" ? "opacity-80" : "")">
+                                    <div class="flex flex-[2_2_0px] flex-col justify-between gap-4">
+                                        <div class="flex flex-col gap-2">
+                                            <div class="flex items-center gap-2">
+                                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border @statusClass">
+                                                    @item.Status
+                                                </span>
+                                                <p class="text-slate-400 text-sm font-medium">
+                                                    @TimeZoneInfo.ConvertTimeFromUtc(
+                                                    item.BookingDate,
+                                                    TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")
+                                                    ).ToString("dd/MM/yyyy HH:mm")
+                                                </p>
+                                            </div>
+                                            <h3 class="text-white text-xl font-bold leading-tight">
+                                                @item.MovieName
+                                            </h3>
+                                            <div class="flex flex-col gap-1">
+                                                <div class="flex items-center gap-2 text-slate-300">
+                                                    <span class="material-symbols-outlined text-sm">apartment</span>
+                                                    <p class="text-sm">@item.TheaterName</p>
+                                                </div>
+                                                <div class="flex items-center gap-2 text-slate-300">
+                                                    <span class="material-symbols-outlined text-sm">meeting_room</span>
+                                                    <p class="text-sm">@item.RoomName</p>
+                                                </div>
+                                            </div>
+                                            <div class="mt-2 text-primary font-bold text-lg">
+                                                Tổng: @item.TotalPrice.ToString("N0")đ
+                                            </div>
                                         </div>
-                                        <div class="flex items-center gap-2 text-slate-300">
-                                            <span class="material-symbols-outlined text-sm">meeting_room</span>
-                                            <p class="text-sm">Phòng 1</p>
-                                        </div>
-                                    </div>
-                                    <div class="mt-2 text-primary font-bold text-lg">
-                                        Tổng: 2.000đ
-                                    </div>
-                                </div>
-                                <div class="flex gap-3">
-                                    <button class="flex items-center justify-center rounded-lg h-9 px-4 border border-primary text-primary hover:bg-primary/10 transition-colors text-sm font-bold gap-2">
-                                        <span>Chi tiết</span>
-                                        <span class="material-symbols-outlined text-lg" data-icon="caret_right">arrow_right</span>
-                                    </button>
-                                    <button class="flex items-center justify-center rounded-lg h-9 px-4 bg-primary text-white hover:bg-primary/90 transition-colors text-sm font-bold">
-                                        Thanh toán ngay
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="w-full md:w-48 h-32 md:h-auto bg-center bg-no-repeat bg-cover rounded-xl shrink-0" data-alt="Poster phim Mưa Đỏ" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCZS0X_KAnA-j0-SPqmv8asXtRTNmzJrbn9Zf6w44OQepkQbELCwk9Vj3SkT-sXKFrhnAePD_57osly3Z9tWd78j4PGYEsJ5WSx28zlcA1-cdbDyfZOlCBRLhhj1jZg016J8UaAd6fg0TIF_QoPVoqCb76nlK02w0fwWdSy4earojvNV1Sq3ipKmR9BZ4rLbyuprGeRObFdUcOoNTdp43RFDUsmapyIaJbCK6pKV42e_l9l_V838iurEmXXgeF1M63nW2TaoQihCbo");'></div>
-                        </div>
-                        <!-- Item 2: Paid -->
-                        <div class="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-xl bg-card-dark p-5 border border-white/5 hover:border-primary/30 transition-all shadow-lg">
-                            <div class="flex flex-[2_2_0px] flex-col justify-between gap-4">
-                                <div class="flex flex-col gap-2">
-                                    <div class="flex items-center gap-2">
-                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 border border-emerald-500 text-emerald-500">Paid</span>
-                                        <p class="text-slate-400 text-sm font-medium">15/03/2026 19:30</p>
-                                    </div>
-                                    <h3 class="text-white text-xl font-bold leading-tight">Lật Mặt 7</h3>
-                                    <div class="flex flex-col gap-1">
-                                        <div class="flex items-center gap-2 text-slate-300">
-                                            <span class="material-symbols-outlined text-sm">apartment</span>
-                                            <p class="text-sm">CGV Vincom Bà Triệu</p>
-                                        </div>
-                                        <div class="flex items-center gap-2 text-slate-300">
-                                            <span class="material-symbols-outlined text-sm">meeting_room</span>
-                                            <p class="text-sm">Phòng IMAX</p>
-                                        </div>
-                                    </div>
-                                    <div class="mt-2 text-primary font-bold text-lg">
-                                        Tổng: 150.000đ
-                                    </div>
-                                </div>
-                                <div class="flex gap-3">
-                                    <button class="flex items-center justify-center rounded-lg h-9 px-4 border border-primary text-primary hover:bg-primary/10 transition-colors text-sm font-bold gap-2">
-                                        <span>Chi tiết</span>
-                                        <span class="material-symbols-outlined text-lg" data-icon="caret_right">arrow_right</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="w-full md:w-48 h-32 md:h-auto bg-center bg-no-repeat bg-cover rounded-xl shrink-0" data-alt="Poster phim Lật Mặt 7" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMY0mIJPDkPYG2kO8sjBuiNUw4n97ZyP-fidZGuLgsrSAqiXFJvNzm-9OjjEdfknukReTyCJVV8tzUJ_-oje_JgykkSUHaF2Pr0PqtpRuWzXPrHUbvXvz7diPHQIaDSP6ooPKUAzTd7qjpQC-8j3qefWDL-n7PM2rDpUBWBn_tw2ZfXbn2n_1KllwuwssB0sSXKLlZ3KAu2nseJvM0G1ih-INLbr8gvAU-eUrL5dhtpqXiF3CkAeB4p5BtC1rKZ75dIgY4ZCHUiUc");'></div>
-                        </div>
-                        <!-- Item 3: Cancelled -->
-                        <div class="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-xl bg-card-dark p-5 border border-white/5 opacity-80 shadow-lg">
-                            <div class="flex flex-[2_2_0px] flex-col justify-between gap-4">
-                                <div class="flex flex-col gap-2">
-                                    <div class="flex items-center gap-2">
-                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 border border-rose-500 text-rose-500">Cancelled</span>
-                                        <p class="text-slate-400 text-sm font-medium">10/03/2026 21:00</p>
-                                    </div>
-                                    <h3 class="text-white text-xl font-bold leading-tight">Mai</h3>
-                                    <div class="flex flex-col gap-1">
-                                        <div class="flex items-center gap-2 text-slate-300">
-                                            <span class="material-symbols-outlined text-sm">apartment</span>
-                                            <p class="text-sm">CGV Vincom Bà Triệu</p>
-                                        </div>
-                                        <div class="flex items-center gap-2 text-slate-300">
-                                            <span class="material-symbols-outlined text-sm">meeting_room</span>
-                                            <p class="text-sm">Phòng 5</p>
+                                        <div class="flex gap-3">
+                                            <a asp-page="/User/BookingDetail"
+                                               asp-route-id="@item.Id"
+                                               class="flex items-center justify-center rounded-lg h-9 px-4 border border-primary text-primary hover:bg-primary/10 transition-colors text-sm font-bold gap-2">
+
+                                                <span>Chi tiết</span>
+                                                <span class="material-symbols-outlined text-lg">arrow_right</span>
+                                            </a>
+                                            @if (item.Status == "Pending")
+                                            {
+                                                <a asp-page="/User/Payment"
+                                                   asp-route-bookingId="@item.Id"
+                                                   class="flex items-center justify-center rounded-lg h-9 px-4 bg-primary text-white hover:bg-primary/90 transition-colors text-sm font-bold">
+                                                    Thanh toán ngay
+                                                </a>
+                                            }
                                         </div>
                                     </div>
-                                    <div class="mt-2 text-primary font-bold text-lg">
-                                        Tổng: 90.000đ
+                                    <div class="w-full md:w-48 h-32 md:h-auto bg-center bg-no-repeat bg-cover rounded-xl shrink-0 @(item.Status == "Cancelled" ? "grayscale" : "")"
+                                         style="background-image: url('@("http://localhost:5237" + item.PosterUrl)');">
                                     </div>
                                 </div>
-                                <div class="flex gap-3">
-                                    <button class="flex items-center justify-center rounded-lg h-9 px-4 border border-primary text-primary hover:bg-primary/10 transition-colors text-sm font-bold gap-2">
-                                        <span>Chi tiết</span>
-                                        <span class="material-symbols-outlined text-lg" data-icon="caret_right">arrow_right</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="w-full md:w-48 h-32 md:h-auto bg-center bg-no-repeat bg-cover rounded-xl shrink-0 grayscale" data-alt="Poster phim Mai" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBLFve2R8IJbTNmQ9rSXioNO3GCo_8SSJqsz3bG7wUzI42q42QHEqk2GaEqIDUq7Y4A2zXGkMIc_FiBXWm2QNrYhT5r5_6r20VJiG-g06q214Dir3cW1P4qfYe2-M3vqsLfjJGlBjd0B6Ax7dQHSqfxXcUgFy0lDYmRoy_DwkEYBSdza2ub952EFmXOOagvl81USsmdkMiztdSkQEaQyns_PO5C3yQLOInrZR7o9gXyOYxT87XUEv6GO6fsXf2lSsLKMWDoAEx2BAo");'></div>
-                        </div>
+                            }
+                        }
                     </div>
                     <!-- Pagination -->
                     <div class="flex items-center justify-center gap-2 mt-10">
-                        <button class="flex items-center justify-center size-10 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:text-white">
+                        <!-- Prev -->
+                        <a class="flex items-center justify-center size-10 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:text-white"
+                           asp-page="./BookingHistory"
+                           asp-route-PageNumber="@(Model.Bookings.PageNumber - 1)"
+                           asp-route-PageSize="3">
                             <span class="material-symbols-outlined">chevron_left</span>
-                        </button>
-                        <button class="flex items-center justify-center size-10 rounded-lg bg-primary text-white font-bold">1</button>
-                        <button class="flex items-center justify-center size-10 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:text-white">2</button>
-                        <button class="flex items-center justify-center size-10 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:text-white">3</button>
-                        <button class="flex items-center justify-center size-10 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:text-white">
+                        </a>
+                        @for (int i = 1; i <= Model.Bookings.TotalPages; i++)
+                        {
+                            <a class="flex items-center justify-center size-10 rounded-lg @(i == Model.Bookings.PageNumber ? "bg-primary text-white font-bold" : "bg-white/5 border border-white/10 text-slate-400 hover:text-white")"
+                               asp-page="./BookingHistory"
+                               asp-route-PageNumber="@i"
+                               asp-route-PageSize="3">
+                                @i
+                            </a>
+                        }
+                        <!-- Next -->
+                        <a class="flex items-center justify-center size-10 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:text-white"
+                           asp-page="./BookingHistory"
+                           asp-route-PageNumber="@(Model.Bookings.PageNumber + 1)"
+                           asp-route-PageSize="3">
                             <span class="material-symbols-outlined">chevron_right</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </main>

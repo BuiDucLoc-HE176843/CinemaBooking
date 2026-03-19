@@ -107,102 +107,185 @@
             <span class="material-symbols-outlined text-spotlight text-3xl" style="font-variation-settings: 'FILL' 1;">movie</span>
             <span class="text-[#ffb77d] font-space-grotesk italic tracking-tighter text-2xl font-bold">CinemaVN</span>
         </div>
-        <form method="post" asp-page-handler="Logout">
-            <button type="submit"
-                    class="flex items-center gap-2 text-[#e5e2e1] hover:text-spotlight transition-colors duration-300 scale-95 active:scale-90 transition-transform">
-                <span class="material-symbols-outlined">logout</span>
-                <span class="font-manrope text-sm font-medium uppercase tracking-widest">Đăng xuất</span>
-            </button>
-        </form>
     </header>
     <main class="pt-28 pb-32 px-4 md:px-8 max-w-6xl mx-auto min-h-screen">
         <!-- Breadcrumb / Back Action -->
-        <div class="mb-8 flex items-center gap-2 text-on-surface-variant cursor-pointer hover:text-primary transition-colors">
+        <a asp-page="/User/BookingHistory"
+           class="mb-8 flex items-center gap-2 text-on-surface-variant cursor-pointer hover:text-primary transition-colors">
+
             <span class="material-symbols-outlined text-sm">arrow_back_ios</span>
-            <span class="font-label text-xs uppercase tracking-[0.2em]">Quay lại lịch sử đặt vé</span>
-        </div>
+            <span class="font-label text-xs uppercase tracking-[0.2em]">
+                Quay lại lịch sử đặt vé
+            </span>
+        </a>
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <!-- Left Column: Poster Overlay Editorial -->
+            <!-- Left Column: Poster -->
             <div class="lg:col-span-5 relative group">
                 <div class="absolute -inset-4 bg-primary/5 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+
                 <div class="relative aspect-[2/3] overflow-hidden rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-outline-variant/10">
-                    <img alt="Movie poster for Mưa đỏ featuring dramatic red lighting and cinematic atmosphere" class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM43X3z_fZsWAcJBCe2TmjnV4Ej95gKp6dGH0CAYfAskQ2sRRk8MzCoULj3YVYzmaSnYmASAbGa-awsAw0pk4hns9dYw-Qvfi37Vf6RFJyQWKEvchXfVb8U2UbAY9o7r0l6Olk2ix0rdJigz--fMurZLTGegqMqAMJv2LeZZEcIEIk24lzFCy0T75vTK7fwQ4BEWbLfmiWMPwEQiTP2lxT2Jexe4WrRgIzP1N4301c9VPF7AWhMFOF5q9h8G-F4zqKQfFr9RVJeDQ" />
+                    <img class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                         src="@($"http://localhost:5237{Model.Booking.PosterUrl}")"
+                         alt="@Model.Booking.MovieName" />
+
                     <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+
                     <div class="absolute bottom-6 left-6 right-6">
-                        <span class="bg-primary-container text-on-primary px-3 py-1 rounded-sm font-label text-[10px] font-bold tracking-tighter uppercase mb-2 inline-block">Đang chiếu</span>
-                        <h1 class="font-headline text-4xl font-bold tracking-tighter text-on-surface leading-none uppercase">Mưa đỏ</h1>
+                        <h1 class="font-headline text-4xl font-bold tracking-tighter text-on-surface leading-none uppercase">
+                            @Model.Booking.MovieName
+                        </h1>
                     </div>
                 </div>
             </div>
-            <!-- Right Column: Ticket Content Details -->
+
+            <!-- Right Column -->
             <div class="lg:col-span-7 space-y-6">
-                <!-- Status & ID Card -->
+                <!-- Booking Date -->
+                <div class="bg-surface-container p-6 rounded-xl border-l-2 border-primary/20">
+                    <div class="flex items-center gap-4 mb-4">
+                        <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">
+                            event
+                        </span>
+                        <p class="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">
+                            Ngày đặt vé
+                        </p>
+                    </div>
+
+                    <p class="font-headline text-lg font-semibold text-on-surface">
+                        @TimeZoneInfo.ConvertTimeFromUtc(
+                        Model.Booking.BookingDate,
+                                                TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")
+                                                ).ToString("HH:mm dd/MM/yyyy")
+                    </p>
+                </div>
+                <!-- Transaction -->
                 <div class="bg-surface-container-low p-8 rounded-xl relative overflow-hidden">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
                         <div>
-                            <p class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mb-1">Mã giao dịch</p>
-                            <h2 class="font-headline text-2xl font-bold tracking-widest text-primary">20SWGKDY</h2>
+                            <p class="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mb-1">
+                                Mã giao dịch
+                            </p>
+                            <h2 class="font-headline text-2xl font-bold tracking-widest text-primary">
+                                @Model.Booking.TransactionContent
+                            </h2>
                         </div>
-                        <div class="flex items-center gap-3 bg-green-500/10 border border-green-500/20 px-6 py-3 rounded-full">
-                            <span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-                            <span class="font-label text-sm font-extrabold text-green-500 tracking-widest">PAID</span>
+
+                        @{
+                            var status = Model.Booking.Status;
+                            var color = status == "Paid" ? "green" :
+                            status == "Pending" ? "yellow" : "red";
+                        }
+
+                        <div class="flex items-center gap-3 bg-@color-500/10 border border-@color-500/20 px-6 py-3 rounded-full">
+                            <span class="flex h-2 w-2 rounded-full bg-@color-500 animate-pulse"></span>
+                            <span class="font-label text-sm font-extrabold text-@color-500 tracking-widest">
+                                @status.ToUpper()
+                            </span>
                         </div>
                     </div>
-                    <!-- Background aesthetic element -->
-                    <div class="absolute -right-4 -top-8 font-headline text-9xl font-black text-white/5 pointer-events-none italic">#01</div>
+
+                    <div class="absolute -right-4 -top-8 font-headline text-9xl font-black text-white/5 pointer-events-none italic">
+                        #@Model.Booking.Id
+                    </div>
                 </div>
-                <!-- Bento Info Grid -->
+
+                <!-- Grid info -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Location Card -->
+
+                    <!-- Theater -->
                     <div class="bg-surface-container p-6 rounded-xl border-l-2 border-primary/20">
                         <div class="flex items-center gap-4 mb-4">
-                            <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">theater_comedy</span>
-                            <p class="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">Rạp &amp; Phòng chiếu</p>
+                            <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">
+                                theater_comedy
+                            </span>
+                            <p class="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">
+                                Rạp &amp; Phòng chiếu
+                            </p>
                         </div>
-                        <p class="font-headline text-lg font-semibold text-on-surface">CGV Vincom Bà Triệu</p>
-                        <p class="font-body text-sm text-on-surface-variant">Phòng chiếu số 1</p>
+                        <p class="font-headline text-lg font-semibold text-on-surface">
+                            @Model.Booking.TheaterName
+                        </p>
+                        <p class="font-body text-sm text-on-surface-variant">
+                            @Model.Booking.RoomName
+                        </p>
                     </div>
-                    <!-- Time Card -->
+
+                    <!-- Time -->
                     <div class="bg-surface-container p-6 rounded-xl border-l-2 border-primary/20">
                         <div class="flex items-center gap-4 mb-4">
-                            <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">schedule</span>
-                            <p class="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">Thời gian xuất chiếu</p>
+                            <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">
+                                schedule
+                            </span>
+                            <p class="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">
+                                Thời gian xuất chiếu
+                            </p>
                         </div>
-                        <p class="font-headline text-lg font-semibold text-on-surface">14:00 - 15:55</p>
-                        <p class="font-body text-sm text-on-surface-variant">Thứ Hai, 22/03/2026</p>
+
+                        <p class="font-headline text-lg font-semibold text-on-surface">
+                            @Model.Booking.StartTime.ToString("HH:mm") - @Model.Booking.EndTime.ToString("HH:mm")
+                        </p>
+                        <p class="font-body text-sm text-on-surface-variant">
+                            @Model.Booking.StartTime.ToString("dddd, dd/MM/yyyy")
+                        </p>
                     </div>
-                    <!-- Seats Card -->
+
+                    <!-- Seats -->
                     <div class="bg-surface-container p-6 rounded-xl border-l-2 border-primary/20">
                         <div class="flex items-center gap-4 mb-4">
-                            <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">chair</span>
-                            <p class="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">Vị trí ghế ngồi</p>
+                            <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">
+                                chair
+                            </span>
+                            <p class="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">
+                                Vị trí ghế ngồi
+                            </p>
                         </div>
-                        <div class="flex gap-2">
-                            <span class="bg-surface-container-highest px-3 py-1 rounded text-primary font-headline font-bold">Ghế 23</span>
-                            <span class="bg-surface-container-highest px-3 py-1 rounded text-primary font-headline font-bold">Ghế 25</span>
+
+                        <div class="flex gap-2 flex-wrap">
+                            @foreach (var seat in Model.Booking.Seats)
+                            {
+                                <span class="bg-surface-container-highest px-3 py-1 rounded text-primary font-headline font-bold">
+                                    Ghế @seat.SeatId
+                                </span>
+                            }
                         </div>
                     </div>
-                    <!-- Price Card -->
+
+                    <!-- Price -->
                     <div class="bg-surface-container p-6 rounded-xl border-l-2 border-primary/20">
                         <div class="flex items-center gap-4 mb-4">
-                            <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">payments</span>
-                            <p class="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">Tổng thanh toán</p>
+                            <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">
+                                payments
+                            </span>
+                            <p class="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">
+                                Tổng thanh toán
+                            </p>
                         </div>
-                        <p class="font-headline text-2xl font-extrabold text-on-surface">2.000<span class="text-xs ml-1 font-normal opacity-60">VNĐ</span></p>
-                        <p class="font-body text-[10px] text-green-500 uppercase tracking-tighter">Giao dịch đã hoàn tất</p>
+
+                        <p class="font-headline text-2xl font-extrabold text-on-surface">
+                            @Model.Booking.TotalPrice.ToString("N0")
+                            <span class="text-xs ml-1 font-normal opacity-60">VNĐ</span>
+                        </p>
+
+                        <p class="font-body text-[10px] uppercase tracking-tighter
+                            @(Model.Booking.Status == "Paid" ? "text-green-500" :
+                                 Model.Booking.Status == "Pending" ? "text-yellow-500" :
+                                 "text-red-500")">
+
+                            @(Model.Booking.Status == "Paid" ? "Giao dịch đã hoàn tất" :
+                                                     Model.Booking.Status == "Pending" ? "Chờ thanh toán" :
+                                                     "Đã hủy")
+                        </p>
                     </div>
                 </div>
-                <!-- Message Area -->
-                <div class="bg-surface-container-highest/30 p-10 rounded-xl flex flex-col items-center justify-center text-center space-y-6 border border-primary/10">
-                    <div class="p-5 rounded-full bg-primary/10">
-                        <span class="material-symbols-outlined text-spotlight text-5xl" style="font-variation-settings: 'FILL' 1;">info</span>
-                    </div>
-                    <div class="space-y-4">
-                        <p class="font-headline text-xl font-medium text-on-surface leading-relaxed max-w-md mx-auto">Nếu bạn đã đặt vé thành công, vui lòng xuất trình trang này tại quầy vé khi đến rạp</p>
-                        <div class="flex gap-4 justify-center">
-                            <button class="spotlight-gradient text-on-primary font-label text-xs font-bold uppercase tracking-[0.2em] px-10 py-4 rounded-lg shadow-xl active:scale-95 transition-all">Tải xuống vé (PDF)</button>
-                        </div>
-                    </div>
+
+                <!-- Message (compact) -->
+                <div class="flex items-center gap-3 bg-primary/10 border border-primary/20 px-4 py-3 rounded-lg">
+                    <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">
+                        info
+                    </span>
+                    <p class="text-sm text-on-surface">
+                        Vui lòng xuất trình vé này tại quầy khi đến rạp.
+                    </p>
                 </div>
             </div>
         </div>
