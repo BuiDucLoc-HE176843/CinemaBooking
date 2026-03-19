@@ -1,0 +1,268 @@
+﻿@page
+@model CinemaBooking_RazorPage.Pages.User.BookingHistoryModel
+@{
+}
+
+<!DOCTYPE html>
+
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff8c00",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#121212",
+                        "card-dark": "#1e1e1e",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+
+        body {
+            background-color: #121212;
+            color: #f8f6f6;
+        }
+        /* Color Lock */
+        .bg-primary {
+            background-color: #ff8c00 !important;
+        }
+
+        .text-primary {
+            color: #ff8c00 !important;
+        }
+
+        .border-primary {
+            border-color: #ff8c00 !important;
+        }
+
+        .hover\:bg-primary\/90:hover {
+            background-color: rgba(255, 140, 0, 0.9) !important;
+        }
+
+        .hover\:bg-primary\/10:hover {
+            background-color: rgba(255, 140, 0, 0.1) !important;
+        }
+
+        .hover\:border-primary\/30:hover {
+            border-color: rgba(255, 140, 0, 0.3) !important;
+        }
+    </style>
+</head>
+<body class="font-display">
+    <div class="relative flex h-auto min-h-screen w-full flex-col bg-background-dark overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Header -->
+            <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-6 py-4 md:px-10 lg:px-40 bg-background-dark">
+                <div class="flex items-center gap-2 text-white">
+                    <a class="flex items-center gap-2 text-primary" href="#" style="color: var(--cvn-primary) !important;">
+                        <span class="material-symbols-outlined text-4xl font-bold">movie_filter</span>
+                        <span class="text-2xl font-black uppercase tracking-tighter">CinemaVN</span>
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <form method="post" asp-page-handler="Logout">
+                        <button type="submit"
+                                class="rounded-full bg-red-500 px-6 py-2.5 text-sm font-bold text-white transition-transform hover:scale-105 active:scale-95">
+                            Đăng xuất
+                        </button>
+                    </form>
+                </div>
+            </header>
+            <!-- Main Content -->
+            <main class="flex flex-1 justify-center py-8 px-4 md:px-10 lg:px-40">
+                <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                    <div class="flex flex-wrap justify-between items-end gap-3 mb-8">
+                        <h1 class="text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Lịch sử đặt vé</h1>
+                    </div>
+                    <!-- Booking List -->
+                    <div class="flex flex-col gap-4">
+                        <!-- Item 1: Pending -->
+                        <div class="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-xl bg-card-dark p-5 border border-white/5 hover:border-primary/30 transition-all shadow-lg">
+                            <div class="flex flex-[2_2_0px] flex-col justify-between gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border border-primary text-primary">Pending</span>
+                                        <p class="text-slate-400 text-sm font-medium">20/03/2026 14:00</p>
+                                    </div>
+                                    <h3 class="text-white text-xl font-bold leading-tight">Mưa đỏ</h3>
+                                    <div class="flex flex-col gap-1">
+                                        <div class="flex items-center gap-2 text-slate-300">
+                                            <span class="material-symbols-outlined text-sm">apartment</span>
+                                            <p class="text-sm">CGV Vincom Bà Triệu</p>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-slate-300">
+                                            <span class="material-symbols-outlined text-sm">meeting_room</span>
+                                            <p class="text-sm">Phòng 1</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 text-primary font-bold text-lg">
+                                        Tổng: 2.000đ
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <button class="flex items-center justify-center rounded-lg h-9 px-4 border border-primary text-primary hover:bg-primary/10 transition-colors text-sm font-bold gap-2">
+                                        <span>Chi tiết</span>
+                                        <span class="material-symbols-outlined text-lg" data-icon="caret_right">arrow_right</span>
+                                    </button>
+                                    <button class="flex items-center justify-center rounded-lg h-9 px-4 bg-primary text-white hover:bg-primary/90 transition-colors text-sm font-bold">
+                                        Thanh toán ngay
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="w-full md:w-48 h-32 md:h-auto bg-center bg-no-repeat bg-cover rounded-xl shrink-0" data-alt="Poster phim Mưa Đỏ" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCZS0X_KAnA-j0-SPqmv8asXtRTNmzJrbn9Zf6w44OQepkQbELCwk9Vj3SkT-sXKFrhnAePD_57osly3Z9tWd78j4PGYEsJ5WSx28zlcA1-cdbDyfZOlCBRLhhj1jZg016J8UaAd6fg0TIF_QoPVoqCb76nlK02w0fwWdSy4earojvNV1Sq3ipKmR9BZ4rLbyuprGeRObFdUcOoNTdp43RFDUsmapyIaJbCK6pKV42e_l9l_V838iurEmXXgeF1M63nW2TaoQihCbo");'></div>
+                        </div>
+                        <!-- Item 2: Paid -->
+                        <div class="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-xl bg-card-dark p-5 border border-white/5 hover:border-primary/30 transition-all shadow-lg">
+                            <div class="flex flex-[2_2_0px] flex-col justify-between gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 border border-emerald-500 text-emerald-500">Paid</span>
+                                        <p class="text-slate-400 text-sm font-medium">15/03/2026 19:30</p>
+                                    </div>
+                                    <h3 class="text-white text-xl font-bold leading-tight">Lật Mặt 7</h3>
+                                    <div class="flex flex-col gap-1">
+                                        <div class="flex items-center gap-2 text-slate-300">
+                                            <span class="material-symbols-outlined text-sm">apartment</span>
+                                            <p class="text-sm">CGV Vincom Bà Triệu</p>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-slate-300">
+                                            <span class="material-symbols-outlined text-sm">meeting_room</span>
+                                            <p class="text-sm">Phòng IMAX</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 text-primary font-bold text-lg">
+                                        Tổng: 150.000đ
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <button class="flex items-center justify-center rounded-lg h-9 px-4 border border-primary text-primary hover:bg-primary/10 transition-colors text-sm font-bold gap-2">
+                                        <span>Chi tiết</span>
+                                        <span class="material-symbols-outlined text-lg" data-icon="caret_right">arrow_right</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="w-full md:w-48 h-32 md:h-auto bg-center bg-no-repeat bg-cover rounded-xl shrink-0" data-alt="Poster phim Lật Mặt 7" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMY0mIJPDkPYG2kO8sjBuiNUw4n97ZyP-fidZGuLgsrSAqiXFJvNzm-9OjjEdfknukReTyCJVV8tzUJ_-oje_JgykkSUHaF2Pr0PqtpRuWzXPrHUbvXvz7diPHQIaDSP6ooPKUAzTd7qjpQC-8j3qefWDL-n7PM2rDpUBWBn_tw2ZfXbn2n_1KllwuwssB0sSXKLlZ3KAu2nseJvM0G1ih-INLbr8gvAU-eUrL5dhtpqXiF3CkAeB4p5BtC1rKZ75dIgY4ZCHUiUc");'></div>
+                        </div>
+                        <!-- Item 3: Cancelled -->
+                        <div class="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-xl bg-card-dark p-5 border border-white/5 opacity-80 shadow-lg">
+                            <div class="flex flex-[2_2_0px] flex-col justify-between gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 border border-rose-500 text-rose-500">Cancelled</span>
+                                        <p class="text-slate-400 text-sm font-medium">10/03/2026 21:00</p>
+                                    </div>
+                                    <h3 class="text-white text-xl font-bold leading-tight">Mai</h3>
+                                    <div class="flex flex-col gap-1">
+                                        <div class="flex items-center gap-2 text-slate-300">
+                                            <span class="material-symbols-outlined text-sm">apartment</span>
+                                            <p class="text-sm">CGV Vincom Bà Triệu</p>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-slate-300">
+                                            <span class="material-symbols-outlined text-sm">meeting_room</span>
+                                            <p class="text-sm">Phòng 5</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 text-primary font-bold text-lg">
+                                        Tổng: 90.000đ
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <button class="flex items-center justify-center rounded-lg h-9 px-4 border border-primary text-primary hover:bg-primary/10 transition-colors text-sm font-bold gap-2">
+                                        <span>Chi tiết</span>
+                                        <span class="material-symbols-outlined text-lg" data-icon="caret_right">arrow_right</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="w-full md:w-48 h-32 md:h-auto bg-center bg-no-repeat bg-cover rounded-xl shrink-0 grayscale" data-alt="Poster phim Mai" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBLFve2R8IJbTNmQ9rSXioNO3GCo_8SSJqsz3bG7wUzI42q42QHEqk2GaEqIDUq7Y4A2zXGkMIc_FiBXWm2QNrYhT5r5_6r20VJiG-g06q214Dir3cW1P4qfYe2-M3vqsLfjJGlBjd0B6Ax7dQHSqfxXcUgFy0lDYmRoy_DwkEYBSdza2ub952EFmXOOagvl81USsmdkMiztdSkQEaQyns_PO5C3yQLOInrZR7o9gXyOYxT87XUEv6GO6fsXf2lSsLKMWDoAEx2BAo");'></div>
+                        </div>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="flex items-center justify-center gap-2 mt-10">
+                        <button class="flex items-center justify-center size-10 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:text-white">
+                            <span class="material-symbols-outlined">chevron_left</span>
+                        </button>
+                        <button class="flex items-center justify-center size-10 rounded-lg bg-primary text-white font-bold">1</button>
+                        <button class="flex items-center justify-center size-10 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:text-white">2</button>
+                        <button class="flex items-center justify-center size-10 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:text-white">3</button>
+                        <button class="flex items-center justify-center size-10 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:text-white">
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </main>
+            <!-- Footer -->
+            <footer class="flex flex-col gap-6 border-t border-white/10 bg-background-dark px-6 py-10 md:px-10 lg:px-40">
+                <div class="flex flex-col md:flex-row justify-between gap-10">
+                    <div class="flex flex-col gap-4 max-w-xs">
+                        <div class="flex items-center gap-2 text-white">
+                            <a class="flex items-center gap-2 text-primary" href="#" style="color: var(--cvn-primary) !important;">
+                                <span class="material-symbols-outlined text-4xl font-bold">movie_filter</span>
+                                <span class="text-2xl font-black uppercase tracking-tighter">CinemaVN</span>
+                            </a>
+                        </div>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Trải nghiệm điện ảnh đỉnh cao với hệ thống đặt vé hiện đại nhất Việt Nam.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-8">
+                        <div class="flex flex-col gap-3">
+                            <p class="text-white font-bold text-base">CinemaVN</p>
+                            <a class="text-slate-400 text-sm hover:text-primary transition-colors" href="#">Giới thiệu</a>
+                            <a class="text-slate-400 text-sm hover:text-primary transition-colors" href="#">Liên hệ</a>
+                            <a class="text-slate-400 text-sm hover:text-primary transition-colors" href="#">Tuyển dụng</a>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <p class="text-white font-bold text-base">Quy định</p>
+                            <a class="text-slate-400 text-sm hover:text-primary transition-colors" href="#">Điều khoản chung</a>
+                            <a class="text-slate-400 text-sm hover:text-primary transition-colors" href="#">Chính sách thanh toán</a>
+                            <a class="text-slate-400 text-sm hover:text-primary transition-colors" href="#">Chính sách bảo mật</a>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <p class="text-white font-bold text-base">Kết nối</p>
+                            <div class="flex gap-4">
+                                <a class="text-slate-400 hover:text-primary" href="#"><span class="material-symbols-outlined">social_leaderboard</span></a>
+                                <a class="text-slate-400 hover:text-primary" href="#"><span class="material-symbols-outlined">video_camera_front</span></a>
+                                <a class="text-slate-400 hover:text-primary" href="#"><span class="material-symbols-outlined">mail</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-8 border-t border-white/5 text-center text-slate-500 text-xs">
+                    Thiết kế bởi LocCute.
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

@@ -71,18 +71,9 @@
                     <a class="text-sm font-medium hover:text-primary transition-colors" href="MoviesList">Danh sách phim</a>
                     @if (Model.IsLoggedIn)
                     {
-                        <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Quản lý tài khoản</a>
-                        <a class="text-sm font-medium hover:text-primary transition-colors flex items-center gap-1" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 width="16" height="16"
-                                 fill="none"
-                                 stroke="currentColor"
-                                 stroke-width="2"
-                                 viewBox="0 0 24 24">
-                                <path d="M21 12V7a2 2 0 0 0-2-2H3v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5z" />
-                                <circle cx="16" cy="12" r="1" />
-                            </svg>
-                            Quản lý ví tiền
+                        <a class="text-sm font-medium hover:text-primary transition-colors"
+                           asp-page="/User/BookingHistory">
+                            Lịch sử đặt vé
                         </a>
                     }
                 </nav>
